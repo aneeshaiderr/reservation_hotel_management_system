@@ -1,0 +1,33 @@
+/* contact section  */
+ .contact-text h2 {
+      font-family: 'Lora', serif;
+      font-weight: 700;
+      font-size: 32px;
+      color: var(--black);
+    }
+    .contact-form .form-control:focus {
+      border-color: var(--golden-brown);
+      box-shadow: 0 0 8px rgba(214, 164, 108, 0.3);
+    }
+    .btn-custom {
+      background: var(--golden-brown);
+      color: var(--white);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .map iframe {
+      border-radius: 10px;
+      box-shadow: 0 5px 20px var(--black);
+    }
+ 
+.btn-custom:hover,
+.btn-custom:focus,
+.btn-custom:active {
+  background-color: var(--Light-Brown) !important; 
+  color: var(--white) !important;              
+  box-shadow: none !important;
+  transform: none !important;
+  text-decoration: none !important;
+  cursor: pointer; 
+}
+

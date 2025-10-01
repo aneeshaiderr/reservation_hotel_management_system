@@ -1,0 +1,102 @@
+ /* Blog Section */
+    .blog-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: .375rem;
+      background-color: var(--white) !important;
+    }
+
+    .blog-item img {
+      height: 450px;
+      object-fit: cover;
+      width: 100%;
+    }
+
+    .blog-tag {
+      position: absolute;
+      top: 330px;
+      left: 30px;
+      background: var( --golden-brown);
+      color: var(--white);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 15px;
+      border-radius: 30px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      z-index: 10;
+    }
+
+    .blog-content {
+      position: absolute;
+      bottom: 0;
+      left: 10px;
+      width: 100%;
+      padding: 20px;
+      color: var(--white);
+    }
+    
+    .blog-content h4 a {
+      color: var(--white);
+      font-size: 20px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .hotel-title {
+      color: #caa566 !important;
+    }
+
+    .load-more-btn {
+      border: none;
+      background-color: transparent;
+      color: var(--black);
+      font-weight: 600;
+      position: relative;
+      text-decoration: none;
+    }
+
+    .load-more-btn::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 2px;
+      width: 100%;
+      background-color: var(--Light-Brown);
+    }
+
+    .blog-flex-item {
+      flex: 0 0 calc(33.333% - 1.5rem);
+      max-width: calc(33.333% - 1.5rem);
+    }
+
+    @media (max-width: 991px) {
+      .blog-flex-item {
+        flex: 0 0 calc(50% - 1rem);
+        max-width: calc(50% - 1rem);
+      }
+      .blog-item img {
+        height: 380px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .blog-flex-item {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+      .blog-item img {
+        height: 320px;
+      }
+      .blog-tag {
+        top: auto;
+        bottom: 80px;
+        left: 20px;
+        font-size: 11px;
+        padding: 4px 10px;
+      }
+      .blog-content h4 a {
+        font-size: 18px;
+      }
+    }

@@ -1,0 +1,93 @@
+
+/* about section  */
+*body{
+    background-color: var(--white);
+}
+.breadcrumb-section{
+    background-color: var(--white) !important;
+}
+    .text-heading { color: var(--black); }
+    .text-subheading { color:  var(--black); }
+    .text-highlight { color: var(--golden-brown); }
+
+    /* List icons */
+    .ap-services li {
+      position: relative;
+      padding-left: 25px;
+    }
+    .ap-services li::before {
+      content: "\f00c";
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute;
+      left: 0;
+      color: var(--golden-brown);
+    }
+
+    /* Custom height cards */
+    .ap-service-item {
+      background-size: cover;
+      background-position: center;
+      height: 380px;
+    }
+    .api-text {
+      color:  var(--white);
+      width: 100%;
+      margin-bottom: 50px;
+      text-align: center;
+    }
+
+    .gallery-item {
+      background-size: cover;
+      background-position: center;
+      height: 250px;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 30px;
+    }
+    .gallery-item.large-item {
+      height: 600px;
+    }
+    .gi-text {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      text-align: center;
+      color:  var(--white);
+      top: 60%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+    .gallery-item:hover .gi-text {
+      opacity: 1;
+    }
+
+    /* Responsive Fixes Start */
+    @media (max-width: 480px) {
+      h2.display-5 {
+        font-size: 1.6rem;
+      }
+      .ap-service-item {
+        height: 250px;
+        margin-bottom: 20px;
+      }
+      .gallery-item,
+      .gallery-item.large-item {
+        height: 200px !important;
+      }
+      .gi-text h3 {
+        font-size: 1rem;
+      }
+      .api-text h3 {
+        font-size: 1.1rem;
+      }
+      .ap-services li {
+        font-size: 0.9rem;
+      }
+    }
+    

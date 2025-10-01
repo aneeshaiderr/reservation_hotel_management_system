@@ -1,0 +1,18 @@
+{
+    "name": "lenovo/practice",
+    "autoload": {
+        "psr-4": {
+            "Lenovo\\Practice\\": "src/",
+             "App\\": "app/",
+               "App\\View\\": "view/"
+
+        }
+    },
+    "authors": [
+        {
+            "name": "Anees",
+            "email": "ans701474@gmail.com"
+        }
+    ],
+    "require": {}
+}

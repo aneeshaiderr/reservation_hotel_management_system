@@ -1,0 +1,65 @@
+# =========================
+# OS / Editor / IDE Files
+# =========================
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.bak
+*.tmp
+*.log
+*.idea/
+.vscode/
+
+# =========================
+# Composer Dependencies
+# =========================
+/vendor/
+/composer.lock
+
+# =========================
+# Environment / Config Files
+# =========================
+.env
+.env.local
+.env.*.local
+/config.php
+/config/*.php
+
+# =========================
+# Cache / Sessions / Logs
+# =========================
+/storage/logs/
+/storage/framework/cache/
+/storage/framework/sessions/
+/storage/framework/views/
+
+# =========================
+# Node (if frontend used)
+# =========================
+/node_modules/
+/package-lock.json
+/yarn.lock
+
+# =========================
+# Public Uploads
+# =========================
+/public/uploads/
+/public/storage/
+
+# =========================
+# PHPUnit / Coverage
+# =========================
+/phpunit.xml
+/phpunit.xml.dist
+/tests/
+/coverage/
+
+# =========================
+# Misc
+# =========================
+/.idea/
+/nbproject/
+/*.sql
+/*.sqlite
+
