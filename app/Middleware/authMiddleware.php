@@ -2,7 +2,7 @@
 
 
 namespace App\Middleware;
-
+use App\Middleware\Permission;
 class AuthMiddleware
 {
     protected $allowedPages = [
@@ -10,7 +10,15 @@ class AuthMiddleware
         2 => ['dashboard','rooms','reservation','reservationCreate','services','delete','services/delete','details'], // Staff
         4 => ['user','reservation','reservationCreate','/reservation/delete']  // Normal User
     ];
-
+function checkPageAccess($userId, $permissionName, $db)
+{
+    $permission = new Permission($db);
+    if (!$permission->hasPermission($userId, $permissionName)) {
+        http_response_code(403);
+        echo "Access Denied: You are not allowed to view this page.";
+        exit;
+    }
+}
     public function checkAccess()
     {
         if (session_status() === PHP_SESSION_NONE) session_start();

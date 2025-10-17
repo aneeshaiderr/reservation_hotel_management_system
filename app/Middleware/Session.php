@@ -30,5 +30,5 @@ setcookie('PHPSESSID', '', time() - 3600, $params['path'], $params['domain'], $p
 
     }
 }
-?>
+
 
