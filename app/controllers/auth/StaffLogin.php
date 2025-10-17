@@ -23,8 +23,8 @@ class StaffLogin
     $config = require BASE_PATH . 'config.php';
     $db = new Database($config);
 
-    $user = $db->query("SELECT * FROM users WHERE email = :email", [
-        ':email' => $_POST['email']
+    $user = $db->query("SELECT * FROM users WHERE user_email = :user_email", [
+        ':user_email' => $_POST['user_email']
     ])->find();
 
     if (!$user || !password_verify($_POST['password'], $user['password'])) {
@@ -33,13 +33,15 @@ class StaffLogin
         exit();
     }
 
+ $_SESSION['user_id'] = $user['id'];
+    $_SESSION['role_id'] = $user['role_id']; 
     $_SESSION['user'] = [
         'id'    => $user['id'],
-        'email' => $user['email'],
+        'user_email' => $user['user_email'],
         'name'  => $user['first_name'] . ' ' . $user['last_name']
     ];
-
-    header("Location: /practice/public/user"); 
+redirect("/practice/public/user");
+    // header("Location: /practice/public/user"); 
     exit();
 }
 

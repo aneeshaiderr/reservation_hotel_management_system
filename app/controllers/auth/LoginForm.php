@@ -3,6 +3,7 @@
 namespace App\Controllers\Auth;
 use App\Middleware\Session;
 use App\Core\Database;
+use App\Middleware\Auth;
 use PDO;
 class LoginForm
 {
@@ -24,8 +25,8 @@ class LoginForm
     $config = require BASE_PATH . 'config.php';
     $db = new Database($config);
 
-    $user = $db->query("SELECT * FROM users WHERE email = :email", [
-        ':email' => $_POST['email']
+    $user = $db->query("SELECT * FROM users WHERE user_email = :user_email", [
+        ':user_email' => $_POST['user_email']
     ])->find();
 
     if (!$user || !password_verify($_POST['password'], $user['password'])) {
@@ -54,16 +55,17 @@ $userPermissions = $db->fetchColumn("
     WHERE up.user_id = ?
 ", [$userId]);
 
-// dono merge kar do
+
 $permissionsArray = array_unique(array_merge($rolePermissions, $userPermissions));
 
 // session me store
 $_SESSION['user_id'] = $userId;
 $_SESSION['role_id'] = $roleId;
+ $_SESSION['user_name'] = $user['name'];
 $_SESSION['permissions'] = $permissionsArray;
-    $_SESSION['user'] = [
+    $_SESSION['users'] = [
         'id'    => $user['id'],
-        'email' => $user['email'],
+        'email' => $user['user_email'],
         'name'  => $user['first_name'] . ' ' . $user['last_name']
     ];
 

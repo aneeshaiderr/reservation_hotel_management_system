@@ -43,9 +43,11 @@
 
   <!-- <link rel="stylesheet" href="../public/Assets/dashboard/css/style.css">
   <script src="../public/Assets/dashboard/js/script.js"></script> -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
+ 
 
   
 

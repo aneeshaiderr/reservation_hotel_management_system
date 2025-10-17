@@ -1,30 +1,13 @@
 <?php
-// namespace App\Models;
 
-// use App\Core\Database;
-
-// class User
-// {
-//     protected $db;
-
-//     public function __construct(Database $database)
-//     {
-//         $this->db = $database;
-//     }
-
-//     public function getAllUsers()
-//     {
-//       //  $users = $this->model->getAllUsers();
-   
-//         return $this->db->allUsers();
-//     }
-// }
 
 namespace App\Models;
 
 use App\Core\Database;
 
-
+      use App\Middleware\AuthMiddleware;
+        $auth = new AuthMiddleware();
+$auth->checkAccess();
 class User
 {
     protected $db;
@@ -38,22 +21,44 @@ class User
     public function getUserById($id)
     {
         return $this->db->query(
-            "SELECT id, first_name, last_name, email, contact_no, address 
+            "SELECT id, first_name, last_name, user_email, contact_no, address 
              FROM users 
              WHERE id = :id",
             [':id' => $id]
         )->find();
+    
     }
 
-    // public function getAllUsers()
-    // {
-    //     return $this->db->query(
-    //         "SELECT id, first_name, last_name, email 
-    //          FROM users"
-    //     )->get();
-    // }
+  
+public function softDelete($id)
+{
+    return $this->db->query("UPDATE users SET deleted_at = NOW() WHERE id = ?", [$id]);
+}
 
-    
+public function hardDelete($id)
+{
+    return $this->db->query("DELETE FROM users WHERE id = ?", [$id]);
+}
+
+ //  Create New User
+   public function create($data) {
+    return $this->db->query(
+        "INSERT INTO users (first_name, last_name, user_email, contact_no, address, status, role_id, created_at) 
+         VALUES (?, ?, ?, ?, ?, ?, ?, NOW())",
+        [
+            $data['first_name'],
+            $data['last_name'],
+            $data['user_email'],
+            $data['contact_no'],
+            $data['address'],
+            $data['status'],
+            $data['role_id']  
+        ]
+    );
+}
+
+
+
    public function getAllUsers()
 {
     // Bas SQL string bhejna hai, query() call nahi karna

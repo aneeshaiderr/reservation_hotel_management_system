@@ -49,5 +49,6 @@ class Middleware {
 
     return $stmt->fetch() ? true : false;
 }
+
 }
 

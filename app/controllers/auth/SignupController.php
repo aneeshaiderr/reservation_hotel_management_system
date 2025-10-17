@@ -14,7 +14,7 @@ class SignupController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $firstName = $_POST['first_name'] ?? '';
             $lastName  = $_POST['last_name'] ?? '';
-            $email     = $_POST['email'] ?? '';
+            $email     = $_POST['user_email'] ?? '';
             $contact   = $_POST['contact_no'] ?? '';
             $password  = $_POST['password'] ?? '';
             // $role=$_POST['role_id'];
@@ -27,12 +27,12 @@ class SignupController
             $db = new Database($config['database']);
             
             $db->query(
-                "INSERT INTO users (first_name, last_name, email, contact_no, password, role_id) 
-                 VALUES (:first_name, :last_name, :email, :contact_no, :password ,:role_id)",
+                "INSERT INTO users (first_name, last_name, user_email, contact_no, password, role_id) 
+                 VALUES (:first_name, :last_name, :user_email, :contact_no, :password ,:role_id)",
                 [
                     ':first_name' => $firstName,
                     ':last_name'  => $lastName,
-                    ':email'      => $email,
+                    ':user_email'      => $email,
                     ':contact_no'    => $contact,
                     ':password'   => $hashedPassword,
                     ':role_id'    => 4

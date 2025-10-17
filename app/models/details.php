@@ -3,7 +3,9 @@
 namespace App\Models; 
 
 use App\Core\Database;
-
+      use App\Middleware\AuthMiddleware;
+        $auth = new AuthMiddleware();
+$auth->checkAccess();
 class Details
 {
     protected $db;
@@ -34,10 +36,10 @@ public function find($id)
 
     public function update($id, $data)
     {
-        return $this->db->query("UPDATE users SET first_name=?, last_name=?, email=?, contact_no=?, address=?, status=?, updated_at=NOW() WHERE id=?", [
+        return $this->db->query("UPDATE users SET first_name=?, last_name=?, user_email=?, contact_no=?, address=?, status=?, updated_at=NOW() WHERE id=?", [
             $data['first_name'],
             $data['last_name'],
-            $data['email'],
+            $data['user_email'],
             $data['contact_no'],
             $data['address'],
             $data['status'],

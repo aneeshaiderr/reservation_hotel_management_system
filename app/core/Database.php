@@ -9,7 +9,7 @@ class Database
 {
     protected $pdo;
     public $statement;
-
+public $connection;
     public function __construct($config)
     {
         if (isset($config['database'])) {
@@ -40,11 +40,19 @@ class Database
         $this->statement->execute($params);
         return $this;
     }
+public function getPdo()
+{
+    return $this->connection; // your PDO instance
+}
 
     public function fetchAll($sql, $params = [])
     {
         $stmt = $this->query($sql, $params);
         return $stmt->statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+public function getAll()
+    {
+        return $this->statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function fetch()

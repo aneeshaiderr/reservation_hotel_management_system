@@ -19,27 +19,29 @@ require __DIR__ . '../partial/sidebar.php';
  
   <!-- Row: DataTable + Profile -->
   <div class="container-fluid">
-    <div class="row justify-content-between">
+    <div class="row justify-content-between row g-3 align-items-star">
        <!-- Right: Create Button -->
     <div class="mb-3">
-      <a href="<?= BASE_URL ?>/user/create" class="btn btn-sm btn-success">
+      <a href="<?= BASE_URL ?>/reservation/reservationCreate" class="btn btn-sm btn-success">
         + Create User
       </a>
     </div>
   <!-- </div> -->
       <!-- DataTable Column -->
-      <div class="col table-column">
+      <div class="col-lg-8 col-md-7">
         <div class="card card-custom w-100">
           <div class="card-body">
             <h6 class="mb-3">User</h6>
             <div class="table-responsive">
-                <table id="example" class="table ">
-                <thead>
+                <table id="example" class="table table-striped table-bordered align-middle">
+                <thead class="table-light">
                   <tr>
                     <th>id</th>
-                    <th>f-Name</th>
-                    <th>l-Name</th>
+                    <th>F-Name</th>
+                    <th>L-Name</th>
                     <th>Email</th>
+                    <th>Address</th>
+                    <th>Contact_No</th>
                     <th>Action</th> 
                   </tr>
                 </thead>
@@ -50,7 +52,9 @@ require __DIR__ . '../partial/sidebar.php';
                         <td><?= $user['id'] ?></td>
                         <td><?= $user['first_name'] ?></td>
                         <td><?= $user['last_name'] ?></td>
-                        <td><?= $user['email'] ?></td>
+                        <td><?= $user['user_email'] ?></td>
+                        <td><?= $user['address'] ?></td>
+                        <td><?= $user['contact_no'] ?></td>
                         <td class="userprofile-action-btns">
                           <a href="<?= BASE_URL ?>/details?id=<?= $user['id'] ?>" class="btn btn-sm btn-primary">View</a>
 
@@ -154,7 +158,7 @@ require __DIR__ . '../partial/sidebar.php';
 </div>
 
 <!-- Hidden Delete Form -->
-<form id="deleteForm" method="POST" action="<?= url('/user') ?>" style="display:none;">
+<form id="deleteForm" method="POST" action="<?= url('/user/delete') ?>" style="display:none;">
   <input type="hidden" name="_method" value="DELETE">
   <input type="hidden" name="id" id="deleteId">
 </form>

@@ -30,15 +30,15 @@
 
             <!-- Email -->
             <div class="mb-3">
-              <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required>
-              <?php if(isset($errors['email'])):?>
-                <div class="text-danger small mt-1"><?= $errors['email']?> </div>
+              <input type="user_email" id="user_email" name="user_email" class="form-control" placeholder="Enter your email" required>
+              <?php if(isset($errors['user_email'])):?>
+                <div class="text-danger small mt-1"><?= $errors['user_email']?> </div>
               <?php endif; ?>
             </div>
 
             <!-- Contact -->
             <div class="mb-3">
-              <input type="text" id="contact" name="contact_no" class="form-control" placeholder="Enter your contact number" required>
+              <input type="text" id="contact_no" name="contact_no" class="form-control" placeholder="Enter your contact number" required>
               <?php if(isset($errors['contact_no'])):?>
                 <div class="text-danger small mt-1"><?= $errors['contact_no']?> </div>
               <?php endif; ?>
