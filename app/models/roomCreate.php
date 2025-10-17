@@ -39,36 +39,10 @@ class RoomCreate
         FROM rooms
         LEFT JOIN hotels ON rooms.hotel_id = hotels.id
     ");
-    //     return $this->db->query(
-    //     "INSERT INTO rooms (room_number, floor, beds, max_guests, status, hotel_id, created_at) 
-    //      VALUES (?, ?, ?, ?, ?, ?, NOW())",
-    //     [
-    //         (int)$data['room_number'],
-    //         (int)$data['floor'],
-    //         (int)$data['room_bed'],
-    //         (int)$data['Max_guests'],
-    //         $data['status'],
-    //         (int)$data['hotel_id'] 
-    //     ]
-    // );
-
+    
     }
 
-    // Update existing room
-    // public function update($id, $data)
-    // {
-    //     return $this->db->query(
-    //         "UPDATE rooms SET room_number=?, floor=?, beds=?, max_guests=?, status=?, updated_at=NOW() WHERE id=?",
-    //         [
-    //             (int)$data['room_number'],
-    //             (int)$data['floor'],
-    //             (int)$data['room_bed'],
-    //             (int)$data['Max_guests'],
-    //             $data['status'],
-    //             (int)$id
-    //         ]
-    //     );
-    // }
+  
 
   
 }

@@ -27,7 +27,7 @@ class HotelCreate
         ");
     }
 
-    // ✅ Create a new hotel
+    //  Create a new hotel
     public function create($data)
     {
         return $this->db->query("
@@ -40,7 +40,7 @@ class HotelCreate
         ]);
     }
 
-    // ✅ Optional: Soft delete (if needed)
+    //Soft delete 
     public function delete($id)
     {
         return $this->db->query("

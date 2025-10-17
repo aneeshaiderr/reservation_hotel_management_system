@@ -55,16 +55,6 @@ require __DIR__ . '../partial/sidebar.php';
                         </select>
                     </div>
 
-                    <!-- Created / Updated / Deleted -->
-                    <!-- <div class="mb-4">
-                        <label>Created At</label>
-                        <input type="text" value="<?= htmlspecialchars($user['created_at']) ?>" readonly>
-                    </div>
-                    <div class="mb-4">
-                        <label>Updated At</label>
-                        <input type="text" value="<?= htmlspecialchars($user['updated_at']) ?>" readonly>
-                    </div> -->
-                  
 
                     <!-- Buttons: Update only -->
                     <div class="mt-6 flex items-center justify-end gap-x-4">

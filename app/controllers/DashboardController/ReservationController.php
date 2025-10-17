@@ -111,58 +111,6 @@ public function store()
     }
 }
 
-
-//  public function store()
-// {
-// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//    $userId  = $_POST['user_id'];
-//             $hotelId = $_POST['hotel_id'];
-
-           
-//             $user_email = $this->reservationModel->getUserEmailById($userId);
-//             $hotel_name = $this->reservationModel->getHotelNameById($hotelId);
-
-// //   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-// //     echo '<pre>'; print_r($_POST); echo '</pre>'; exit;
-// // }
-//  //  Prepare clean data
-//             $data = [
-//                 'hotel_code' => $_POST['hotel_code'],
-//                 'user_id'    => $userId,
-//                 'email' => $user_email,   
-//                 'hotel_id'   => $hotelId,
-//                 'hotel_name' => $hotel_name,   
-//                 'room_id'    => $_POST['room_id'],
-//                 'discount_id'    => $_POST['discount_id'],
-//                 'check_in'   => $_POST['check_in'],
-//                 'check_out'  => $_POST['check_out'],
-//                 'status'     => $_POST['status']
-//             ];
-
-    
-
-
-//         $this->reservationModel->create($data);
-
-//         header('Location: ' . BASE_URL . '/reservation');
-//         exit;
-//     }
-
-    
-    // Soft delete reservation
-    // public function delete()
-    // {
-    //     if (!isset($_POST['id'])) {
-    //         header('Location: ' . BASE_URL . '/reservation');
-    //         exit;
-    //     }
-
-    //     $id = (int)$_POST['id'];
-    //     $this->reservationModel->softDelete($id);
-
-    //     header('Location: ' . BASE_URL . '/reservation');
-    //     exit;
-    // }
 public function delete()
 {
     $hotelCode = $_POST['hotel_code'] ?? null;

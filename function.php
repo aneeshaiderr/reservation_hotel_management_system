@@ -48,8 +48,3 @@ function redirect($path)
     header("Location: {$path}");
     exit();
 } 
-// function authorize($condition, $status = Response::FORBIDDEN){
-//     if(! $condition){
-//         abort($status);
-//     }
-// }

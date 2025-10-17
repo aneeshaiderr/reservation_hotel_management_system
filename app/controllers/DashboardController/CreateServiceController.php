@@ -20,7 +20,7 @@ class CreateServiceController
         $this->service = new CreateService($this->db);
     }
 
-    // ✅ Show the create service form
+    //  Show the create service form
     public function index()
     {
         // Optional: You can fetch related data if needed
@@ -31,7 +31,7 @@ class CreateServiceController
         ]);
     }
 
-    // ✅ Handle form submission (insert new service)
+    //  Handle form submission (insert new service)
     public function store()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

@@ -5,8 +5,7 @@
  session_start(); 
 
 define('BASE_PATH', __DIR__ . '/../');
-// echo base_path('app/view/Frontend/about.php');
-// die();
+
 define('BASE_URL', '/practice/public');
 require BASE_PATH . '/vendor/autoload.php';
 $config = require BASE_PATH . 'config.php';
@@ -27,11 +26,7 @@ require BASE_PATH . 'app/Core/routes.php';
 
  $db = new Database($config['database']);
 
-// model instance
-// $userModel = new User($db);
 
-// // // controller instance (model inject ho raha hai)
-// $userController = new UserController($userModel);
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 

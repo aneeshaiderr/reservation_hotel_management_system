@@ -41,38 +41,12 @@ class Authenticator
             'name'  => $user['first_name'] . ' ' . $user['last_name'],
             'role_id' => $user['role_id'] ?? null
         ];
-// after successful login
-// $_SESSION['user_id'] = $user['id'];
-// $_SESSION['role_id'] = $user['role_id']; 
-// // optional: cache permissions
-// $_SESSION['permissions'] = $permissionsArray; 
+
 
         // Session ID regenerate karo for security
         session_regenerate_id(true);
     }
 
     
-    // public function logout(): void
-    // {
-    //     session_start();
-    //     $_SESSION = [];
-    //     session_destroy();
-    // }
-
-    // /**
-    //  * Check if user is logged in
-    //  */
-    // public function check(): bool
-    // {
-    //     session_start();
-    //     return isset($_SESSION['user']);
-    // }
-
-    
-    // public function user(): ?array
-    // {
-    //     session_start();
-    //     return $_SESSION['user'] ?? null;
-    // }
 }
 

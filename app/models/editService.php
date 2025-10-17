@@ -39,7 +39,7 @@ class EditService
         ]);
     }
 
-    // ✅ Get all services (for list or reference)
+    // Get all services (for list or reference)
     public function getAllServices()
     {
         return $this->db->fetchAll("SELECT * FROM services ORDER BY created_at ");

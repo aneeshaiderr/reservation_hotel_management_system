@@ -41,19 +41,5 @@ return view('dashboard/discount.view.php', [
         header('Location: ' . BASE_URL . '/discount');
         exit;
     }
-//     public function delete()
-// {
-//     $discountCode = $_POST['discount_code'] ?? null;
 
-//     if (!$discountCode) {
-//         die("Discount code missing!");
-//     }
-
-//     // Call model function to delete
-//     $this->discount->deleteById($discountCode);
-
-//     // Redirect after delete
-//     header("Location: " . BASE_URL . "/discount");
-//     exit;
-// }
 }
