@@ -10,7 +10,7 @@ require __DIR__ . '../partial/sidebar.php';
       <div class="mx-auto max-w-4xl py-7 px-7">
         <h5 class="fw-bold mb-4">Edit Reservation</h5>
 
-        <form method="POST" action="<?= url('/reservation') ?>">
+        <form method="POST" action="<?= url('/reservation/update') ?>">
           <input type="hidden" name="_method" value="PATCH">
           <input type="hidden" name="id" value="<?= htmlspecialchars($reservation['id']) ?>">
 

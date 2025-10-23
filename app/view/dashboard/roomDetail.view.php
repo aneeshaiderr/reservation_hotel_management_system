@@ -10,7 +10,7 @@ require __DIR__ . '../partial/sidebar.php';
         <main>
  
             <div class="mx-auto max-w-4xl py-7 px-7">
-              <form method="POST" action="<?= url('/roomDetail') ?>">
+              <form method="POST" action="<?= url('/rooms/update') ?>">
     <input type="hidden" name="id" value="<?= (int)$room['id'] ?>">
     
                     <!-- <input type="hidden" name="_method" value="PATCH"> -->

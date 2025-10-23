@@ -10,6 +10,7 @@ class Database
     protected $pdo;
     public $statement;
 public $connection;
+
     public function __construct($config)
     {
         if (isset($config['database'])) {
@@ -26,12 +27,7 @@ public $connection;
             die("Database connection failed: " . $e->getMessage());
         }
     }
-
-    // use $this->pdo not $this->connection
-    public function all($table) {
-        $stmt = $this->pdo->query("SELECT * FROM {$table}");
-        return $stmt->fetchAll();
-    }
+    
 
     // General query with parameters
     public function query($query, $params = [])
@@ -42,7 +38,7 @@ public $connection;
     }
 public function getPdo()
 {
-    return $this->connection; // your PDO instance
+    return $this->connection; 
 }
 
     public function fetchAll($sql, $params = [])

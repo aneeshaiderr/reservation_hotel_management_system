@@ -1,67 +1,69 @@
-<?php 
+<?php require __DIR__ . '../partial/head.php'; ?>
+<?php require __DIR__ . '../partial/nav.php'; ?>
+<?php require __DIR__ . '../partial/sidebar.php'; ?>
 
-require __DIR__ . '../partial/head.php';
-require __DIR__ . '../partial/nav.php';
-require __DIR__ . '../partial/sidebar.php';
-
-?>
 <div class="main-content">
-    <div class="container py-5">
-<form method="POST" action="<?= url('/user') ?>">
-    <!-- First Name -->
-    <div class="mb-4">
-        <label for="first_name">First Name</label>
-        <input type="text" id="first_name" name="first_name" required>
-    </div>
+  <div class="container py-5">
+    <main>
+      <div class="mx-auto max-w-4xl py-7 px-7">
+        <h5 class="fw-bold mb-4 text-primary">Create User</h5>
 
-    <!-- Last Name -->
-    <div class="mb-4">
-        <label for="last_name">Last Name</label>
-        <input type="text" id="last_name" name="last_name" required>
-    </div>
+        <form action="<?= url('/user/store') ?>" method="POST">
 
-    <!-- Email -->
-    <div class="mb-4">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
-    </div>
+          <!-- First Name -->
+          <div class="mb-3">
+            <label for="first_name">First Name</label>
+            <input type="text" id="first_name" name="first_name" class="form-control" placeholder="Enter first name" required>
+            <?php if(isset($errors['first_name'])): ?>
+              <div class="text-danger small mt-1"><?= $errors['first_name'] ?></div>
+            <?php endif; ?>
+          </div>
 
-    <!-- Contact -->
-    <div class="mb-4">
-        <label for="contact_no">Contact</label>
-        <input type="text" id="contact_no" name="contact_no">
-    </div>
+          <!-- Last Name -->
+          <div class="mb-3">
+            <label for="last_name">Last Name</label>
+            <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Enter last name" required>
+            <?php if(isset($errors['last_name'])): ?>
+              <div class="text-danger small mt-1"><?= $errors['last_name'] ?></div>
+            <?php endif; ?>
+          </div>
 
-    <!-- Address -->
-    <div class="mb-4">
-        <label for="address">Address</label>
-        <textarea id="address" name="address"></textarea>
-    </div>
+          <!-- Email -->
+          <div class="mb-3">
+            <label for="user_email">Email</label>
+            <input type="email" id="user_email" name="user_email" class="form-control" placeholder="Enter email" required>
+            <?php if(isset($errors['user_email'])): ?>
+              <div class="text-danger small mt-1"><?= $errors['user_email'] ?></div>
+            <?php endif; ?>
+          </div>
 
-    <!-- Status -->
-    <div class="mb-4">
-        <label for="status">Status</label>
-        <select id="status" name="status">
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-        </select>
-    </div>
-<select name="role_id" required>
-    <option value="">-- Select Role --</option>
-    <option value="1">Admin</option>
-    <option value="2">User</option>
-</select>
+          <!-- Contact -->
+          <div class="mb-3">
+            <label for="contact_no">Contact Number</label>
+            <input type="text" id="contact_no" name="contact_no" class="form-control" placeholder="Enter contact number" required>
+            <?php if(isset($errors['contact_no'])): ?>
+              <div class="text-danger small mt-1"><?= $errors['contact_no'] ?></div>
+            <?php endif; ?>
+          </div>
 
-    <!-- Buttons -->
-    <div class="mt-6 flex items-center justify-end gap-x-4">
-        <a href="<?= url('/user') ?>">Cancel</a>
-        <button type="submit"
-            style="background-color:#2563eb; color:white; padding:8px 16px; border-radius:6px; border:none;">
-            Create
-        </button>
-    </div>
-</form>
+          <!-- Password -->
+          <div class="mb-3">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required>
+            <?php if(isset($errors['password'])): ?>
+              <div class="text-danger small mt-1"><?= $errors['password'] ?></div>
+            <?php endif; ?>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="d-flex">
+            <button type="submit" class="btn btn-primary fw-bold w-100 text-white">Create User</button>
+          </div>
+
+        </form>
+      </div>
+    </main>
+  </div>
 </div>
 
-<?php require __DIR__ . '/partial/footer.php'; ?>
-</div>
+<?php require __DIR__ . '../partial/footer.php'; ?>

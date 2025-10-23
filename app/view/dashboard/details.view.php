@@ -73,4 +73,4 @@ require __DIR__ . '../partial/sidebar.php';
     </div>
 </div>
 
-<?php require __DIR__ . '/partial/footer.php'; ?>
+<?php require __DIR__ . '../partial/footer.php'; ?>

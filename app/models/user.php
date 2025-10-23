@@ -6,8 +6,8 @@ namespace App\Models;
 use App\Core\Database;
 
       use App\Middleware\AuthMiddleware;
-        $auth = new AuthMiddleware();
-$auth->checkAccess();
+//         $auth = new AuthMiddleware();
+// $auth->checkAccess();
 class User
 {
     protected $db;
@@ -30,15 +30,19 @@ class User
     }
 
   
-public function softDelete($id)
-{
-    return $this->db->query("UPDATE users SET deleted_at = NOW() WHERE id = ?", [$id]);
-}
-
-public function hardDelete($id)
-{
-    return $this->db->query("DELETE FROM users WHERE id = ?", [$id]);
-}
+// public function softDelete($id)
+// {
+//     return $this->db->query("UPDATE users SET deleted_at = NOW() WHERE id = ?", [$id]);
+// }
+ public function softDelete($id)
+    {
+        $query = "UPDATE users SET deleted_at = NOW() WHERE id = ?";
+        return $this->db->query($query, [$id]);
+    }
+// public function hardDelete($id)
+// {
+//     return $this->db->query("DELETE FROM users WHERE id = ?", [$id]);
+// }
 
  //  Create New User
    public function create($data) {
@@ -57,6 +61,45 @@ public function hardDelete($id)
     );
 }
 
+   public function find($id)
+    {
+        if (!$id) {
+            return null;
+        }
+
+        $stmt = $this->db->query("SELECT * FROM users WHERE id = ?", [$id]);
+        return $stmt ? $stmt->fetch() : null;
+    }
+
+    // Update user details with duplicate email check
+    public function update($id, $data)
+    {
+        // Check if email already exists for another user
+        $existingUser = $this->db->query(
+            "SELECT id FROM users WHERE user_email = ? AND id != ?",
+            [$data['user_email'], $id]
+        )->fetch();
+
+        if ($existingUser) {
+            throw new \Exception("Email '{$data['user_email']}' is already used by another account.");
+        }
+
+        // Proceed with update
+        return $this->db->query(
+            "UPDATE users 
+             SET first_name = ?, last_name = ?, user_email = ?, contact_no = ?, address = ?, status = ?, updated_at = NOW() 
+             WHERE id = ?",
+            [
+                $data['first_name'],
+                $data['last_name'],
+                $data['user_email'],
+                $data['contact_no'],
+                $data['address'],
+                $data['status'],
+                $id
+            ]
+        );
+    }
 
 
    public function getAllUsers()

@@ -1,0 +1,27 @@
+Array
+(
+    [user] => Array
+        (
+            [id] => 45
+            [name] => 
+            [email] => atif2@gmail.com
+            [role_id] => 4
+        )
+
+    [user_id] => 45
+    [role_id] => 4
+    [permissions] => Array
+        (
+            [0] => manage_hotels
+        )
+
+    [success] => Hotel created successfully!
+    [users] => Array
+        (
+            [id] => 44
+            [email] => atif1@gmail.com
+            [name] => atif jutt
+        )
+
+    [user_name] => 
+)

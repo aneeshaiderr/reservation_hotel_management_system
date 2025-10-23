@@ -15,10 +15,9 @@ class UserDashboardController
         $config = require BASE_PATH . 'config.php';
         $db = new Database($config['database']);
 
-        $this->userModel = new User($db);
+        // $this->userModel = new User($db);
         $this->reservationModel = new UserReservation($config);
-         $auth = new AuthMiddleware();
-        $auth->checkAccess(); 
+        //  
     }
 
     public function index()

@@ -8,7 +8,7 @@ require __DIR__ . '../partial/sidebar.php';
   <div class="container py-5">
     <h5 class="fw-bold mb-2 ps-2">Service</h5>
 <div class="mb-4">
-      <a href="<?= url('/services/createService') ?>" class="btn btn-sm btn-success">
+      <a href="<?= url('/createService') ?>" class="btn btn-sm btn-success">
         + Create Services
       </a>
     </div>

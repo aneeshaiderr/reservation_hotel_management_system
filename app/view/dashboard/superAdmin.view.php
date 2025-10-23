@@ -22,7 +22,7 @@ require __DIR__ . '../partial/sidebar.php';
     <div class="row justify-content-between row g-3 align-items-star">
        <!-- Right: Create Button -->
     <div class="mb-3">
-      <a href="<?= BASE_URL ?>/reservation/reservationCreate" class="btn btn-sm btn-success">
+      <a href="<?= BASE_URL ?>/user/CreateUser" class="btn btn-sm btn-success">
         + Create User
       </a>
     </div>
@@ -158,7 +158,7 @@ require __DIR__ . '../partial/sidebar.php';
 </div>
 
 <!-- Hidden Delete Form -->
-<form id="deleteForm" method="POST" action="<?= url('/user/delete') ?>" style="display:none;">
+<form id="deleteForm" method="POST" action="<?= url('/user') ?>" style="display:none;">
   <input type="hidden" name="_method" value="DELETE">
   <input type="hidden" name="id" id="deleteId">
 </form>

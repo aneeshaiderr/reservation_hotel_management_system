@@ -1,11 +1,11 @@
 <?php
 $roleId = $_SESSION['role_id'] ?? null;
 $username = $_SESSION['username'] ?? '';
-if (!function_exists('urlIs')) {
-    function urlIs($page) {
-        return basename($_SERVER['PHP_SELF'], ".php") === $page;
-    }
-  }
+// if (!function_exists('urlIs')) {
+//     function urlIs($page) {
+//         return basename($_SERVER['PHP_SELF'], ".php") === $page;
+//     }
+//   }
 ?>
 
 
@@ -69,7 +69,7 @@ if (!function_exists('urlIs')) {
         <li class="nav-item"><a href="discount" class="nav-link text-white <?= urlIs('discount') ? 'active bg-dark text-white' : '' ?>">Discounts</a></li>
         <li class="nav-item"><a href="reservation" class="nav-link text-white <?= urlIs('reservation') ? 'active bg-dark text-white' : '' ?>">Reservations</a></li>
         <li class="nav-item"><a href="payment" class="nav-link text-white <?= urlIs('payment') ? 'active bg-dark text-white' : '' ?>">Payments</a></li>
-        <li class="nav-item"><a href="details" class="nav-link text-white <?= urlIs('details') ? 'active bg-dark text-white' : '' ?>">Details</a></li>
+
 
 
     <?php elseif ($roleId == 2): // Staff ?>

@@ -1,215 +1,184 @@
 <?php
 
-$router->get('/', 'app/view/Frontend/index.php');
-$router->get('/about', 'app/view/Frontend/about.php');
-$router->get('/room', 'app/view/Frontend/room.php');
-$router->get('/news', 'app/view/Frontend/news.php');
-$router->get('/contact', 'app/view/Frontend/contact.php');
 
-$router->get('/userAllDetails', [
-    'class' => 'App\Controllers\DashboardController\UserAllDetailsController',
-    'method' => 'index'
-]);
 
-$router->get('/user', [
-    'class' => 'App\Controllers\DashboardController\UserController',
-    'method' => 'index'
-]);
-$router->get('/reservation/create', [
-    'class' => 'App\Controllers\DashboardController\UserController',
-    'method' => 'create'
-]);
-$router->post('/user', [
-    'class' => 'App\Controllers\DashboardController\UserController',
-    'method' => 'store'
-]);
-$router->delete('/user/delete', [
-    'class' => 'App\Controllers\DashboardController\UserController',
-    'method' => 'softDelete'
-]);
+use App\Controllers\HomeController;
+use App\Controllers\AboutController;
+use App\Controllers\RoomController;
+use App\Controllers\NewsController;
+use App\Controllers\ContactController;
+use App\Controllers\Auth\SignupController;
+use App\Controllers\Auth\LoginController;
 
-$router->get('/details', [
-    'class' => 'App\Controllers\DashboardController\DetailsController',
-    'method' => 'index'
-]);
+// Guest (Public Frontend) Routes
+use App\Controllers\DashboardController\UserAllDetailsController;
+use App\Controllers\DashboardController\UserController;
 
-$router->patch('/details', [
-    'class' => 'App\Controllers\DashboardController\DetailsController',
-    'method' => 'update'
-]);
-$router->get('/userdetails', [
-    'class' => 'App\Controllers\DashboardController\UserDetailsController',
-    'method' => 'index'
-]);
-$router->get('/rooms', [
-    'class' => 'App\Controllers\DashboardController\RoomsController',
-    'method' => 'index'
-]);
+use App\Controllers\DashboardController\RoomsController;
+use App\Controllers\DashboardController\HotelController;
+use App\Controllers\DashboardController\ReservationController;
+use App\Controllers\DashboardController\DiscountController;
+use App\Controllers\DashboardController\ServicesController;
+use App\Controllers\DashboardController\AnalyticsController;
+use App\Middleware\Permission;
+use App\Controllers\Auth\StaffLoginController;
+use App\Controllers\Auth\StaffSignupController;
 
-$router->get('/signup', [
-    'class' => 'App\Controllers\Auth\SignupController',
-    'method' => 'index'
-]);
-$router->post('/signup', [
-    'class' => 'App\Controllers\Auth\SignupController',
-    'method' => 'index'
-]);
-// Login page show (GET request)
-$router->get('/login', [
-    'class' => 'App\Controllers\Auth\LoginForm',
-    'method' => 'index'
-]);
 
-// Login form submit (POST request)
 
-$router->post('/login', [
-    'class' => 'App\Controllers\Auth\LoginForm',
-    'method' => 'store'
+
+$router->group(['middleware' => ['auth']], function ($router) {
+
+    $router->get('/discount', [DiscountController::class, 'index']);
+
     
-]);
-$router->get('/staffSignup', [
-    'class' => 'App\Controllers\Auth\StaffSignup',
-    'method' => 'index'
-]);
-$router->post('/staffSignup', [
-    'class' => 'App\Controllers\Auth\StaffSignup',
-    'method' => 'index'
-]);
-$router->get('/staffLogin', [
-    'class' => 'App\Controllers\Auth\StaffLogin',
-    'method' => 'index'
-]);
-$router->post('/staffLogin', [
-    'class' => 'App\Controllers\Auth\staffLogin',
-    'method' => 'store'
-]);
-$router->get('/roomDetail', [
-    'class' => 'App\Controllers\DashboardController\RoomDetailController',
-    'method' => 'index'
-]);
-$router->post('/roomDetail', [
-    'class' => 'App\Controllers\DashboardController\RoomDetailController',
-    'method' => 'update'
-]);
-$router->get('/roomCreate', [
-    'class' => 'App\Controllers\DashboardController\RoomCreateController',
-    'method' => 'index'
-]);
+    $router->get('/discount/createDiscount', [DiscountController::class, 'create']);
+    $router->post('/discount', [DiscountController::class, 'store']);
 
-$router->post('/roomCreate', [
-    'class' => 'App\Controllers\DashboardController\RoomCreateController',
-    'method' => 'store'
-]);
+   
+    $router->get('/discount/editDiscount', [DiscountController::class, 'edit']);  
+    $router->post('/discount/update', [DiscountController::class, 'update']);
 
-$router->post('/rooms/delete', [
-    'class' => 'App\Controllers\DashboardController\RoomsController',
-    'method' => 'delete'
-]);
-$router->get('/hotel', [
-    'class' => 'App\Controllers\DashboardController\HotelController',
-    'method' => 'index'
-]);
-$router->post('/hotel/delete', [
-    'class' => 'App\Controllers\DashboardController\HotelController',
-    'method' => 'delete'
-]);
-$router->get('/hotel/create', [
-    'class' => 'App\Controllers\DashboardController\HotelCreateController',
-    'method' => 'create'
-]);
 
-$router->post('/hotel/store', [
-    'class' => 'App\Controllers\DashboardController\HotelCreateController',
-    'method' => 'store'
-]);
-$router->get('/hotel/hotelDetail', [
-    'class' => 'App\Controllers\DashboardController\HotelDetailController',
-    'method' => 'show'
-]);
-$router->patch('/hotel', [
-    'class' => 'App\Controllers\DashboardController\HoteldetailController',
-    'method' => 'update'
-]);
-$router->get('/reservation', [
-    'class' => 'App\Controllers\DashboardController\ReservationController',
-    'method' => 'index'
-]);
-$router->get('/reservation/reservationCreate', [
-    'class' => 'App\Controllers\DashboardController\ReservationController',
-    'method' => 'create'
-]);
-$router->post('/reservation', [
-    'class' => 'App\Controllers\DashboardController\ReservationController',
-    'method' => 'store'
-]);
-$router->post('/reservation/delete', [
-    'class' => 'App\Controllers\DashboardController\ReservationController',
-    'method' => 'delete'
-]);
-$router->get('/reservation/editReservation', [
-    'class' => 'App\Controllers\DashboardController\EditReservationController',
-    'method' => 'show'
-]);
-$router->patch('/reservation', [
-    'class' => 'App\Controllers\DashboardController\EditReservationController',
-    'method' => 'update'
-]);
-$router->get('/discount', [
-    'class' => 'App\Controllers\DashboardController\DiscountController',
-    'method' => 'index'
-]);
-$router->get('/discount/createDiscount', [
-    'class' => 'App\Controllers\DashboardController\DiscountCreateController',
-    'method' => 'index'
-]);
-$router->post('/discount', [
-    'class' => 'App\Controllers\DashboardController\DiscountCreateController',
-    'method' => 'store'
-]);
-$router->get('/discount/editDiscount', [
-    'class' => 'App\Controllers\DashboardController\EditDiscountController',
-    'method' => 'show'
-]);
-$router->patch('/discount', [
-    'class' => 'App\Controllers\DashboardController\EditDiscountController',
-    'method' => 'update'
-]);
-$router->post('/discount/delete', [
-    'class' => 'App\Controllers\DashboardController\DiscountController',
-    'method' => 'delete'
-]);
-$router->get('/services', [
-    'class' => 'App\Controllers\DashboardController\ServicesController',
-    'method' => 'index'
-]);
-$router->get('/services/createService', [
-    'class' => 'App\Controllers\DashboardController\CreateServiceController',
-    'method' => 'index'
-]);
+    $router->post('/discount/delete', [DiscountController::class, 'delete']);
+});
 
-$router->post('/services', [
-    'class' => 'App\Controllers\DashboardController\CreateServiceController',
-    'method' => 'store'
-]);
-$router->get('/services/editService', [
-    'class' => 'App\Controllers\DashboardController\EditServiceController',
-    'method' => 'edit'
-]);
+$router->group(['middleware' => ['Staff']], function ($router) {
 
-$router->patch('/services', [
-    'class' => 'App\Controllers\DashboardController\EditServiceController',
-    'method' => 'update'
-]);
-$router->post('/services/delete', [
-    'class' => 'App\Controllers\DashboardController\ServicesController',
-    'method' => 'delete'
-]);
-$router->get('/analytics', [
-    'class' => 'App\Controllers\DashboardController\AnalyticsController',
-    'method' => 'index'
-]);
-$router->get('/reservation/analytics', [
-    'class' => 'App\Controllers\DashboardController\AnalyticsController',
-    'method' => 'index'
-]);
+    // Staff Signup
+    $router->get('/StaffSignup', [StaffSignupController::class, 'index']);  
+    $router->post('/StaffSignup', [StaffSignupController::class, 'store']); 
 
+    // Staff Login
+    $router->get('/staffLogin', [StaffLoginController::class, 'index']);   
+    $router->post('/staffLogin', [StaffLoginController::class, 'store']); 
+      
+});
+$router->group(['middleware' => ['users']], function ($router) {
+    $router->get('/', [HomeController::class, 'index']);      
+    $router->get('/about', [AboutController::class, 'index']);
+    $router->get('/room', [RoomController::class, 'index']);   
+    $router->get('/news', [NewsController::class, 'index']);   
+    $router->get('/contact', [ContactController::class, 'index']); 
+});
+
+$router->group(['middleware' => ['user']], function ($router) {
+
+ 
+    // Signup Routes
+    
+    $router->get('/signup', [SignupController::class, 'index']); 
+    $router->post('/signup', [SignupController::class, 'index']);  
+
+  
+    // Login Routes
+   
+    $router->get('/login', [LoginController::class, 'index']);   
+    $router->post('/login', [LoginController::class, 'store']);  
+    $router->group(['middleware' => ['authMiddleware']], function ($router) {
+
+    // Everyone redirects
+    $router->get('/user', [UserController::class, 'index']);
+
+    // Super Admin and Staff also can see reservations
+    $router->get('/reservation', [ReservationController::class, 'index']);
+    // Create Form
+    $router->get('/reservation/reservationCreate', [ReservationController::class, 'create']);
+    $router->post('/reservation', [ReservationController::class, 'store']);
+
+    $router->get('/rooms', [RoomsController::class, 'index']);
+    $router->get('/hotel', [HotelController::class, 'index']);
+    
+});
+});
+
+    
+$router->group(['middleware' => ['authMiddleware', 'role:user']], function ($router) {
+
+    
+     $router->get('/user', [UserController::class, 'index']);
+     $router->get('/user/CreateUser', [UserController::class, 'CreateUser']);
+     $router->post('/user/store', [UserController::class, 'CreateUser']);
+    $router->get('/userAllDetails', [UserAllDetailsController::class, 'index']);
+ $router->get('/userdetails', [UserAllDetailsController::class, 'show']);
+    $router->get('/details', [UserController::class, 'show']);
+    $router->post('/details', [UserController::class, 'update']);
+
+$router->group(['middleware' => ['authMiddleware']], function ($router) {
+
+    // All Reservations (List)
+    $router->get('/reservation', [ReservationController::class, 'index']);
+
+    // Create rreservation
+    $router->get('/reservation/reservationCreate', [ReservationController::class, 'create']);
+    $router->post('/reservation', [ReservationController::class, 'store']);
+
+    // Edit Reservation
+    $router->get('/reservation/editReservation', [ReservationController::class, 'edit']);  
+    $router->post('/reservation/update', [ReservationController::class, 'update']);
+
+    // Delete Reservation
+    $router->post('/reservation/delete', [ReservationController::class, 'delete']);
+});
+$router->group(['middleware' => ['authMiddleware']], function ($router) {
+
+    //  All Rooms (List)
+    $router->get('/rooms', [RoomsController::class, 'index']);
+
+    // Create Room (Form + Store)
+    $router->get('/roomCreate', [RoomsController::class, 'create']);
+    $router->post('/rooms', [RoomsController::class, 'store']);
+
+    //Edit / Update Room Details
+    $router->get('/roomDetail', [RoomsController::class, 'detail']);  
+    $router->post('/rooms/update', [RoomsController::class, 'update']);
+
+    // Delete Room (Soft Delete)
+    $router->post('/rooms/delete', [RoomsController::class, 'delete']);
+});
+
+    
+
+    //  Analytics 
+    $router->get('/analytics', [AnalyticsController::class, 'index']);
+    $router->get('/reservation/analytics', [AnalyticsController::class, 'index']);
+    
+});
+$router->group(['middleware' => ['authMiddleware', 'role:super_admin']], function($router) {
+  $router->post('/user', [UserController::class, 'softDelete']);
+    
+ 
+});
+
+$router->group(['middleware' => ['authMiddleware']], function ($router) {
+
+    // All Hotels (List)
+    $router->get('/hotel', [HotelController::class, 'index']);
+
+    // Create Hotel
+    $router->get('/hotel/create', [HotelController::class, 'create']);
+    $router->post('/hotel/store', [HotelController::class, 'store']);
+
+    // Edit / Update Hotel
+    $router->get('/hotel/hotelDetail', [HotelController::class, 'show']);  
+    $router->post('/hotel', [HotelController::class, 'update']);
+
+    // Delete Hotel (Soft Delete)
+    $router->post('/hotel/delete', [HotelController::class, 'delete']);
+});
+$router->group(['middleware' => ['auth']], function ($router) {
+
+    // All Services (List)
+    $router->get('/services', [ServicesController::class, 'index']);
+
+    // Create Service
+    $router->get('/createService', [ServicesController::class, 'create']);
+    $router->post('/services', [ServicesController::class, 'store']);
+
+    // Edit / Update Service
+    $router->get('/services/editService', [ServicesController::class, 'edit']);
+    $router->post('/services/update', [ServicesController::class, 'update']);
+
+    // Delete Service (Soft Delete)
+    $router->post('/services/delete', [ServicesController::class, 'delete']);
+});

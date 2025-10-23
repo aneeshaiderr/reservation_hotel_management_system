@@ -3,7 +3,7 @@
 namespace App\Controllers\Auth;
 use App\Middleware\Session;
 use App\Core\Database;
-class StaffLogin
+class StaffLoginController
 {
     
      public function index()

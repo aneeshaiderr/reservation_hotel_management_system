@@ -56,11 +56,11 @@ require __DIR__ . '../partial/sidebar.php';
    <?php if($roleId == 1 || $roleId == 2 || ($roleId == 4 )): ?>
         <a href="<?= BASE_URL ?>/reservation/editReservation?id=<?= $res['id'] ?>"  class="btn btn-primary btn-sm">View</a>
       
-        <form  method="POST" 
-              onsubmit="return confirm('Are you sure you want to delete this reservation?');">
-           <input type="hidden" name="hotel_code" value="<?= $res['hotel_code'] ?>">
-          <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-        </form>
+       <form action="<?= BASE_URL ?>/reservation/delete" method="POST"
+      onsubmit="return confirm('Are you sure you want to delete this reservation?');">
+    <input type="hidden" name="hotel_code" value="<?= $res['hotel_code'] ?>">
+    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+</form>
         <?php endif; ?>
       </td>
     </tr>

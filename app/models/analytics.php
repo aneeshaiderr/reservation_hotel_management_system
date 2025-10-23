@@ -1,8 +1,8 @@
 <?php
 namespace App\Models;
       use App\Middleware\AuthMiddleware;
-        $auth = new AuthMiddleware();
-$auth->checkAccess();
+//         $auth = new AuthMiddleware();
+// $auth->checkAccess();
 class Analytics
 {
     // No database needed for static view

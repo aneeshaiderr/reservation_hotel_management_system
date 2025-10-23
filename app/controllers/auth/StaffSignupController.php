@@ -6,7 +6,7 @@ namespace App\Controllers\Auth;
 
 use App\Core\Database;
 
-class StaffSignup
+class StaffSignupController
 {
     
     public function index()

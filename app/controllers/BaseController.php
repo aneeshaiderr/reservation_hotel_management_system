@@ -1,8 +1,8 @@
 <?php
-
+namespace App\Controllers;
 class BaseController
 {
-    protected $view;
+   protected $view;
 
     public function index($data = [])
     {

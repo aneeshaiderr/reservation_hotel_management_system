@@ -11,7 +11,7 @@ require __DIR__ . '../partial/sidebar.php';
       <div class="mx-auto max-w-4xl py-7 px-7">
         <h5 class="fw-bold mb-4">Edit Service</h5>
 
-        <form method="POST" action="<?= url('/services') ?>">
+        <form method="POST" action="<?= url('/services/update') ?>">
           <input type="hidden" name="_method" value="PATCH">
           <input type="hidden" name="id" value="<?= htmlspecialchars($service['id']) ?>">
 

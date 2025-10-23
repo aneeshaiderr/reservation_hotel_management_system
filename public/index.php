@@ -45,5 +45,5 @@ $uri = $uri === '' ? '/' : $uri;
 $method = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
 
 
-
-$router->route($uri, $method);
+$router->route($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
+// $router->routes($uri, $method);

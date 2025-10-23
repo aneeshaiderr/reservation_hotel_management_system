@@ -1,14 +1,13 @@
 <?php
 
+namespace App\Controllers;
 
-class AboutController
+use App\Controllers\BaseController;
+class AboutController extends BaseController
 {
-   
- public function index()
+    public function __construct()
     {
-        return view('Frontend/about.php', [
-            
-            'message' => 'Welcome to Home Page!'
-        ]);
+        $this->view = 'Frontend/about.php';
     }
+
 }

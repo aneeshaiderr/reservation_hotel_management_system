@@ -8,7 +8,7 @@
         <main>
             <div class="mx-auto max-w-4xl py-7 px-7">
                 <h2 class="mb-4">Create Room</h2>
-                <form method="POST" action="<?= url('/roomCreate') ?>">
+                <form method="POST" action="<?= url('/rooms') ?>">
 
                     <div class="mb-4">
                         <label for="room_number">Room Number</label>
