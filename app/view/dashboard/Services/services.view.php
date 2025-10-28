@@ -1,10 +1,10 @@
 <?php
-require __DIR__ . '../partial/head.php';
-require __DIR__ . '../partial/nav.php';
-require __DIR__ . '../partial/sidebar.php';
+// require __DIR__ . '../partial/head.php';
+// require __DIR__ . '../partial/nav.php';
+// require __DIR__ . '../partial/sidebar.php';
 ?>
 
-<div class="main-content">
+<div class="main-content d-flex flex-column min-vh-100">
   <div class="container py-5">
     <h5 class="fw-bold mb-2 ps-2">Service</h5>
 <div class="mb-4">
@@ -50,14 +50,25 @@ require __DIR__ . '../partial/sidebar.php';
                       <?php endif; ?>
                   </td>
 
-                  <td class="d-flex gap-2">
-                    <a href="<?= BASE_URL ?>/services/editService?id=<?= $service['id'] ?>" class="btn btn-sm btn-primary">View</a>
+                 <td>
+  <div class="d-flex align-items-center gap-2">
+    <a href="<?= BASE_URL ?>/services/editService?id=<?= $service['id'] ?>" 
+       class="btn btn-sm btn-primary py-1 px-3">
+       View
+       </a>
 
-                    <form action="<?= url('/services/delete') ?>" method="POST" onsubmit="return confirm('Are you sure you want to delete this service?');">
-                      <input type="hidden" name="id" value="<?= $service['id'] ?>">
-                      <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                    </form>
-                  </td>
+       <form action="<?= url('/services/delete') ?>" 
+          method="POST" 
+          onsubmit="return confirm('Are you sure you want to delete this service?');" 
+          class="m-0">
+           <input type="hidden" name="id" value="<?= $service['id'] ?>">
+          <button type="submit" 
+              class="btn btn-sm btn-danger py-1 px-3">
+              Delete
+               </button>
+            </form>
+          </div>
+           </td>
                 </tr>
               <?php endforeach; ?>
             <?php else: ?>
@@ -70,7 +81,6 @@ require __DIR__ . '../partial/sidebar.php';
       </div>
     </div>
   </div>
-</div>
 
-<?php require __DIR__ . '../partial/footer.php'; ?>
+
 

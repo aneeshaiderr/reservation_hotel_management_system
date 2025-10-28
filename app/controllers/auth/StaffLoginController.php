@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controllers\Auth;
-use App\Middleware\Session;
+
 use App\Core\Database;
 class StaffLoginController
 {
@@ -41,7 +41,7 @@ class StaffLoginController
         'name'  => $user['first_name'] . ' ' . $user['last_name']
     ];
 redirect("/practice/public/user");
-    // header("Location: /practice/public/user"); 
+    
     exit();
 }
 

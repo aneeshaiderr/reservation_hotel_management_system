@@ -1,11 +1,5 @@
 
-<?php
-require __DIR__ . '../partial/head.php';
-require __DIR__ . '../partial/nav.php';
-require __DIR__ . '../partial/sidebar.php';
-?>
-
-<div class="main-content">
+<div class="main-content d-flex flex-column min-vh-100">
   <div class="container py-5">
     <h5 class="fw-bold mb-2 ps-2">Discount</h5>
  <!--  Create Button -->
@@ -53,15 +47,25 @@ require __DIR__ . '../partial/sidebar.php';
                       <span class="badge bg-warning text-dark"><?= htmlspecialchars($st ?: 'Unknown') ?></span>
                     <?php endif; ?>
                 </td>
-                 <td class="action-btns d-flex gap-2">
-                    <a href="<?= BASE_URL ?>/discount/editDiscount?id=<?= $discount['id'] ?>" class="btn btn-sm btn-primary">View</a>
+             <td>
+  <div class="d-flex align-items-center gap-2">
+    <a href="<?= BASE_URL ?>/discount/editDiscount?id=<?= $discount['id'] ?>" 
+       class="btn btn-sm btn-primary py-1 px-3">
+       View
+    </a>
 
-                    <!--  Delete Button (Soft Delete Form) -->
-                    <form action=<?= url('/discount/delete') ?> method="POST" onsubmit="return confirm('Are you sure you want to delete this hotel?');">
-                      <input type="hidden" name="id" value="<?= $discount['id'] ?>">
-                      <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                    </form>
-              </tr>
+    <form action="<?= url('/discount/delete') ?>" 
+          method="POST" 
+          onsubmit="return confirm('Are you sure you want to delete this discount?');" 
+          class="m-0">
+      <input type="hidden" name="id" value="<?= $discount['id'] ?>">
+      <button type="submit" 
+              class="btn btn-sm btn-danger py-1 px-3">
+              Delete
+      </button>
+    </form>
+  </div>
+</td>
               
             <?php endforeach; ?>
             <?php endif; ?>
@@ -71,7 +75,7 @@ require __DIR__ . '../partial/sidebar.php';
       </div>
     </div>
   </div>
-</div>
 
-<?php require __DIR__ . '../partial/footer.php'; ?>
+                  
+
 

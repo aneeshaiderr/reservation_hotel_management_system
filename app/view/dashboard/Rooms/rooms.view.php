@@ -1,15 +1,17 @@
 
 <?php
-require __DIR__ . '../partial/head.php';
-require __DIR__ . '../partial/nav.php';
-require __DIR__ . '../partial/sidebar.php';
+// require __DIR__ . '../partial/head.php';
+// require __DIR__ . '../partial/nav.php';
+// require __DIR__ . '../partial/sidebar.php';
 ?>
 
-<div class="main-content">
+<div class="main-content d-flex flex-column min-vh-100">
+
+   <!-- User Heading  -->
   <div class="container py-5">
-    <h5 class="fw-bold mb-2 ps-2">Room</h5>
+    <h5 class="fw-bold mb-2 mt-7 ps-2">Room</h5>
       <!-- Create Room Button -->
-                <div class="mb-4">
+                <div class="mb-2">
                     <a href="<?= url('/roomCreate') ?>" 
                        class="btn btn-sm btn-success"
                        style="background-color:#16a34a; color:white; padding:8px 16px; border-radius:6px; text-decoration:none;">
@@ -77,6 +79,6 @@ require __DIR__ . '../partial/sidebar.php';
     </div>
   </div>
 
-           
-<?php require_once __DIR__ . '../partial/footer.php'; ?>
- </div>
+   
+            
+

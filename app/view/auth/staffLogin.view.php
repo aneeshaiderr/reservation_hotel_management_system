@@ -1,6 +1,8 @@
 
 
-<?php require __DIR__ . '/../partial/head.php'; ?>
+<?php
+ require __DIR__ . '/../partial/head.php'; 
+?>
 
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
   <div class="col-md-6 col-lg-5">

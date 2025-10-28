@@ -17,13 +17,12 @@ class RoomsController
         $this->roomModel = new Rooms($this->db);
     }
 
-    // ======================================
-    // 🟩 From RoomsController
-    // ======================================
     public function index()
     {
+          
         $rooms = $this->roomModel->getAllRooms();
-        return view('dashboard/rooms.view.php', ['rooms' => $rooms]);
+         $content = view('dashboard/Rooms/rooms.view.php', ['rooms' => $rooms]);
+                return view('Layouts/dashboard.layout.php', ['content' => $content]);
     }
 
     public function delete()
@@ -42,9 +41,7 @@ class RoomsController
         exit;
     }
 
-    // ======================================
-    // From RoomDetailController
-    // ======================================
+ 
     public function detail($id = null)
     {
         if (!$id && isset($_GET['id'])) {
@@ -57,9 +54,10 @@ class RoomsController
             abort(404);
         }
 
-        return view('dashboard/roomDetail.view.php', [
+       $content = view('dashboard/Rooms/roomDetail.view.php', [
             'room' => $room
         ]);
+         return view('Layouts/dashboard.layout.php', ['content' => $content]);
     }
 
     public function update()
@@ -71,19 +69,17 @@ class RoomsController
         exit;
     }
 
-    // ======================================
-    // From RoomCreateController
-    // ======================================
+
     public function create()
     {
         
-        // Fetch all hotels for dropdown
-        $hotels = $this->db->fetchAll("SELECT id, hotel_name FROM hotels", []);
 
+          $hotels = $this->roomModel->getAllHotels();
         // Show create room form
-        return view('dashboard/roomCreate.view.php', [
+         $content = view('dashboard/Rooms/roomCreate.view.php', [
             'hotels' => $hotels
         ]);
+         return view('Layouts/dashboard.layout.php', ['content' => $content]);
     }
 
     public function store()
@@ -96,53 +92,11 @@ class RoomsController
             'hotel_id'    => $_POST['hotel_id'],
             'status'      => $_POST['status']
         ];
-
-        $this->db->query("
-            INSERT INTO rooms (room_number, floor, beds, max_guests, hotel_id, status)
-            VALUES (:room_number, :floor, :room_bed, :Max_guests, :hotel_id, :status)
-        ", $data);
+  
+       $this->roomModel->create($data);
 
         redirect(url('/rooms'));
     }
 }
 
 
-// namespace App\Controllers\DashboardController;
-
-// use App\Core\Database;
-// use App\Models\Rooms;
-
-
-// class RoomsController
-// {
-//     protected $roomModel;
-
-//     public function __construct()
-//     {
-//         $config = require BASE_PATH . 'config.php';
-//         $db = new Database($config['database']);
-//         $this->roomModel = new Rooms($db);
-//     }
-
-//     public function index()
-//     {
-//         $rooms = $this->roomModel->getAllRooms();
-//         return view('dashboard/rooms.view.php', ['rooms' => $rooms]);
-//     }
-
-//     public function delete()
-//     {
-//         session_start();
-
-//         if (!isset($_POST['id'])) {
-//             header('Location: ' . BASE_URL . '/rooms');
-//             exit;
-//         }
-
-//         $id = (int)$_POST['id'];
-//         $this->roomModel->softDelete($id);
-
-//         header('Location: ' . BASE_URL . '/rooms');
-//         exit;
-//     }
-// }

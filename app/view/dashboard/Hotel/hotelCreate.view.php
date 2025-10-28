@@ -1,10 +1,10 @@
 <?php
-require __DIR__ . '../partial/head.php';
-require __DIR__ . '../partial/nav.php';
-require __DIR__ . '../partial/sidebar.php';
+// require __DIR__ . '../partial/head.php';
+// require __DIR__ . '../partial/nav.php';
+// require __DIR__ . '../partial/sidebar.php';
 ?>
 
-<div class="main-content">
+<div class="main-content d-flex flex-column min-vh-100">
   <div class="container py-5">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h5 class="fw-bold mb-0">Create New Hotel</h5>
@@ -35,9 +35,6 @@ require __DIR__ . '../partial/sidebar.php';
       </div>
     </div>
   </div>
-</div>
 
-<?php
-require __DIR__ . '../partial/footer.php';
-?>
+
 

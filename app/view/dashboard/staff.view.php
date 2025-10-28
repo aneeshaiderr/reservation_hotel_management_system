@@ -1,9 +1,4 @@
 
-<?php
-require __DIR__ . '../partial/head.php';
-require __DIR__ . '../partial/nav.php';
-require __DIR__ . '../partial/sidebar.php';
-?>
 <!-- Main Wrapper -->
 <div class="main-content d-flex flex-column min-vh-100">
 
@@ -21,7 +16,7 @@ require __DIR__ . '../partial/sidebar.php';
   <div class="container-fluid">
     <div class="row justify-content-between row g-3 align-items-star">
        <!-- Right: Create Button -->
-    <div class="mb-3">
+    <div class="mb-3 mt-4">
       <a href="<?= BASE_URL ?>/reservation/reservationCreate" class="btn btn-sm btn-success">
         + Create User
       </a>
@@ -154,7 +149,6 @@ require __DIR__ . '../partial/sidebar.php';
         </div>
       </div>
  
-  <?php require_once __DIR__ . '../partial/footer.php'; ?>
 </div>
 
 <!-- Hidden Delete Form -->

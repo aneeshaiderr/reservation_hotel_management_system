@@ -49,33 +49,3 @@ class Permission
         return $hasRolePermission || $hasUserPermission;
     }
 }
-
-
-// class Permission
-// {
-//     // $permission can be e.g. 'users.edit'
-//     public function handle($permission)
-//     {
-//         if (session_status() === PHP_SESSION_NONE) session_start();
-
-//         // not logged in
-//         if (empty($_SESSION['user_id'])) {
-//             header('Location: ' . BASE_URL . '/login');
-//             exit;
-//         }
-
-//         $perms = $_SESSION['permissions'] ?? [];
-
-//         // if super_admin, allow everything (optional)
-//         if (isset($_SESSION['role_id']) && $_SESSION['role_id'] == 1) {
-//             return; // super admin bypass
-//         }
-
-//         if (!in_array($permission, $perms)) {
-//             http_response_code(403);
-//             echo "403 - Unauthorized: You don't have access to this page.";
-//             exit;
-//         }
-//     }
-// }
-

@@ -1,9 +1,5 @@
 
-<?php require __DIR__ . '../partial/head.php'; ?>
-<?php require __DIR__ . '../partial/nav.php'; ?>
-<?php require __DIR__ . '../partial/sidebar.php'; ?>
-
-<div class="main-content">
+<div class="main-content d-flex flex-column min-vh-100">
     <div class="container py-5">
         <main>
             <div class="mx-auto max-w-4xl py-7 px-7">
@@ -31,7 +27,7 @@
                     </div>
    
     <!-- Hotel Select -->
-    <!-- ✅ Include jQuery -->
+    
 <div class="mb-4 position-relative">
   <label for="hotelSearch" class="form-label fw-semibold">Select Hotel</label>
   <input type="text" class="form-control" id="hotelSearch" placeholder="Search or Select Hotel..." autocomplete="off">
@@ -64,7 +60,8 @@
             </div>
         </main>
     </div>
-</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
 $(function(){
@@ -107,5 +104,5 @@ $(function(){
 });
 </script>
 
-<?php require __DIR__ . '../partial/footer.php'; ?>
+
 

@@ -14,6 +14,7 @@ class DiscountController
         $config = require BASE_PATH . 'config.php';
         $db = new Database($config['database']);
         $this->discount = new Discount($db);
+   
         
     }
 
@@ -21,21 +22,25 @@ class DiscountController
     public function index()
     {
         $discounts = $this->discount->getAll();
-        return view('dashboard/discount.view.php', [
+      $content = view('dashboard/Discount/discount.view.php', [
             'discounts' => $discounts
         ]);
+         return view('Layouts/dashboard.layout.php', ['content' => $content]);
     }
 
 
     public function create()
     {
-        return view('dashboard/createDiscount.view.php');
+        
+       $content = view('dashboard/Discount/createDiscount.view.php');
+         return view('Layouts/dashboard.layout.php', ['content' => $content]);
     }
 
   
     public function store()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
             $data = [
                 'discount_type' => $_POST['discount_type'] ?? '',
                 'discount_name' => $_POST['discount_name'] ?? '',
@@ -63,9 +68,10 @@ class DiscountController
             abort(404);
         }
 
-        return view('dashboard/editDiscount.view.php', [
+       $content = view('dashboard/Discount/editDiscount.view.php', [
             'discount' => $discount
         ]);
+         return view('Layouts/dashboard.layout.php', ['content' => $content]);
     }
 
   
@@ -84,7 +90,7 @@ class DiscountController
                 'value'         => $_POST['value'] ?? 0,
                 'start_date'    => $_POST['start_date'] ?? '',
                 'end_date'      => $_POST['end_date'] ?? '',
-                'status'        => $_POST['status'] ?? 'inactive'
+                'status'        => $_POST['status'] ?? ''
             ];
 
             $this->discount->update($id, $data);
@@ -105,42 +111,3 @@ class DiscountController
     }
 }
 
-// class DiscountController
-// {
-//     protected $discount;
-// protected $discountModel;
-//     public function __construct()
-//     {
-//       //  $this->discount = new Discount(new Database()); 
-//         $config = require BASE_PATH . 'config.php';
-//         $db = new Database($config);
-//         $this->discount = new Discount($db);
-//         $this->discountModel = new Discount($db);
-//     }
-
-//     public function index()
-//     {
-//         $discounts = $this->discount->getAll();
-      
-// return view('dashboard/discount.view.php', [
-//             'discounts' => $discounts 
-//         ]);
-       
-//     }
-//       public function delete()
-//     {
-     
-
-//         if (!isset($_POST['id'])) {
-//             header('Location: ' . BASE_URL . '/discount');
-//             exit;
-//         }
-
-//         $id = (int)$_POST['id'];
-//         $this->discountModel->softDelete($id);
-
-//         header('Location: ' . BASE_URL . '/discount');
-//         exit;
-//     }
-
-// }

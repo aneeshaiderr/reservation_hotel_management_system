@@ -1,8 +1,4 @@
-<?php  
-require __DIR__ . '../partial/head.php';
-require __DIR__ . '../partial/nav.php';
-require __DIR__ . '../partial/sidebar.php';
-?>
+
 
 <div class="main-content">
     <div class="container py-5">
@@ -73,5 +69,5 @@ require __DIR__ . '../partial/sidebar.php';
     </div>
 </div>
 
-<?php require __DIR__ . '/partial/footer.php'; ?>
+
 

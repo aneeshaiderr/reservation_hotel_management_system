@@ -1,10 +1,6 @@
-<?php
-require __DIR__ . '../partial/head.php';
-require __DIR__ . '../partial/nav.php';
-require __DIR__ . '../partial/sidebar.php';
-?>
 
-<div class="main-content">
+
+<div class="main-content d-flex flex-column min-vh-100">
     <div class="container py-5">
 
     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -52,18 +48,26 @@ require __DIR__ . '../partial/sidebar.php';
       <td><?= htmlspecialchars($res['check_in']) ?></td>
       <td><?= htmlspecialchars($res['check_out']) ?></td>
       <td><?= htmlspecialchars($res['status']) ?></td>
-      <td class="d-flex gap-2">
-   <?php if($roleId == 1 || $roleId == 2 || ($roleId == 4 )): ?>
-        <a href="<?= BASE_URL ?>/reservation/editReservation?id=<?= $res['id'] ?>"  class="btn btn-primary btn-sm">View</a>
-      
-       <form action="<?= BASE_URL ?>/reservation/delete" method="POST"
-      onsubmit="return confirm('Are you sure you want to delete this reservation?');">
-    <input type="hidden" name="hotel_code" value="<?= $res['hotel_code'] ?>">
-    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-</form>
-        <?php endif; ?>
-      </td>
-    </tr>
+      <td>
+  <div class="d-flex align-items-center gap-2">
+    <a href="<?= BASE_URL ?>/reservation/editReservation?id=<?= $res['id'] ?>" 
+       class="btn btn-sm btn-primary py-1 px-3">
+       View
+    </a>
+
+    <form action="<?= BASE_URL ?>/reservation/delete" 
+          method="POST" 
+          onsubmit="return confirm('Are you sure you want to delete this reservation?');" 
+          class="m-0">
+      <input type="hidden" name="hotel_code" value="<?= $res['hotel_code'] ?>">
+      <button type="submit" 
+              class="btn btn-sm btn-danger py-1 px-3">
+              Delete
+      </button>
+    </form>
+  </div>
+</td>
+
   <?php endforeach; ?>
 <?php else: ?>
   <tr>
@@ -71,13 +75,8 @@ require __DIR__ . '../partial/sidebar.php';
   </tr>
 <?php endif; ?>
 </tbody>
+
         </table>
       </div>
-    </div>
-  </div>
-
-
-<?php
-require __DIR__ . '../partial/footer.php';
-?>
+ </div>
  </div>

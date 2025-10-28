@@ -1,21 +1,16 @@
 
-<?php
-require __DIR__ . '../partial/head.php';
-require __DIR__ . '../partial/nav.php';
-require __DIR__ . '../partial/sidebar.php';
-?>
 <!-- Main Wrapper -->
 <div class="main-content d-flex flex-column min-vh-100">
 
    <!-- User Heading  -->
-  <div class="container">
-    <h5 class="ps-2">
+  <div class="container py-5">
+    <h5 class="ps-2 ">
       User
       <a href="https://adminkit.io/pricing/" target="_blank" class="pro-badge ms-2">
         Pro Component <i class="bi bi-box-arrow-up-right ms-1"></i>
       </a>
     </h5>
-  </div>
+
  
   <!-- Row: DataTable + Profile -->
   <div class="container-fluid">
@@ -153,8 +148,9 @@ require __DIR__ . '../partial/sidebar.php';
           </div>
         </div>
       </div>
- 
-  <?php require_once __DIR__ . '../partial/footer.php'; ?>
+ </div>
+ </div>
+  
 </div>
 
 <!-- Hidden Delete Form -->

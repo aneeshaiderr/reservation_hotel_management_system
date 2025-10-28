@@ -5,8 +5,7 @@ namespace App\Controllers\DashboardController;
 
 use App\Core\Database;
 use App\Models\Hotel;
-// use App\Models\HotelCreate;
-// use App\Models\HotelDetail;
+
 
 class HotelController
 {
@@ -16,34 +15,36 @@ class HotelController
 
     public function __construct()
     {
-        // Load configuration
+       
         $config = require BASE_PATH . 'config.php';
         $db = new Database($config['database']);
 
         // Initialize models
         $this->hotelModel = new Hotel($db);
-        // $this->hotelCreateModel = new HotelCreate($db);
-        // $this->hotelDetailModel = new HotelDetail($db);
+       
     }
 
-    // ✅ Show all hotels
+    //  Show all hotels
     public function index()
     {
+  
         $hotels = $this->hotelModel->getAllHotels();
-        return view('dashboard/hotel.view.php', ['hotels' => $hotels]);
+         $content = view('dashboard/Hotel/hotel.view.php', ['hotels' => $hotels]);
+          return view('Layouts/dashboard.layout.php', ['content' => $content]);
     }
 
-    // ✅ Show create hotel form + hotel list
+    //  Show create hotel 
     public function create()
     {
-        // $hotels = $this->hotelCreateModel->getAll();
         $hotels = $this->hotelModel->getAll();
-        return view('dashboard/hotelCreate.view.php', ['hotels' => $hotels]);
+      $content = view('dashboard/Hotel/hotelCreate.view.php', ['hotels' => $hotels]);
+        return view('Layouts/dashboard.layout.php', ['content' => $content]);
     }
 
-    // ✅ Store new hotel
+    //  Store new hotel
     public function store()
     {
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = [
                 'hotel_name' => $_POST['hotel_name'] ?? '',
@@ -58,7 +59,7 @@ class HotelController
         }
     }
 
-    // ✅ Show hotel detail for edit
+    // Show hotel detail for edit
     public function show($id = null)
     {
         if (!$id && isset($_GET['id'])) {
@@ -71,12 +72,13 @@ class HotelController
             abort(404);
         }
 
-        return view('dashboard/hotelDetail.view.php', [
+       $content = view('dashboard/Hotel/hotelDetail.view.php', [
             'hotel' => $hotel
         ]);
+         return view('Layouts/dashboard.layout.php', ['content' => $content]);
     }
 
-    // ✅ Update existing hotel
+    // Update existing hotel
     public function update()
     {
         $id = $_POST['id'];
@@ -85,7 +87,7 @@ class HotelController
         exit;
     }
 
-    // ✅ Soft delete hotel
+    // Soft delete hotel
     public function delete()
     {
         session_start();
@@ -102,55 +104,3 @@ class HotelController
         exit;
     }
 }
-
-// namespace App\Controllers\DashboardController;
-// use App\Core\Database;
-// use App\Models\Hotel;
-
-
-// class HotelController
-// {
-//     protected $hotelModel;
-
-//     public function __construct()
-//     {
-//         //  Load config
-//         $config = require BASE_PATH . 'config.php';
-
-//         //  Create DB instance
-//         $db = new Database($config['database']);
-
-//         //  Inject DB into Hotel model
-//         $this->hotelModel = new Hotel($db);
-//     }
-
-//     //  Show all hotels
-//     public function index()
-//     {
-//         $hotels = $this->hotelModel->getAllHotels();
-//         return view('dashboard/hotel.view.php', ['hotels' => $hotels]);
-//     }
-
-  
-//     //  Soft delete hotel
-//    public function delete()
-// {
-//     session_start();
-
-//     if (!isset($_POST['id'])) {
-//         header('Location: ' . BASE_URL . '/hotel');
-//         exit;
-//     }
-
-//     $id = (int)$_POST['id'];
-
-//     // Soft delete hotel (set deleted_at timestamp)
-//     $this->hotelModel->softDelete($id);
-
-//     // Redirect back
-//     header('Location: ' . BASE_URL . '/hotel');
-//     exit;
-// }
-// }
-
-  

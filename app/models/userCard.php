@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Core\Database;
 
-class UserReservation
+class UserCard
 {
     protected $db;
 
@@ -35,7 +35,6 @@ class UserReservation
                 WHERE r.user_id = :user_id
                 ORDER BY r.check_in ";  
 
-        // ab query run karo aur result return karo
         return $this->db->query($sql, ['user_id' => $userId])->fetch();
     }
 }

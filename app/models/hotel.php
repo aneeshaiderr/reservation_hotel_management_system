@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Core\Database;
-// use App\Middleware\AuthMiddleware;
+
 class Hotel
 {
     protected $db;
@@ -11,21 +11,16 @@ class Hotel
     public function __construct(Database $db)
     {
         $this->db = $db;
-        // $auth = new AuthMiddleware();
-        // $auth->checkAccess();
+        
     }
 
-    // -------------------------------
-    // Functions from Hotel
-    // -------------------------------
-
-    // Get all hotels
+   
     public function getAllHotels()
     {
         return $this->db->fetchAll("SELECT * FROM hotels WHERE deleted_at IS NULL OR deleted_at = ''");
     }
 
-    // Soft delete (optional)
+    // Soft delete 
     public function softDelete($id)
     {
         return $this->db->query(
@@ -46,9 +41,7 @@ class Hotel
         );
     }
 
-    // -------------------------------
-    // Functions from HotelCreate
-    // -------------------------------
+
 public function getAll()
     {
         return $this->db->fetchAll("
@@ -63,21 +56,7 @@ public function getAll()
         ");
     }
 
-    // Fetch all hotels
-    // public function getAll()
-    // {
-    //     return $this->db->fetchAll("
-    //         SELECT 
-    //             id,
-    //             hotel_name,
-    //             address,
-    //             contact_no
-    //         FROM hotels
-    //         WHERE deleted_at IS NULL
-    //         ORDER BY id DESC
-    //     ");
-    // }
-
+    
     // Create a new hotel
     public function create($data)
     {
@@ -99,9 +78,6 @@ public function getAll()
         ", [$id]);
     }
 
-    // -------------------------------
-    // Functions from HotelDetail
-    // -------------------------------
 
     public function find($id)
     {
@@ -134,50 +110,3 @@ public function getAll()
     }
 }
 
-
-// namespace App\Models;
-
-// use App\Core\Database;
-// use App\Middleware\AuthMiddleware;
-
-
-// class Hotel
-// {
-//     protected $db;
-
-//     public function __construct(Database $db)
-//     {
-//         $this->db = $db;
-// //         $auth = new AuthMiddleware();
-// // $auth->checkAccess();
-//     }
-
-//     //  Get all hotels
-//     public function getAllHotels()
-//     {
-//         return $this->db->fetchAll("SELECT * FROM hotels WHERE deleted_at IS NULL OR deleted_at = ''");
-//     }
-
-//     // Soft delete (optional)
-//     public function softDelete($id)
-//     {
-//         return $this->db->query(
-//             "UPDATE hotels SET deleted_at = NOW() WHERE id = ?",
-//             [$id]
-//         );
-//     }
-
-
-//  public function getHotelById($id)
-//     {
-//         if (!$id) {
-//             return null;
-//         }
-
-//         // Query run karo
-//         $stmt = $this->db->query(
-//             "SELECT * FROM hotels WHERE id = ? AND deleted_at IS NULL ",
-//             [$id]
-//         );
-//       }
-// }

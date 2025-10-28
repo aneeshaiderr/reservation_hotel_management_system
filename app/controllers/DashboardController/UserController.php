@@ -1,26 +1,27 @@
 <?php
 
 
+
 namespace App\Controllers\DashboardController;
 
+use App\Models\UserCard;
 use App\Models\User;
-use App\Models\UserReservation;
 use App\Core\Database;
 
 class UserController
 {
-   protected $user;
+    protected $user;
     protected $userModel;
-    protected $reservationModel;
+    protected $userReservationModel;
 
     public function __construct()
     {
         $config = require BASE_PATH . 'config.php';
         $db = new Database($config['database']);
-         $this->user = new User($db); 
+
+        $this->user = new User($db);
         $this->userModel = new User($db);
-        $this->reservationModel = new UserReservation($config);
-   
+        $this->userReservationModel = new UserCard($config);
     }
 
     public function index()
@@ -29,7 +30,6 @@ class UserController
             session_start();
         }
 
-        // Check if user is logged in
         if (!isset($_SESSION['user_id'])) {
             redirect(url('/login'));
             exit;
@@ -37,51 +37,80 @@ class UserController
 
         $roleId = $_SESSION['role_id'] ?? null;
         $userId = $_SESSION['user_id'] ?? null;
-        
-        // Super Admin Dashboard
+
         if ($roleId == 1) {
             $users = $this->userModel->getAllUsers();
-
-            return view('dashboard/superAdmin.view.php', [
-                'users' => $users
-            ]);
-        } 
-        //  Staff Dashboard (redirect to reservation dashboard)
-  elseif ($roleId == 2) {
-   $users = $this->userModel->getAllUsers();
-   return view('dashboard/staff.view.php', [
-        'users' => $users
-   ]);
-}
-        //  All other users (Normal, Guest, etc.)
-        else {
-            
+            $content = view('dashboard/index.view.php', ['users' => $users]);
+        } elseif ($roleId == 2) {
+            $users = $this->userModel->getAllUsers();
+            $content = view('dashboard/staff.view.php', ['users' => $users]);
+        } else {
             $user = $this->userModel->findUserById($userId);
-            $currentReservation = $this->reservationModel->getCurrentReservation($_SESSION['user_id']);
- 
-            return view('dashboard/user.view.php', [
+            $currentReservation = $this->userReservationModel->getCurrentReservation($userId);
+            $content = view('dashboard/user.view.php', [
                 'user' => $user,
-                
                 'currentReservation' => $currentReservation ?? null
             ]);
         }
-        
+
+        return view('Layouts/dashboard.layout.php', ['content' => $content]);
     }
 
-
- public function softDelete()
+    /*  Using Model for query now */
+    public function userAllDetails()
     {
-        if (!isset($_POST['id']) || empty($_POST['id'])) {
-            die("User ID missing!");
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
         }
 
-        $id = (int) $_POST['id'];
-        $this->userModel->softDelete($id);
+        if (!isset($_SESSION['user_id'])) {
+            redirect(url('/login'));
+            exit;
+        }
 
-        header("Location: " . BASE_URL . "/user");
+        $userId = $_GET['id'] ?? $_SESSION['user_id'];
+        $allReservations = $this->user->getAllReservationsByUser($userId) ?? [];
+        $currentReservation = $this->userReservationModel->getCurrentReservation($userId);
+
+        if ($currentReservation) {
+            $reservations = array_filter($allReservations, fn($r) => $r['id'] !== $currentReservation['id']);
+            array_unshift($reservations, $currentReservation);
+        } else {
+            $reservations = $allReservations;
+        }
+
+        $content = view('dashboard/userAllDetails.view.php', [
+            'reservations' => $reservations
+        ]);
+
+        return view('Layouts/dashboard.layout.php', ['content' => $content]);
+    }
+
+    public function userAllDetailsShow($id = null)
+    {
+        if (!$id && isset($_GET['id'])) {
+            $id = $_GET['id'];
+        }
+
+        $user = $this->user->find($id);
+
+        if (!$user || $user === false) {
+            abort(404);
+        }
+
+        $content = view('dashboard/userdetail.view.php', ['user' => $user]);
+        return view('Layouts/dashboard.layout.php', ['content' => $content]);
+    }
+
+    public function userAllDetailsUpdate()
+    {
+        $id = $_POST['id'];
+        $this->user->update($id, $_POST);
+        redirect(url('/user'));
         exit;
     }
- public function createUser()
+
+    public function createUser()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $firstName = $_POST['first_name'] ?? '';
@@ -89,37 +118,26 @@ class UserController
             $email     = $_POST['user_email'] ?? '';
             $contact   = $_POST['contact_no'] ?? '';
             $password  = $_POST['password'] ?? '';
-            // $role=$_POST['role_id'];
-
-            // Password hash for security
             $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-            // Database connection
-            $config = require base_path('config.php');
-            $db = new Database($config['database']);
-            
-            $db->query(
-                "INSERT INTO users (first_name, last_name, user_email, contact_no, password, role_id) 
-                 VALUES (:first_name, :last_name, :user_email, :contact_no, :password ,:role_id)",
-                [
-                    ':first_name' => $firstName,
-                    ':last_name'  => $lastName,
-                    ':user_email'      => $email,
-                    ':contact_no'    => $contact,
-                    ':password'   => $hashedPassword,
-                    ':role_id'    => 4
-                ]    
-            );
+            $this->userModel->create([
+                'first_name' => $firstName,
+                'last_name'  => $lastName,
+                'user_email' => $email,
+                'contact_no' => $contact,
+                'address'    => '',
+                'status'     => 1,
+                'role_id'    => 4
+            ]);
 
-            // Redirect after successful signup
-          
-           header("Location: " . BASE_URL . "/user");
+            header("Location: " . BASE_URL . "/user");
             exit;
         }
 
-        // Agar GET request hai to form dikhado
-        view('dashboard/create.view.php');
+        $content = view('dashboard/create.view.php');
+        return view('Layouts/dashboard.layout.php', ['content' => $content]);
     }
+
     public function show()
     {
         if (session_status() === PHP_SESSION_NONE) {
@@ -142,12 +160,10 @@ class UserController
             exit;
         }
 
-        return view('dashboard/details.view.php', [
-            'user' => $user
-        ]);
+        $content = view('dashboard/details.view.php', ['user' => $user]);
+        return view('Layouts/dashboard.layout.php', ['content' => $content]);
     }
 
-    // Update user details
     public function update()
     {
         if (session_status() === PHP_SESSION_NONE) {
@@ -172,7 +188,17 @@ class UserController
         redirect(url('/user'));
         exit;
     }
+
+    public function softDelete()
+    {
+        if (!isset($_POST['id']) || empty($_POST['id'])) {
+            die("User ID missing!");
+        }
+
+        $id = (int) $_POST['id'];
+        $this->userModel->softDelete($id);
+
+        header("Location: " . BASE_URL . "/user");
+        exit;
+    }
 }
-
-
-
