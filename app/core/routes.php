@@ -15,7 +15,7 @@ use App\Controllers\DashboardController\ReservationController;
 use App\Controllers\DashboardController\DiscountController;
 use App\Controllers\DashboardController\ServicesController;
 use App\Controllers\DashboardController\AnalyticsController;
-
+use App\Controllers\DashboardController\UserCardController;
 use App\Controllers\Auth\StaffLoginController;
 use App\Controllers\Auth\StaffSignupController;
 
@@ -46,11 +46,14 @@ $router->group(['middleware' => ['authMiddleware']], function ($router) {
     // Common for all logged-in users (user, staff, super_admin)
     $router->get('/user', [UserController::class, 'index']);
        $router->get('/user/CreateUser', [UserController::class, 'CreateUser']);
+        $router->post('/user', [UserController::class, 'softDelete']);
        $router->post('/user/store', [UserController::class, 'CreateUser']);
     $router->get('/userAllDetails', [UserController::class, 'userAllDetails']);
     $router->get('/userdetails', [UserController::class, 'show']);
     $router->get('/details', [UserController::class, 'show']);
     $router->post('/details', [UserController::class, 'update']);
+    $router->post('/user/delete', [UserCardController::class,'delete']);
+
 
     //  Reservations 
     $router->get('/reservation', [ReservationController::class, 'index']);

@@ -5,14 +5,9 @@ use App\Core\Database;
 
 
 
-class Rooms
+class Rooms extends BaseModel
 {
-    protected $db;
-
-    public function __construct(Database $db)
-    {
-        $this->db = $db;
-    }
+   
 
     //  All  rooms
     public function getAllRooms()

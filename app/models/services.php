@@ -5,15 +5,9 @@ namespace App\Models;
 use App\Core\Database;
 use App\Middleware\AuthMiddleware;
 
-class Services
+class Services extends BaseModel
 {
-    protected $db;
-
-    public function __construct(Database $db)
-    {
-        $this->db = $db;
-      
-    }
+    
 
 
     public function getAll()

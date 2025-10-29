@@ -5,15 +5,14 @@ namespace App\Controllers\DashboardController;
 use App\Core\Database;
 use App\Models\Rooms;
 
-class RoomsController
+class RoomsController extends BaseController
 {
     protected $db;
     protected $roomModel;
 
     public function __construct()
     {
-        $config = require BASE_PATH . 'config.php';
-        $this->db = new Database($config['database']);
+        
         $this->roomModel = new Rooms($this->db);
     }
 
@@ -21,8 +20,8 @@ class RoomsController
     {
           
         $rooms = $this->roomModel->getAllRooms();
-         $content = view('dashboard/Rooms/rooms.view.php', ['rooms' => $rooms]);
-                return view('Layouts/dashboard.layout.php', ['content' => $content]);
+        $this-> view('dashboard/Rooms/rooms.view.php', ['rooms' => $rooms]);
+                return view('Layouts/dashboard.layout.php');
     }
 
     public function delete()
@@ -54,10 +53,10 @@ class RoomsController
             abort(404);
         }
 
-       $content = view('dashboard/Rooms/roomDetail.view.php', [
+      $this-> view('dashboard/Rooms/roomDetail.view.php', [
             'room' => $room
         ]);
-         return view('Layouts/dashboard.layout.php', ['content' => $content]);
+         return view('Layouts/dashboard.layout.php');
     }
 
     public function update()
@@ -76,11 +75,12 @@ class RoomsController
 
           $hotels = $this->roomModel->getAllHotels();
         // Show create room form
-         $content = view('dashboard/Rooms/roomCreate.view.php', [
+         $this-> view('dashboard/Rooms/roomCreate.view.php', [
             'hotels' => $hotels
         ]);
-         return view('Layouts/dashboard.layout.php', ['content' => $content]);
+         return view('Layouts/dashboard.layout.php');
     }
+
 
     public function store()
     {

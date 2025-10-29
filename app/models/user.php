@@ -6,15 +6,9 @@ namespace App\Models;
 use App\Core\Database;
 
 
-class User
+class User extends BaseModel
 {
-    protected $db;
-
-    public function __construct()
-    {
-        $config = require BASE_PATH . 'config.php';
-        $this->db = new Database($config['database']);
-    }
+   
 
 
 

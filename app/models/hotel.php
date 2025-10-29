@@ -4,15 +4,9 @@ namespace App\Models;
 
 use App\Core\Database;
 
-class Hotel
+class Hotel extends BaseModel
 {
-    protected $db;
-
-    public function __construct(Database $db)
-    {
-        $this->db = $db;
-        
-    }
+  
 
    
     public function getAllHotels()

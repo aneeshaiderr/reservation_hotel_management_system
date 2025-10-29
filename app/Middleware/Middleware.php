@@ -24,11 +24,11 @@ class Middleware
     }
 
     /**
-     * Check if user has a specific permission (direct or via role)
+     * Check if user has a specific permission 
      */
     public function can($userId, $permissionName)
     {
-        // 1. Find permission by name
+        
         $stmt = $this->pdo->prepare("SELECT id FROM permissions WHERE name = ?");
         $stmt->execute([$permissionName]);
         $permission = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -49,7 +49,7 @@ class Middleware
             return true;
         }
 
-        // 3. Check role-based permission
+        //  Check role-based permission
         $stmt = $this->pdo->prepare("
             SELECT 1 
             FROM roles r

@@ -6,20 +6,10 @@ use App\Core\Database;
 
 
 
-class Reservation
+class Reservation extends BaseModel
 {
-    protected $db;
 
-  
 
-   public function __construct(Database $db)
-    {
-        $this->db = $db;
-    }
-//   public function __construct(Database $db ,$config)
-//     {
-//         $this->db = new Database($config['database']);
-//     }
     public function getAllReservations($userId = null, $roleId = null)
     {
         $query = "
@@ -43,7 +33,7 @@ class Reservation
 
         $params = [];
 
-        // Restrict for normal users (role_id = 4)
+  
         if ((int)$roleId === 4 && $userId !== null) {
             $query .= " AND r.user_id = ?";
             $params[] = (int)$userId;
@@ -114,9 +104,7 @@ public function deleteByHotelCode($hotelCode)
         ", [$id]);
     }
 
-    // ===============================
-    // Merged EditReservation Methods
-    // ===============================
+   
 
     public function find($id)
     {

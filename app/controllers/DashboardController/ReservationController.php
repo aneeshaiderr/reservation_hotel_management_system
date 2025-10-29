@@ -9,27 +9,26 @@ use App\Models\Hotel;
 use App\Models\Rooms;
 use App\Models\Discount;
 use App\Middleware\AuthMiddleware;
-
+use App\Middleware\ExceptionHandler;
 use App\Middleware\Permission;
 
-class ReservationController
+class ReservationController extends BaseController
 {
     protected $reservationModel;
     protected $userModel;
     protected $room;
     protected $discount;
     protected $hotelModel;
-protected $db;
+       protected $db;
     protected $permission;
     public function __construct()
     {
-        $config = require BASE_PATH . 'config.php';
-        $db = new Database($config['database']);
-        $this->reservationModel = new Reservation($db);
+    
+        $this->reservationModel = new Reservation($this->db);
         $this->userModel = new User();
-        $this->hotelModel = new Hotel($db);
-        $this->room = new Rooms($db);
-        $this->discount = new Discount($db);
+        $this->hotelModel = new Hotel($this->db);
+        $this->room = new Rooms($this->db);
+        $this->discount = new Discount($this->db);
 
        
     }
@@ -47,10 +46,10 @@ protected $db;
 
         $reservations = $this->reservationModel->getAllReservations($userId, $roleId);
 
-       $content = view('dashboard/Reservation/reservation.view.php', [
+     $this-> view('dashboard/Reservation/reservation.view.php', [
             'reservations' => $reservations
         ]);
-         return view('Layouts/dashboard.layout.php', ['content' => $content]);
+         return view('Layouts/dashboard.layout.php');
     }
 
     // Show create reservation form
@@ -61,13 +60,13 @@ protected $db;
         $rooms = $this->room->getAllRooms();
         $discounts = $this->discount->getAll();
 
-       $content = view('dashboard/Reservation/reservationCreate.view.php', [
+       $this->view('dashboard/Reservation/reservationCreate.view.php', [
             'users' => $users,
             'hotels' => $hotels,
             'rooms' => $rooms,
             'discounts' => $discounts
         ]);
-         return view('Layouts/dashboard.layout.php', ['content' => $content]);
+         return view('Layouts/dashboard.layout.php');
         
     }
     public function store()
@@ -96,11 +95,15 @@ protected $db;
             'check_out'   => $_POST['check_out'] ?? null,
             'status'      => $_POST['status'] ?? 'pending'
         ];
-
-        $this->reservationModel->create($data);
-
-        header('Location: ' . BASE_URL . '/reservation');
-        exit;
+try {
+          $this->reservationModel->create($data);
+            $_SESSION['success'] = "Reservation created successfully!";
+            redirect(url('/reservation'));
+        } catch (\PDOException $e) {
+            
+            ExceptionHandler::handle($e, $_SERVER['HTTP_REFERER']);
+        }
+     
     }
 }
 
@@ -121,10 +124,10 @@ protected $db;
         $id = (int)$_GET['id'];
         $reservation = $this->reservationModel->getReservationById($id);
 
-       $content = view('dashboard/Reservation/reservationDetail.view.php', [
+       $this-> view('dashboard/Reservation/reservationDetail.view.php', [
             'reservation' => $reservation
         ]);
-         return view('Layouts/dashboard.layout.php', ['content' => $content]);
+         return view('Layouts/dashboard.layout.php');
     }
 
     // Show Edit Form 
@@ -140,18 +143,26 @@ protected $db;
         $hotels = $this->hotelModel->getAllHotels();
         $discounts = $this->discount->getAll();
 
-        $content = view('dashboard/Reservation/editReservation.view.php', [
+       $this->view('dashboard/Reservation/editReservation.view.php', [
             'reservation' => $reservation,
             'hotels' => $hotels,
             'discounts' => $discounts
         ]);
-         return view('Layouts/dashboard.layout.php', ['content' => $content]);
+         return view('Layouts/dashboard.layout.php');
     }
 
     // Update Reservation 
+   
     public function update()
     {
-     
+       if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $id = $_POST['id'] ?? null;
+
+        
+        if (!$id) {
+            redirect(url('/reservation'));
+        }
+        
         $id = $_POST['id'];
         $data = [
             'hotel_id' => $_POST['hotel_id'],
@@ -166,6 +177,6 @@ protected $db;
         header('Location: ' . BASE_URL . '/reservation');
         exit;
     }
-    
+}
 }
 

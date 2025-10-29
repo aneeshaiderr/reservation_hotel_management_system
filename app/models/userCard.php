@@ -4,15 +4,13 @@ namespace App\Models;
 
 use App\Core\Database;
 
-class UserCard
+class UserCard  extends BaseModel
 {
-    protected $db;
-
-    public function __construct($config)
-    {
-        $this->db = new Database($config['database']);
-    }
-
+   
+    public function delete($id)
+{
+    $this->db->query("DELETE FROM reservations WHERE id = :id", ['id' => $id]);
+}
     public function getCurrentReservation($userId)
     {
         $sql = "SELECT 

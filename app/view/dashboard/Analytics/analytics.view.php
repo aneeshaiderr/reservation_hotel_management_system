@@ -1,10 +1,6 @@
-<?php
-require __DIR__ . '../partial/head.php';
-require __DIR__ . '../partial/nav.php';
-require __DIR__ . '../partial/sidebar.php';
-?>
 
-<div class="main-content">
+
+<div class="main-content mt-4">
   <div class="container">
   
   <!-- Stats Cards + Recent Movement -->

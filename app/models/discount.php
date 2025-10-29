@@ -4,14 +4,9 @@ namespace App\Models;
 
 use App\Core\Database;
 
-class Discount
+class Discount extends BaseModel
 {
-    protected $db;
-
-    public function __construct(Database $db)
-    {
-        $this->db = $db;
-    }
+   
 
    
     public function getAll()

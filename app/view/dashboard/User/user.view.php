@@ -49,6 +49,7 @@
                   <a href="<?= BASE_URL ?>/userAllDetails?id=<?= $user['id'] ?>" class="btn btn-sm btn-primary">View All</a>
                   <a href="<?= BASE_URL ?>/userdetails?id=<?= $user['id'] ?>" class="btn btn-sm btn-primary">View</a>
                   <a href="<?= url('/user') ?>" class="btn btn-sm btn-danger">Cancel</a>
+                  
                 </div>
             <?php
               } else {
@@ -64,4 +65,3 @@
 
     </div>
   </div>
-

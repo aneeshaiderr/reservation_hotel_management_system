@@ -6,18 +6,14 @@ namespace App\Controllers\DashboardController;
 use App\Core\Database;
 use App\Models\Services;
 
-class ServicesController
+class ServicesController extends BaseController
 {
     protected $db;
     protected $servicesModel;
 
     public function __construct()
     {
-        // Database connection
-        $config = require BASE_PATH . 'config.php';
-        $this->db = new Database($config['database']);
-
-        // Single merged model
+        
         $this->servicesModel = new Services($this->db);
     }
 
@@ -26,10 +22,10 @@ class ServicesController
     {
         $services = $this->servicesModel->getAll();
 
-      $content = view('dashboard/Services/services.view.php', [
+      $this-> view('dashboard/Services/services.view.php', [
             'services' => $services
         ]);
-            return view('Layouts/dashboard.layout.php', ['content' => $content]);
+            return view('Layouts/dashboard.layout.php');
     
     }
 
@@ -56,10 +52,10 @@ class ServicesController
             WHERE deleted_at IS NULL
         ");
 
-       $content = view('dashboard/Services/createService.view.php', [
+      $this-> view('dashboard/Services/createService.view.php', [
             'services' => $services
         ]);
-         return view('Layouts/dashboard.layout.php', ['content' => $content]);
+         return view('Layouts/dashboard.layout.php');
     }
 
 
@@ -94,17 +90,25 @@ class ServicesController
             redirect(url('/services'));
         }
 
-       $content = view('dashboard/Services/editService.view.php', [
+      $this->view('dashboard/Services/editService.view.php', [
             'service' => $service
         ]);
-         return view('Layouts/dashboard.layout.php', ['content' => $content]);
+         return view('Layouts/dashboard.layout.php');
     }
 
     public function update()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $id = $_POST['id'];
+       
+ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $id           = $_POST['id'] ?? null;
+        $service_name = $_POST['service_name'] ?? '';
+        $price        = $_POST['price'] ?? '';
+        $status       = $_POST['status'] ?? '';
 
+        
+        if (!$id || !$service_name || !$price) {
+            redirect(url('/services'));
+        }
             $data = [
                 'service_name' => $_POST['service_name'],
                 'price'        => $_POST['price'],

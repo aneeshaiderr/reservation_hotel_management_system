@@ -17,7 +17,7 @@ class SignupController
             $email     = $_POST['user_email'] ?? '';
             $contact   = $_POST['contact_no'] ?? '';
             $password  = $_POST['password'] ?? '';
-            // $role=$_POST['role_id'];
+            
 
             // Password hash for security
             $hashedPassword = password_hash($password, PASSWORD_BCRYPT);

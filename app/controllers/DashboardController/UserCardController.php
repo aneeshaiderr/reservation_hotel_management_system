@@ -3,26 +3,24 @@ namespace App\Controllers\DashboardController;
 
 use App\Models\User;
 use App\Models\UserCard;
-use App\Core\Database;
 
-class UserCardController
+
+class UserCardController extends BaseController
 {
     protected $userModel;
     protected $reservationModel;
 
     public function __construct()
     {
-        $config = require BASE_PATH . 'config.php';
-        $db = new Database($config['database']);
 
-        // $this->userModel = new User($db);
-        $this->reservationModel = new UserCard($config);
-        //  
+        $this->userModel = new UserCard($this->db);
+        $this->reservationModel = new UserCard();
+        
     }
 
     public function index()
     {
-        // session_start();
+       
 
         if (!isset($_SESSION['user_id'])) {
             redirect(url('/login'));
@@ -37,10 +35,11 @@ class UserCardController
 
         $currentReservation = $this->reservationModel->getCurrentReservation($userId);
 
-        return view('dashboard/user.view.php', [
+       $this->view('dashboard/User/user.view.php', [
            
             'currentReservation' => $currentReservation ?? null
         ]);
     }
+    
 }
 }

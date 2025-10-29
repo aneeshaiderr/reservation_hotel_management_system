@@ -5,9 +5,9 @@ namespace App\Controllers\DashboardController;
 
 use App\Core\Database;
 use App\Models\Hotel;
+use App\Middleware\ExceptionHandler;
 
-
-class HotelController
+class HotelController extends BaseController
 {
     protected $hotelModel;
     protected $hotelCreateModel;
@@ -16,11 +16,10 @@ class HotelController
     public function __construct()
     {
        
-        $config = require BASE_PATH . 'config.php';
-        $db = new Database($config['database']);
+      
 
         // Initialize models
-        $this->hotelModel = new Hotel($db);
+        $this->hotelModel = new Hotel($this->db);
        
     }
 
@@ -29,34 +28,45 @@ class HotelController
     {
   
         $hotels = $this->hotelModel->getAllHotels();
-         $content = view('dashboard/Hotel/hotel.view.php', ['hotels' => $hotels]);
-          return view('Layouts/dashboard.layout.php', ['content' => $content]);
+         $this-> view('dashboard/Hotel/hotel.view.php', ['hotels' => $hotels]);
+          return view('Layouts/dashboard.layout.php');
     }
 
     //  Show create hotel 
     public function create()
     {
         $hotels = $this->hotelModel->getAll();
-      $content = view('dashboard/Hotel/hotelCreate.view.php', ['hotels' => $hotels]);
-        return view('Layouts/dashboard.layout.php', ['content' => $content]);
+      $this-> view('dashboard/Hotel/hotelCreate.view.php', ['hotels' => $hotels]);
+        return view('Layouts/dashboard.layout.php');
     }
 
     //  Store new hotel
     public function store()
     {
+ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $hotel_name = $_POST['hotel_name'] ?? '';
+        $address    = $_POST['address'] ?? '';
+        $contact_no = $_POST['contact_no'] ?? '';
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (!$hotel_name || !$address || !$contact_no) {
+          
+            redirect(url('/hotel'));
+        }
             $data = [
                 'hotel_name' => $_POST['hotel_name'] ?? '',
                 'address'    => $_POST['address'] ?? '',
                 'contact_no' => $_POST['contact_no'] ?? ''
             ];
-
+             try {
             $this->hotelModel->create($data);
-
             $_SESSION['success'] = "Hotel created successfully!";
             redirect(url('/hotel'));
+        } catch (\PDOException $e) {
+            
+            ExceptionHandler::handle($e, $_SERVER['HTTP_REFERER']);
         }
+   
+}
     }
 
     // Show hotel detail for edit
@@ -72,17 +82,27 @@ class HotelController
             abort(404);
         }
 
-       $content = view('dashboard/Hotel/hotelDetail.view.php', [
+       $this->view('dashboard/Hotel/hotelDetail.view.php', [
             'hotel' => $hotel
         ]);
-         return view('Layouts/dashboard.layout.php', ['content' => $content]);
+         return view('Layouts/dashboard.layout.php');
     }
 
     // Update existing hotel
     public function update()
     {
-        $id = $_POST['id'];
-        $this->hotelModel->update($id, $_POST);
+      
+      
+        try {
+              $id = $_POST['id'];
+           $this->hotelModel->update($id, $_POST);
+            $_SESSION['success'] = "Hotel update successfully!";
+            redirect(url('/hotel'));
+        } catch (\PDOException $e) {
+            
+            ExceptionHandler::handle($e, $_SERVER['HTTP_REFERER']);
+        }
+   
         redirect(url('/hotel'));
         exit;
     }

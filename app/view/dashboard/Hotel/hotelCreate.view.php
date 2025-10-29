@@ -1,8 +1,3 @@
-<?php
-// require __DIR__ . '../partial/head.php';
-// require __DIR__ . '../partial/nav.php';
-// require __DIR__ . '../partial/sidebar.php';
-?>
 
 <div class="main-content d-flex flex-column min-vh-100">
   <div class="container py-5">

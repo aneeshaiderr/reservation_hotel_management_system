@@ -5,15 +5,14 @@ use App\Core\Database;
 use App\Models\Discount;
 
 
-class DiscountController
+class DiscountController extends BaseController
 {
     protected $discount;
 
     public function __construct()
     {
-        $config = require BASE_PATH . 'config.php';
-        $db = new Database($config['database']);
-        $this->discount = new Discount($db);
+       
+        $this->discount = new Discount($this->db);
    
         
     }
@@ -22,24 +21,32 @@ class DiscountController
     public function index()
     {
         $discounts = $this->discount->getAll();
-      $content = view('dashboard/Discount/discount.view.php', [
+      $this->view('dashboard/Discount/discount.view.php', [
             'discounts' => $discounts
         ]);
-         return view('Layouts/dashboard.layout.php', ['content' => $content]);
+         return view('Layouts/dashboard.layout.php');
     }
 
 
     public function create()
     {
         
-       $content = view('dashboard/Discount/createDiscount.view.php');
-         return view('Layouts/dashboard.layout.php', ['content' => $content]);
+      $this->view('dashboard/Discount/createDiscount.view.php');
+         return view('Layouts/dashboard.layout.php');
     }
 
-  
     public function store()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+     
+ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+       
+        $discount_type = $_POST['discount_type'] ?? '';
+        $discount_name = $_POST['discount_name'] ?? '';
+
+        if (!$discount_type || !$discount_name) {
+            redirect(url('/discount'));
+        }
 
             $data = [
                 'discount_type' => $_POST['discount_type'] ?? '',
@@ -68,10 +75,10 @@ class DiscountController
             abort(404);
         }
 
-       $content = view('dashboard/Discount/editDiscount.view.php', [
+       $this-> view('dashboard/Discount/editDiscount.view.php', [
             'discount' => $discount
         ]);
-         return view('Layouts/dashboard.layout.php', ['content' => $content]);
+         return view('Layouts/dashboard.layout.php');
     }
 
   

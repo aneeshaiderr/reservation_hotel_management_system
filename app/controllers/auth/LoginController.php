@@ -9,6 +9,7 @@ class LoginController
     public function index()
     {
         return view("auth/login.view.php");
+   
     }
 
     public function store()

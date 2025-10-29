@@ -7,21 +7,19 @@ namespace App\Controllers\DashboardController;
 use App\Models\UserCard;
 use App\Models\User;
 use App\Core\Database;
-
-class UserController
+use App\Middleware\ExceptionHandler;
+class UserController extends BaseController 
 {
-    protected $user;
+ 
     protected $userModel;
-    protected $userReservationModel;
-
+    protected $userCard;
+protected $content;
     public function __construct()
     {
-        $config = require BASE_PATH . 'config.php';
-        $db = new Database($config['database']);
+       
 
-        $this->user = new User($db);
-        $this->userModel = new User($db);
-        $this->userReservationModel = new UserCard($config);
+        $this->userModel = new User($this->db);
+        $this->userCard = new UserCard();
     }
 
     public function index()
@@ -40,20 +38,23 @@ class UserController
 
         if ($roleId == 1) {
             $users = $this->userModel->getAllUsers();
-            $content = view('dashboard/index.view.php', ['users' => $users]);
+            $this->view('dashboard/User/index.view.php', ['users' => $users]); 
+         
         } elseif ($roleId == 2) {
             $users = $this->userModel->getAllUsers();
-            $content = view('dashboard/staff.view.php', ['users' => $users]);
+             $this->view('dashboard/Staff/staff.view.php', ['users' => $users]); 
+          
         } else {
             $user = $this->userModel->findUserById($userId);
-            $currentReservation = $this->userReservationModel->getCurrentReservation($userId);
-            $content = view('dashboard/user.view.php', [
+            $currentReservation = $this->userCard->getCurrentReservation($userId);
+           $this->view('dashboard/User/user.view.php', [
                 'user' => $user,
                 'currentReservation' => $currentReservation ?? null
             ]);
+         
         }
 
-        return view('Layouts/dashboard.layout.php', ['content' => $content]);
+        return view('Layouts/dashboard.layout.php');
     }
 
     /*  Using Model for query now */
@@ -69,8 +70,8 @@ class UserController
         }
 
         $userId = $_GET['id'] ?? $_SESSION['user_id'];
-        $allReservations = $this->user->getAllReservationsByUser($userId) ?? [];
-        $currentReservation = $this->userReservationModel->getCurrentReservation($userId);
+        $allReservations = $this->userModel->getAllReservationsByUser($userId) ?? [];
+        $currentReservation = $this->userCard->getCurrentReservation($userId);
 
         if ($currentReservation) {
             $reservations = array_filter($allReservations, fn($r) => $r['id'] !== $currentReservation['id']);
@@ -78,12 +79,12 @@ class UserController
         } else {
             $reservations = $allReservations;
         }
-
-        $content = view('dashboard/userAllDetails.view.php', [
+        $this->view('dashboard/User/userAllDetails.view.php', [
             'reservations' => $reservations
         ]);
+       
 
-        return view('Layouts/dashboard.layout.php', ['content' => $content]);
+        return view('Layouts/dashboard.layout.php');
     }
 
     public function userAllDetailsShow($id = null)
@@ -92,20 +93,20 @@ class UserController
             $id = $_GET['id'];
         }
 
-        $user = $this->user->find($id);
+        $user = $this->userModel->find($id);
 
         if (!$user || $user === false) {
             abort(404);
         }
 
-        $content = view('dashboard/userdetail.view.php', ['user' => $user]);
-        return view('Layouts/dashboard.layout.php', ['content' => $content]);
+        $this->view('dashboard/User/userdetail.view.php', ['user' => $user]);
+        return view('Layouts/dashboard.layout.php');
     }
 
     public function userAllDetailsUpdate()
     {
         $id = $_POST['id'];
-        $this->user->update($id, $_POST);
+        $this->userModel->update($id, $_POST);
         redirect(url('/user'));
         exit;
     }
@@ -120,22 +121,31 @@ class UserController
             $password  = $_POST['password'] ?? '';
             $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-            $this->userModel->create([
-                'first_name' => $firstName,
-                'last_name'  => $lastName,
-                'user_email' => $email,
-                'contact_no' => $contact,
-                'address'    => '',
-                'status'     => 1,
-                'role_id'    => 4
-            ]);
+            $data = [
+            'first_name' => $firstName,
+            'last_name'  => $lastName,
+            'user_email' => $email,
+            'contact_no' => $contact,
+            'address'    => '',
+            'password'   => $hashedPassword,
+            'status'     => 1,
+            'role_id'    => 4
+        ];
 
-            header("Location: " . BASE_URL . "/user");
-            exit;
+        try {
+            $this->userModel->create($data);
+            $_SESSION['success'] = "User created successfully!";
+            redirect(url('/user'));
+        } catch (\PDOException $e) {
+           
+            ExceptionHandler::handle($e, $_SERVER['HTTP_REFERER']);
+        }
+    
+            
         }
 
-        $content = view('dashboard/create.view.php');
-        return view('Layouts/dashboard.layout.php', ['content' => $content]);
+        $this->view('dashboard/User/create.view.php');
+        return view('Layouts/dashboard.layout.php');
     }
 
     public function show()
@@ -152,7 +162,7 @@ class UserController
             exit;
         }
 
-        $user = $this->user->find($id);
+        $user = $this->userModel->find($id);
 
         if (!$user) {
             $_SESSION['error'] = "User details not found.";
@@ -160,8 +170,8 @@ class UserController
             exit;
         }
 
-        $content = view('dashboard/details.view.php', ['user' => $user]);
-        return view('Layouts/dashboard.layout.php', ['content' => $content]);
+        $this->view('dashboard/User/details.view.php', ['user' => $user]);
+        return view('Layouts/dashboard.layout.php');
     }
 
     public function update()
@@ -179,7 +189,7 @@ class UserController
         }
 
         try {
-            $this->user->update($id, $_POST);
+            $this->userModel->update($id, $_POST);
             $_SESSION['success'] = "User updated successfully!";
         } catch (\Exception $e) {
             $_SESSION['error'] = $e->getMessage();
