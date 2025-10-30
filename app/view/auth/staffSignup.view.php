@@ -3,6 +3,10 @@
 
  <?php 
  require __DIR__ . '/../partial/head.php'; 
+ // Feedback-- Need proper indentation as per PSR-12 standards
+// Feedback-- CSRF token not used in any controllers or middleware
+// Feedback-- Why are flash messages like errors or sucess messages show?
+
  ?>
 
 

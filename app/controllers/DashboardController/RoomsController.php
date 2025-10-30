@@ -5,6 +5,7 @@ namespace App\Controllers\DashboardController;
 use App\Core\Database;
 use App\Models\Rooms;
 
+// Feedback-- Need proper indentation as per PSR-12 standards
 class RoomsController extends BaseController
 {
     protected $db;
@@ -18,7 +19,10 @@ class RoomsController extends BaseController
 
     public function index()
     {
-          
+        // Feedback-- This view function in the base controller should be used to render the layout while the function
+        // Call here should pass data to the view.
+
+        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
         $rooms = $this->roomModel->getAllRooms();
         $this-> view('dashboard/Rooms/rooms.view.php', ['rooms' => $rooms]);
                 return view('Layouts/dashboard.layout.php');
@@ -53,6 +57,10 @@ class RoomsController extends BaseController
             abort(404);
         }
 
+        // Feedback-- This view function in the base controller should be used to render the layout while the function
+        // Call here should pass data to the view.
+
+        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
       $this-> view('dashboard/Rooms/roomDetail.view.php', [
             'room' => $room
         ]);
@@ -71,7 +79,10 @@ class RoomsController extends BaseController
 
     public function create()
     {
-        
+        // Feedback-- This view function in the base controller should be used to render the layout while the function
+        // Call here should pass data to the view.
+
+        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
 
           $hotels = $this->roomModel->getAllHotels();
         // Show create room form
@@ -84,6 +95,9 @@ class RoomsController extends BaseController
 
     public function store()
     {
+        // Feedback-- Did you use Request Class?
+        // Feedback-- Did you use concept of CSRF tokens in this form submission?
+
         $data = [
             'room_number' => $_POST['room_number'],
             'floor'       => $_POST['floor'],
@@ -93,6 +107,7 @@ class RoomsController extends BaseController
             'status'      => $_POST['status']
         ];
   
+        // Feedback-- How are you handling the sql injections and unsafe queries?
        $this->roomModel->create($data);
 
         redirect(url('/rooms'));

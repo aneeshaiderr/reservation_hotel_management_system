@@ -2,7 +2,7 @@
 namespace App\Middleware;
 use PDO;
 
-
+// Feedback-- This needs to be updated completely
 class Permission
 {
     protected $db;

@@ -12,6 +12,7 @@ use App\Middleware\AuthMiddleware;
 use App\Middleware\ExceptionHandler;
 use App\Middleware\Permission;
 
+// Feedback-- Need proper indentation as per PSR-12 standards
 class ReservationController extends BaseController
 {
     protected $reservationModel;
@@ -36,6 +37,7 @@ class ReservationController extends BaseController
     // Show all reservations
     public function index()
     {
+        // Feedback-- Should be consider a global alternative to this rather than handling it in each controller method?
         if (!isset($_SESSION['user_id'])) {
             header("Location: " . BASE_URL . "/login");
             exit;
@@ -45,6 +47,11 @@ class ReservationController extends BaseController
         $roleId = $_SESSION['role_id'];
 
         $reservations = $this->reservationModel->getAllReservations($userId, $roleId);
+
+        // Feedback-- This view function in the base controller should be used to render the layout while the function
+        // Call here should pass data to the view.
+
+        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
 
      $this-> view('dashboard/Reservation/reservation.view.php', [
             'reservations' => $reservations
@@ -60,6 +67,10 @@ class ReservationController extends BaseController
         $rooms = $this->room->getAllRooms();
         $discounts = $this->discount->getAll();
 
+        // Feedback-- This view function in the base controller should be used to render the layout while the function
+        // Call here should pass data to the view.
+
+        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
        $this->view('dashboard/Reservation/reservationCreate.view.php', [
             'users' => $users,
             'hotels' => $hotels,
@@ -72,13 +83,20 @@ class ReservationController extends BaseController
     public function store()
 {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        
+        // Feedback-- Did you use Request Class?
+        // Feedback-- Did you use concept of CSRF tokens in this form submission?
 
         $userId  = $_POST['user_id'] ?? null;
         $hotelId = $_POST['hotel_id'] ?? null;
 
+        // Feedback-- Return back with error and success messages and show flash messages on screen in green, yellow and green badges to showcase statuses like modern apps
+
         if (!$userId || !$hotelId) {
             die("Missing required data (user_id or hotel_id)");
         }
+
+        // Feedback-- How are you handling the sql injections and unsafe queries?
 
         $user_email = $this->reservationModel->getUserEmailById($userId);
         $hotel_name = $this->reservationModel->getHotelNameById($hotelId);
@@ -100,7 +118,7 @@ try {
             $_SESSION['success'] = "Reservation created successfully!";
             redirect(url('/reservation'));
         } catch (\PDOException $e) {
-            
+            // Feedback-- Besids ExceptionHandler, did you use any other error handling method for human readable error messages?
             ExceptionHandler::handle($e, $_SERVER['HTTP_REFERER']);
         }
      
@@ -123,7 +141,10 @@ try {
     {
         $id = (int)$_GET['id'];
         $reservation = $this->reservationModel->getReservationById($id);
+        // Feedback-- This view function in the base controller should be used to render the layout while the function
+        // Call here should pass data to the view.
 
+        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
        $this-> view('dashboard/Reservation/reservationDetail.view.php', [
             'reservation' => $reservation
         ]);
@@ -142,7 +163,10 @@ try {
 
         $hotels = $this->hotelModel->getAllHotels();
         $discounts = $this->discount->getAll();
+        // Feedback-- This view function in the base controller should be used to render the layout while the function
+        // Call here should pass data to the view.
 
+        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
        $this->view('dashboard/Reservation/editReservation.view.php', [
             'reservation' => $reservation,
             'hotels' => $hotels,
@@ -155,6 +179,8 @@ try {
    
     public function update()
     {
+        // Feedback-- Did you use Request Class?
+        // Feedback-- Did you use concept of CSRF tokens in this form submission?
        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id = $_POST['id'] ?? null;
 

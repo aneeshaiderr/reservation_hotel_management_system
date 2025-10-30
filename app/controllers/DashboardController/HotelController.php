@@ -7,6 +7,7 @@ use App\Core\Database;
 use App\Models\Hotel;
 use App\Middleware\ExceptionHandler;
 
+// Feedback-- Need proper indentation as per PSR-12 standards
 class HotelController extends BaseController
 {
     protected $hotelModel;
@@ -25,7 +26,11 @@ class HotelController extends BaseController
 
     //  Show all hotels
     public function index()
-    {
+{           
+        // Feedback-- This view function in the base controller should be used to render the layout while the function
+        // Call here should pass data to the view.
+
+        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
   
         $hotels = $this->hotelModel->getAllHotels();
          $this-> view('dashboard/Hotel/hotel.view.php', ['hotels' => $hotels]);
@@ -35,6 +40,10 @@ class HotelController extends BaseController
     //  Show create hotel 
     public function create()
     {
+        // Feedback-- This view function in the base controller should be used to render the layout while the function
+        // Call here should pass data to the view.
+
+        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
         $hotels = $this->hotelModel->getAll();
       $this-> view('dashboard/Hotel/hotelCreate.view.php', ['hotels' => $hotels]);
         return view('Layouts/dashboard.layout.php');
@@ -43,6 +52,8 @@ class HotelController extends BaseController
     //  Store new hotel
     public function store()
     {
+        // Feedback-- Did you use Request Class?
+        // Feedback-- Did you use concept of CSRF tokens in this form submission?
  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $hotel_name = $_POST['hotel_name'] ?? '';
         $address    = $_POST['address'] ?? '';
@@ -63,6 +74,7 @@ class HotelController extends BaseController
             redirect(url('/hotel'));
         } catch (\PDOException $e) {
             
+            // Feedback-- Besids ExceptionHandler, did you use any other error handling method for human readable error messages?S
             ExceptionHandler::handle($e, $_SERVER['HTTP_REFERER']);
         }
    
@@ -82,6 +94,10 @@ class HotelController extends BaseController
             abort(404);
         }
 
+        // Feedback-- This view function in the base controller should be used to render the layout while the function
+        // Call here should pass data to the view.
+
+        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
        $this->view('dashboard/Hotel/hotelDetail.view.php', [
             'hotel' => $hotel
         ]);

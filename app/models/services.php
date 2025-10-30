@@ -4,7 +4,8 @@ namespace App\Models;
 
 use App\Core\Database;
 use App\Middleware\AuthMiddleware;
-
+// Feedback-- Need proper indentation as per PSR-12 standards
+// Feedback-- How did yoy handle SQL Injections?
 class Services extends BaseModel
 {
     

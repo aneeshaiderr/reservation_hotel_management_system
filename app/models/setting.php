@@ -2,6 +2,7 @@
 require __DIR__ . '/../partial/head.php';
 require __DIR__ . '/../partial/nav.php';
 require __DIR__ . '/../partial/sidebar.php';
+// Feedback-- Should be moved into the views folder
 ?>
 
 <div class="main-content">

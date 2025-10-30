@@ -8,6 +8,8 @@ use App\Models\UserCard;
 use App\Models\User;
 use App\Core\Database;
 use App\Middleware\ExceptionHandler;
+
+// Feedback-- Need proper indentation as per PSR-12 standards
 class UserController extends BaseController 
 {
  
@@ -28,6 +30,7 @@ protected $content;
             session_start();
         }
 
+        // Feedback-- Session check should be present in the middleware
         if (!isset($_SESSION['user_id'])) {
             redirect(url('/login'));
             exit;
@@ -53,7 +56,10 @@ protected $content;
             ]);
          
         }
+        // Feedback-- This view function in the base controller should be used to render the layout while the function
+        // Call here should pass data to the view.
 
+        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
         return view('Layouts/dashboard.layout.php');
     }
 
@@ -64,6 +70,7 @@ protected $content;
             session_start();
         }
 
+        // Feedback-- Session check should be present in the middleware
         if (!isset($_SESSION['user_id'])) {
             redirect(url('/login'));
             exit;
@@ -79,6 +86,10 @@ protected $content;
         } else {
             $reservations = $allReservations;
         }
+        // Feedback-- This view function in the base controller should be used to render the layout while the function
+        // Call here should pass data to the view.
+
+        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
         $this->view('dashboard/User/userAllDetails.view.php', [
             'reservations' => $reservations
         ]);
@@ -99,6 +110,10 @@ protected $content;
             abort(404);
         }
 
+        // Feedback-- This view function in the base controller should be used to render the layout while the function
+        // Call here should pass data to the view.
+
+        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
         $this->view('dashboard/User/userdetail.view.php', ['user' => $user]);
         return view('Layouts/dashboard.layout.php');
     }
@@ -113,6 +128,8 @@ protected $content;
 
     public function createUser()
     {
+        // Feedback-- Did you use Request Class and Request validation?
+        // Feedback-- Did you use concept of CSRF tokens in this form submission?
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $firstName = $_POST['first_name'] ?? '';
             $lastName  = $_POST['last_name'] ?? '';
@@ -137,13 +154,17 @@ protected $content;
             $_SESSION['success'] = "User created successfully!";
             redirect(url('/user'));
         } catch (\PDOException $e) {
-           
+            // Feedback-- Besids ExceptionHandler, did you use any other error handling method for human readable error messages?
             ExceptionHandler::handle($e, $_SERVER['HTTP_REFERER']);
         }
     
             
         }
 
+        // Feedback-- This view function in the base controller should be used to render the layout while the function
+        // Call here should pass data to the view.
+
+        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
         $this->view('dashboard/User/create.view.php');
         return view('Layouts/dashboard.layout.php');
     }
@@ -170,6 +191,10 @@ protected $content;
             exit;
         }
 
+        // Feedback-- This view function in the base controller should be used to render the layout while the function
+        // Call here should pass data to the view.
+
+        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
         $this->view('dashboard/User/details.view.php', ['user' => $user]);
         return view('Layouts/dashboard.layout.php');
     }
@@ -189,9 +214,13 @@ protected $content;
         }
 
         try {
+            // Feedback-- Did you use Request Class and Request validation?
+            // Feedback-- Did you use concept of CSRF tokens in this form submission?
+            // Feedback-- How are you handling the sql injections and unsafe queries?
             $this->userModel->update($id, $_POST);
             $_SESSION['success'] = "User updated successfully!";
         } catch (\Exception $e) {
+            // Feedback-- Besids ExceptionHandler, did you use any other error handling method for human readable error messages?
             $_SESSION['error'] = $e->getMessage();
         }
 

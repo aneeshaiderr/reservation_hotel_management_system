@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use App\Core\Database;
-
+// Feedback-- Need proper indentation as per PSR-12 standards
+// Feedback-- How did yoy handle SQL Injections?
 class Hotel extends BaseModel
 {
   

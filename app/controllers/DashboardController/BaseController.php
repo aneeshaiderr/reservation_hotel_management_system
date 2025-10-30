@@ -1,6 +1,11 @@
 <?php
 namespace App\Controllers\DashboardController;
 use App\Core\Database;
+
+// Feedback-- Need proper indentation as per PSR-12 standards
+
+// Feedback--Why there are two base controllers in the project?
+
 abstract class BaseController {
      protected  $db;
 

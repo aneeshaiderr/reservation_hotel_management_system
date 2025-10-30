@@ -5,6 +5,7 @@ namespace App\Core;
 use PDO;
 use PDOException;
 
+// Feedback-- Need proper indentation as per PSR-12 standards
 class Database
 {
     protected $pdo;

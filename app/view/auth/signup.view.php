@@ -1,5 +1,11 @@
 
- <?php require __DIR__ . '/../partial/head.php'; ?>
+ <?php require __DIR__ . '/../partial/head.php'; 
+ 
+// Feedback-- Need proper indentation as per PSR-12 standards
+// Feedback-- CSRF token not used in any controllers or middleware
+// Feedback-- Why are flash messages like errors or sucess messages show?
+ 
+ ?>
 
 
 <div class="container d-flex justify-content-center align-items-center min-vh-100">

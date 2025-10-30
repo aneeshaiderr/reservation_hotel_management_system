@@ -6,6 +6,7 @@ namespace App\Controllers\DashboardController;
 use App\Core\Database;
 use App\Models\Services;
 
+// Feedback-- Need proper indentation as per PSR-12 standards
 class ServicesController extends BaseController
 {
     protected $db;
@@ -22,6 +23,10 @@ class ServicesController extends BaseController
     {
         $services = $this->servicesModel->getAll();
 
+        // Feedback-- This view function in the base controller should be used to render the layout while the function
+        // Call here should pass data to the view.
+
+        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
       $this-> view('dashboard/Services/services.view.php', [
             'services' => $services
         ]);
@@ -46,12 +51,18 @@ class ServicesController extends BaseController
 
     public function create()
     {
+        // Feedback-- Should be present in the User Model Breaking MVC Conventions
+
         $services = $this->db->fetchAll("
             SELECT id, service_name, price, status 
             FROM services 
             WHERE deleted_at IS NULL
         ");
 
+        // Feedback-- This view function in the base controller should be used to render the layout while the function
+        // Call here should pass data to the view.
+
+        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
       $this-> view('dashboard/Services/createService.view.php', [
             'services' => $services
         ]);
@@ -61,6 +72,8 @@ class ServicesController extends BaseController
 
     public function store()
     {
+        // Feedback-- Did you use Request Class and Request validation?
+        // Feedback-- Did you use concept of CSRF tokens in this form submission?
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = [
                 'service_name' => $_POST['service_name'],
@@ -90,6 +103,10 @@ class ServicesController extends BaseController
             redirect(url('/services'));
         }
 
+    // Feedback-- This view function in the base controller should be used to render the layout while the function
+    // Call here should pass data to the view.
+
+    // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
       $this->view('dashboard/Services/editService.view.php', [
             'service' => $service
         ]);
@@ -98,7 +115,8 @@ class ServicesController extends BaseController
 
     public function update()
     {
-       
+        // Feedback-- Did you use Request Class and Request validation?
+        // Feedback-- Did you use concept of CSRF tokens in this form submission?
  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id           = $_POST['id'] ?? null;
         $service_name = $_POST['service_name'] ?? '';
@@ -115,6 +133,7 @@ class ServicesController extends BaseController
                 'status'       => $_POST['status']
             ];
 
+            // Feedback-- How are you handling the sql injections and unsafe queries?
             $this->servicesModel->update($id, $data);
 
             redirect(url('/services'));

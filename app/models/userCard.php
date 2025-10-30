@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Core\Database;
 
+// Feedback-- Should be moved into the user model
+
 class UserCard  extends BaseModel
 {
    

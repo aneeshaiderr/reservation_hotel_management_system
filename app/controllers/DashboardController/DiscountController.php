@@ -4,6 +4,7 @@ namespace App\Controllers\DashboardController;
 use App\Core\Database;
 use App\Models\Discount;
 
+// Feedback-- Need proper indentation as per PSR-12 standards
 
 class DiscountController extends BaseController
 {
@@ -21,6 +22,12 @@ class DiscountController extends BaseController
     public function index()
     {
         $discounts = $this->discount->getAll();
+    
+        // Feedback-- This view function in the base controller should be used to render the layout while the function
+        // Call here should pass data to the view.
+
+        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
+
       $this->view('dashboard/Discount/discount.view.php', [
             'discounts' => $discounts
         ]);
@@ -30,6 +37,11 @@ class DiscountController extends BaseController
 
     public function create()
     {
+
+        // Feedback-- This view function in the base controller should be used to render the layout while the function
+        // Call here should pass data to the view.
+
+        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
         
       $this->view('dashboard/Discount/createDiscount.view.php');
          return view('Layouts/dashboard.layout.php');
@@ -40,7 +52,9 @@ class DiscountController extends BaseController
      
  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-       
+        // Feedback-- Did you use Request Class and Concept of Request Validation?
+        // Feedback-- Did you use concept of CSRF tokens in this form submission?
+
         $discount_type = $_POST['discount_type'] ?? '';
         $discount_name = $_POST['discount_name'] ?? '';
 
@@ -56,6 +70,8 @@ class DiscountController extends BaseController
                 'end_date'      => $_POST['end_date'] ?? '',
                 'status'        => $_POST['status'] ?? 'inactive'
             ];
+
+            // Feedback-- How are you handling the sql injections and unsafe queries?
 
             $this->discount->create($data);
         }
@@ -75,6 +91,11 @@ class DiscountController extends BaseController
             abort(404);
         }
 
+        
+        // Feedback-- This view function in the base controller should be used to render the layout while the function
+        // Call here should pass data to the view.
+
+        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
        $this-> view('dashboard/Discount/editDiscount.view.php', [
             'discount' => $discount
         ]);
@@ -86,6 +107,9 @@ class DiscountController extends BaseController
     {
         
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Feedback-- Did you use Request Class and Concept of Request Validation on all required fields?
+            // Feedback-- Did you use concept of CSRF tokens in this form submission?
+
             $id = $_POST['id'] ?? null;
             if (!$id) {
                 redirect(url('/discount'));
@@ -100,6 +124,7 @@ class DiscountController extends BaseController
                 'status'        => $_POST['status'] ?? ''
             ];
 
+            // Feedback-- How are you handling the sql injections and unsafe queries?
             $this->discount->update($id, $data);
         }
 
