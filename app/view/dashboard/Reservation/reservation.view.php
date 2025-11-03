@@ -1,4 +1,9 @@
 
+<?php if(isset($_SESSION['flash_error'])): ?>
+    <div class="alert alert-danger">
+        <?= $_SESSION['flash_error']; unset($_SESSION['flash_error']); ?>
+    </div>
+<?php endif; ?>
 
 <div class="main-content d-flex flex-column min-vh-100">
     <div class="container py-5">
@@ -35,8 +40,8 @@
 </tr>
 </thead>
 <tbody>
-<?php if (!empty($reservations)): ?>
-  <?php foreach ($reservations as $res): ?>
+<?php if (! empty($reservations)) { ?>
+  <?php foreach ($reservations as $res) { ?>
     <tr>
      
       <td><?= htmlspecialchars($res['hotel_code']) ?></td>
@@ -49,7 +54,7 @@
       <td><?= htmlspecialchars($res['check_out']) ?></td>
       <td><?= htmlspecialchars($res['status']) ?></td>
       <td>
-  <div class="d-flex align-items-center gap-2">
+  <div class="d-flex align-items-center gap-1">
     <a href="<?= BASE_URL ?>/reservation/editReservation?id=<?= $res['id'] ?>" 
        class="btn btn-sm btn-primary py-1 px-3">
        View
@@ -68,12 +73,12 @@
   </div>
 </td>
 
-  <?php endforeach; ?>
-<?php else: ?>
+  <?php } ?>
+<?php } else { ?>
   <tr>
     <td colspan="10" class="text-center text-muted">No reservations found.</td>
   </tr>
-<?php endif; ?>
+<?php } ?>
 </tbody>
 
         </table>

@@ -1,8 +1,4 @@
-<?php
-// require __DIR__ . '../partial/head.php';
-// require __DIR__ . '../partial/nav.php';
-// require __DIR__ . '../partial/sidebar.php';
-?>
+
 
 <div class="main-content d-flex flex-column min-vh-100">
   <div class="container py-5">
@@ -12,10 +8,7 @@
       <div class="card-body">
         <form action="<?= BASE_URL ?>/services" method="POST">
 
-          <!-- <div class="mb-3">
-            <label for="service_id" class="form-label fw-bold">Service ID</label>
-            <input type="text" name="service_id" id="service_id" class="form-control" placeholder="Enter service ID" required>
-          </div> -->
+        
 
           <div class="mb-3">
             <label for="service_name" class="form-label fw-bold">Service Name</label>

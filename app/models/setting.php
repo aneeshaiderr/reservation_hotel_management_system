@@ -1,7 +1,7 @@
 <?php
-require __DIR__ . '/../partial/head.php';
-require __DIR__ . '/../partial/nav.php';
-require __DIR__ . '/../partial/sidebar.php';
+require __DIR__.'/../partial/head.php';
+require __DIR__.'/../partial/nav.php';
+require __DIR__.'/../partial/sidebar.php';
 // Feedback-- Should be moved into the views folder
 ?>
 
@@ -133,7 +133,7 @@ require __DIR__ . '/../partial/sidebar.php';
 
 
   <!-- Footer Include -->
-   <?php 
- require __DIR__ . '/../partial/footer.php';
-  ?>
+   <?php
+ require __DIR__.'/../partial/footer.php';
+?>
 

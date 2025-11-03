@@ -1,5 +1,5 @@
-<?php require __DIR__ . '/../partial/head.php'; ?>
-<?php require __DIR__ . '/../partial/navbar.php'; ?>
+<?php require __DIR__.'/../partial/head.php'; ?>
+<?php require __DIR__.'/../partial/navbar.php'; ?>
 
 
     <!-- Hero Slider -->
@@ -469,8 +469,8 @@
     </div>
   </div>
 </section>
-<?php 
-require __DIR__ . "/../partial/footer.php";
+<?php
+require __DIR__.'/../partial/footer.php';
 ?>
    
   <!-- jQuery & Owl Carousel JS -->

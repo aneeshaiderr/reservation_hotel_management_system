@@ -24,8 +24,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (!empty($reservations) && is_array($reservations)) : ?>
-                                <?php foreach ($reservations as $res): ?>
+                            <?php if (! empty($reservations) && is_array($reservations)) { ?>
+                                <?php foreach ($reservations as $res) { ?>
                                     <tr>
                                         <td><?= htmlspecialchars($res['id'] ?? '') ?></td>
                                         <td><?= htmlspecialchars($res['hotel_code'] ?? '') ?></td>
@@ -40,10 +40,10 @@
                                         <td><?= htmlspecialchars($res['check_out'] ?? '') ?></td>
                                         <td><?= htmlspecialchars($res['status'] ?? '') ?></td>
                                     </tr>
-                                <?php endforeach; ?>
-                            <?php else : ?>
+                                <?php } ?>
+                            <?php } else { ?>
                                 <tr><td colspan="14" class="text-center">No reservations found.</td></tr>
-                            <?php endif; ?>
+                            <?php } ?>
                         </tbody>
                     </table>
                 </div>

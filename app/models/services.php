@@ -2,18 +2,13 @@
 
 namespace App\Models;
 
-use App\Core\Database;
-use App\Middleware\AuthMiddleware;
 // Feedback-- Need proper indentation as per PSR-12 standards
 // Feedback-- How did yoy handle SQL Injections?
 class Services extends BaseModel
 {
-    
-
-
     public function getAll()
     {
-        return $this->db->fetchAll("
+        return $this->db->fetchAll('
             SELECT 
                 id, 
                 service_name, 
@@ -21,21 +16,27 @@ class Services extends BaseModel
                 status
             FROM services
             WHERE deleted_at IS NULL
-        ");
+        ');
     }
 
     // Soft delete service
     public function softDelete($id)
     {
-        return $this->db->query("
+        return $this->db->query('
             UPDATE services SET deleted_at = NOW() WHERE id = ?
-        ", [$id]);
+        ', [$id]);
     }
-
-    
-    public function getAllServicesList()
+ public function all()
     {
         return $this->db->fetchAll("
+            SELECT id, service_name, price, status
+            FROM services
+            WHERE deleted_at IS NULL
+        ");
+    }
+    public function getAllServicesList()
+    {
+        return $this->db->fetchAll('
             SELECT 
                 id,
                 service_name,
@@ -44,32 +45,31 @@ class Services extends BaseModel
             FROM services
             WHERE deleted_at IS NULL
             ORDER BY id DESC
-        ");
+        ');
     }
 
     // Create new service
     public function create($data)
     {
-        return $this->db->query("
+        return $this->db->query('
             INSERT INTO services (service_name, price, status, created_at)
             VALUES (?, ?, ?, NOW())
-        ", [
+        ', [
             $data['service_name'],
             $data['price'],
-            $data['status']
+            $data['status'],
         ]);
     }
 
-   
     public function find($id)
     {
-        return $this->db->query("SELECT * FROM services WHERE id = ?", [$id])->find();
+        return $this->db->query('SELECT * FROM services WHERE id = ?', [$id])->find();
     }
 
     // Update an existing service
     public function update($id, $data)
     {
-        $sql = "
+        $sql = '
             UPDATE services
             SET 
                 service_name = ?, 
@@ -77,19 +77,19 @@ class Services extends BaseModel
                 status = ?, 
                 updated_at = NOW()
             WHERE id = ?
-        ";
+        ';
 
         return $this->db->query($sql, [
             $data['service_name'],
             $data['price'],
             $data['status'],
-            $id
+            $id,
         ]);
     }
 
     // Get all services (for list or reference)
     public function getAllServices()
     {
-        return $this->db->fetchAll("SELECT * FROM services ORDER BY created_at");
+        return $this->db->fetchAll('SELECT * FROM services ORDER BY created_at');
     }
 }

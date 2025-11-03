@@ -358,10 +358,10 @@ table {
             padding: .75rem;
         }
         
-        .card-custom {
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        /* .card-custom {
+            box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.15);
             border-radius: 0.5rem;
-        }
+        } */
         
        
         .userprofile-action-btns .btn {

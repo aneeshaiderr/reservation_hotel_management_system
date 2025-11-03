@@ -1,8 +1,4 @@
-<?php
-// require __DIR__ . '../partial/head.php';
-// require __DIR__ . '../partial/nav.php';
-// require __DIR__ . '../partial/sidebar.php';
-?>
+
 
 <div class="main-content d-flex flex-column min-vh-100">
   <div class="container py-5">
@@ -30,8 +26,8 @@
           </thead>
 
           <tbody>
-            <?php if (!empty($services)): ?>
-              <?php foreach ($services as $service): ?>
+            <?php if (! empty($services)) { ?>
+              <?php foreach ($services as $service) { ?>
                 <tr>
                   <td><?= htmlspecialchars($service['id']) ?></td>
                   <td><?= htmlspecialchars($service['service_name']) ?></td>
@@ -41,13 +37,13 @@
                   <td>
                     <?php
                       $st = strtolower($service['status']);
-                      if ($st === 'active'): ?>
+                  if ($st === 'active') { ?>
                         <span class="badge bg-success">Active</span>
-                      <?php elseif ($st === 'Inactive'): ?>
+                      <?php } elseif ($st === 'Inactive') { ?>
                         <span class="badge bg-danger">Inactive</span>
-                      <?php else: ?>
+                      <?php } else { ?>
                         <span class="badge bg-warning text-dark"><?= htmlspecialchars($service['status']) ?></span>
-                      <?php endif; ?>
+                      <?php } ?>
                   </td>
 
                  <td>
@@ -70,12 +66,12 @@
           </div>
            </td>
                 </tr>
-              <?php endforeach; ?>
-            <?php else: ?>
+              <?php } ?>
+            <?php } else { ?>
               <tr>
                 <td colspan="7" class="text-center text-muted">No services found</td>
               </tr>
-            <?php endif; ?>
+            <?php } ?>
           </tbody>
         </table>
       </div>

@@ -1,9 +1,5 @@
 
-<?php
-// require __DIR__ . '../partial/head.php';
-// require __DIR__ . '../partial/nav.php';
-// require __DIR__ . '../partial/sidebar.php';
-?>
+
 
 <div class="main-content d-flex flex-column min-vh-100">
     <div class="container py-5">
@@ -12,6 +8,7 @@
         <div class="card card-custom w-100">
             <div class="card-body">
                 <form method="POST" action="<?= url('/reservation') ?>">
+<input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">
 
                     <!-- Reservation Code -->
                     <div class="mb-3">
@@ -24,9 +21,9 @@
                         <label for="user_id" class="form-label">User Email</label>
                         <select id="user_id" name="user_id" class="form-control" required>
                             <option value="">Select User</option>
-                            <?php foreach ($users as $user): ?>
+                            <?php foreach ($users as $user) { ?>
                                 <option value="<?= $user['id'] ?>"><?= htmlspecialchars($user['user_email']) ?></option>
-                            <?php endforeach; ?>
+                            <?php } ?>
                         </select>
                     </div>
 
@@ -35,9 +32,9 @@
                         <label for="hotel_id" class="form-label">Hotel</label>
                         <select id="hotel_id" name="hotel_id" class="form-control" required>
                             <option value="">Select Hotel</option>
-                            <?php foreach ($hotels as $hotel): ?>
+                            <?php foreach ($hotels as $hotel) { ?>
                                 <option value="<?= $hotel['id'] ?>"><?= htmlspecialchars($hotel['hotel_name']) ?></option>
-                            <?php endforeach; ?>
+                            <?php } ?>
                         </select>
                     </div>
 
@@ -45,11 +42,11 @@
     <label for="room_id" class="form-label">Room ID</label>
     <select id="room_id" name="room_id" class="form-control" required>
         <option value="">Select Room ID</option>
-        <?php foreach ($rooms as $room): ?>
+        <?php foreach ($rooms as $room) { ?>
             <option value="<?= $room['id'] ?>">
-                <?= htmlspecialchars($room['room_id'] ?? 'id #' . $room['id']) ?>
+                <?= htmlspecialchars($room['room_id'] ?? 'id #'.$room['id']) ?>
             </option>
-        <?php endforeach; ?>
+        <?php } ?>
     </select>
 </div>
 
@@ -58,11 +55,11 @@
                         <label for="discount_id" class="form-label">Discount</label>
                         <select id="discount_id" name="discount_id" class="form-control">
                             <option value="">Select Discount </option>
-                            <?php foreach ($discounts as $discount): ?>
+                            <?php foreach ($discounts as $discount) { ?>
                                 <option value="<?= $discount['id'] ?>">
                                     <?= htmlspecialchars($discount['discount_name']) ?> - <?= htmlspecialchars($discount['discount_type']) ?> (<?= $discount['value'] ?>)
                                 </option>
-                            <?php endforeach; ?>
+                            <?php } ?>
                         </select>
                     </div>
                     <!-- Check In / Check Out -->

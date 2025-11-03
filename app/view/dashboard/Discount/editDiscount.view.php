@@ -1,9 +1,4 @@
 
-<?php  
-// require __DIR__ . '../partial/head.php';
-// require __DIR__ . '../partial/nav.php';
-// require __DIR__ . '../partial/sidebar.php';
-?>
 
 <div class="main-content d-flex flex-column min-vh-100">
   <div class="container py-5">
@@ -12,6 +7,8 @@
         <h5 class="fw-bold mb-4">Edit Discount</h5>
 
         <form method="POST" action="<?= url('/discount/update') ?>">
+          <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
+
           <input type="hidden" name="_method" value="PATCH">
           <input type="hidden" name="id" value="<?= htmlspecialchars($discount['id']) ?>">
 

@@ -9,7 +9,8 @@
     <div class="card card-custom w-100">
       <div class="card-body">
         <form action="<?= url('/hotel/store') ?>" method="POST">
-          <div class="mb-3">
+          <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">  
+        <div class="mb-3">
             <label class="form-label fw-bold">Hotel Name</label>
             <input type="text" name="hotel_name" class="form-control" placeholder="Enter hotel name" required>
           </div>

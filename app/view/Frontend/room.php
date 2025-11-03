@@ -1,6 +1,6 @@
 
-<?php require __DIR__ . '/../partial/head.php'; ?>
-<?php require __DIR__ . '/../partial/navbar.php'; ?>
+<?php require __DIR__.'/../partial/head.php'; ?>
+<?php require __DIR__.'/../partial/navbar.php'; ?>
  <link href="Assets/frontend/room.style.css" rel="stylesheet">
   <!-- Breadcrumb -->
   <div class="breadcrumb-section">
@@ -126,8 +126,8 @@
       </div>
     </div>
   </section>
-<?php 
-require __DIR__ . "/../partial/footer.php";
+<?php
+require __DIR__.'/../partial/footer.php';
 ?>
 </body>
 </html>

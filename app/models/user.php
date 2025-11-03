@@ -1,39 +1,33 @@
 <?php
 
-
 namespace App\Models;
-
-use App\Core\Database;
 
 // Feedback-- Need proper indentation as per PSR-12 standards
 // Feedback-- How did yoy handle SQL Injections?
 class User extends BaseModel
 {
-   
-
-
-
     public function getUserById($id)
     {
         return $this->db->query(
-            "SELECT id, first_name, last_name, user_email, contact_no, address 
+            'SELECT id, first_name, last_name, user_email, contact_no, address 
              FROM users 
-             WHERE id = :id",
+             WHERE id = :id',
             [':id' => $id]
         )->find();
     }
 
     public function softDelete($id)
     {
-        $query = "UPDATE users SET deleted_at = NOW() WHERE id = ?";
+        $query = 'UPDATE users SET deleted_at = NOW() WHERE id = ?';
+
         return $this->db->query($query, [$id]);
     }
 
     public function create($data)
     {
         return $this->db->query(
-            "INSERT INTO users (first_name, last_name, user_email, contact_no, address, status, role_id, created_at) 
-             VALUES (?, ?, ?, ?, ?, ?, ?, NOW())",
+            'INSERT INTO users (first_name, last_name, user_email, contact_no, address, status, role_id, created_at) 
+             VALUES (?, ?, ?, ?, ?, ?, ?, NOW())',
             [
                 $data['first_name'],
                 $data['last_name'],
@@ -41,25 +35,26 @@ class User extends BaseModel
                 $data['contact_no'],
                 $data['address'],
                 $data['status'],
-                $data['role_id']
+                $data['role_id'],
             ]
         );
     }
 
     public function find($id)
     {
-        if (!$id) {
+        if (! $id) {
             return null;
         }
 
-        $stmt = $this->db->query("SELECT * FROM users WHERE id = ?", [$id]);
+        $stmt = $this->db->query('SELECT * FROM users WHERE id = ?', [$id]);
+
         return $stmt ? $stmt->fetch() : null;
     }
 
     public function update($id, $data)
     {
         $existingUser = $this->db->query(
-            "SELECT id FROM users WHERE user_email = ? AND id != ?",
+            'SELECT id FROM users WHERE user_email = ? AND id != ?',
             [$data['user_email'], $id]
         )->fetch();
 
@@ -68,9 +63,9 @@ class User extends BaseModel
         }
 
         return $this->db->query(
-            "UPDATE users 
+            'UPDATE users 
              SET first_name = ?, last_name = ?, user_email = ?, contact_no = ?, address = ?, status = ?, updated_at = NOW() 
-             WHERE id = ?",
+             WHERE id = ?',
             [
                 $data['first_name'],
                 $data['last_name'],
@@ -78,14 +73,14 @@ class User extends BaseModel
                 $data['contact_no'],
                 $data['address'],
                 $data['status'],
-                $id
+                $id,
             ]
         );
     }
 
     public function getAllUsers()
     {
-        return $this->db->fetchAll("SELECT * FROM users WHERE deleted_at IS NULL");
+        return $this->db->fetchAll('SELECT * FROM users WHERE deleted_at IS NULL');
     }
 
     public function findUserById($id)
@@ -93,17 +88,16 @@ class User extends BaseModel
         return $this->db->findUserById($id);
     }
 
-
-
     public function findUserDetails($id)
     {
-        if (!$id) {
+        if (! $id) {
             return null;
         }
 
-        $stmt = $this->db->query("SELECT * FROM users WHERE id = ?", [$id]);
+        $stmt = $this->db->query('SELECT * FROM users WHERE id = ?', [$id]);
         if ($stmt) {
             $result = $stmt->fetch();
+
             return $result ?: null;
         }
 
@@ -113,7 +107,7 @@ class User extends BaseModel
     public function updateUserDetails($id, $data)
     {
         return $this->db->query(
-            "UPDATE users SET first_name=?, last_name=?, user_email=?, contact_no=?, address=?, status=?, updated_at=NOW() WHERE id=?", 
+            'UPDATE users SET first_name=?, last_name=?, user_email=?, contact_no=?, address=?, status=?, updated_at=NOW() WHERE id=?',
             [
                 $data['first_name'],
                 $data['last_name'],
@@ -121,14 +115,14 @@ class User extends BaseModel
                 $data['contact_no'],
                 $data['address'],
                 $data['status'],
-                $id
+                $id,
             ]
         );
     }
 
     public function getAllReservationsByUser($userId)
     {
-        $sql = "
+        $sql = '
             SELECT 
                 r.id,
                 r.hotel_code,
@@ -149,9 +143,37 @@ class User extends BaseModel
             JOIN rooms rm ON rm.id = r.room_id
             WHERE r.user_id = :user_id
             ORDER BY r.check_in
-        ";
+        ';
 
         return $this->db->query($sql, [':user_id' => $userId])->getAll();
     }
-}
+     public function delete($id)
+    {
+        $this->db->query('DELETE FROM reservations WHERE id = :id', ['id' => $id]);
+    }
 
+    public function getCurrentReservation($userId)
+    {
+        $sql = 'SELECT 
+                    r.id,
+                    r.hotel_code,
+                    r.user_id,
+                    r.guest_id,
+                    r.hotel_id,
+                    r.room_id,
+                    r.staff_id,
+                    r.discount_id,
+                    r.check_in,
+                    r.check_out,
+                    r.status,
+                    h.hotel_name AS hotel_name,
+                    rm.room_number
+                FROM reservations r
+                JOIN hotels h ON h.id = r.hotel_id
+                JOIN rooms rm ON rm.id = r.room_id
+                WHERE r.user_id = :user_id
+                ORDER BY r.check_in ';
+
+        return $this->db->query($sql, ['user_id' => $userId])->fetch();
+    }
+}

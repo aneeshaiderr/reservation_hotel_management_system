@@ -1,7 +1,7 @@
-<?php require __DIR__ . '/../partial/head.php'; ?>
-<?php require __DIR__ . '/../partial/navbar.php'; ?>
+<?php require __DIR__.'/../partial/head.php'; ?>
+<?php require __DIR__.'/../partial/navbar.php'; ?>
 
-  <!-- <link href="../../Public/Assets/css/frontend/about.style.css" rel="stylesheet"> -->
+
 <link rel="stylesheet" href="Assets/frontend/about.style.css">
 
   <!-- Breadcrumb -->
@@ -96,8 +96,8 @@
       </div>
     </div>
   </section>
-<?php 
-require __DIR__ . '/../partial/footer.php';
+<?php
+require __DIR__.'/../partial/footer.php';
 ?>
 </body>
 </html>

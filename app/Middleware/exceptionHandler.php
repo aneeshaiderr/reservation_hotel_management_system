@@ -1,9 +1,10 @@
-<?php 
+<?php
+
 namespace App\Middleware;
 
 class ExceptionHandler
 {
-     public static function handle(\Throwable $e, $redirectUrl = null)
+    public static function handle(\Throwable $e, $redirectUrl = null)
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
@@ -11,19 +12,17 @@ class ExceptionHandler
 
         // Duplicate entry ke liye friendly message
         if (str_contains($e->getMessage(), 'Duplicate entry')) {
-            $_SESSION['error'] = "This record already exists.";
+            $_SESSION['error'] = 'This record already exists.';
         } else {
-            $_SESSION['error'] = "Database error: " . $e->getMessage();
+            $_SESSION['error'] = 'Database error: '.$e->getMessage();
         }
 
         // Agar koi specific redirect URL diya ho to usi par redirect karo, warna back
         if ($redirectUrl) {
-            header('Location: ' . $redirectUrl);
+            header('Location: '.$redirectUrl);
         } else {
-            header('Location: ' . ($_SERVER['HTTP_REFERER'] ?? '/'));
+            header('Location: '.($_SERVER['HTTP_REFERER'] ?? '/'));
         }
         exit;
     }
 }
-
-?>

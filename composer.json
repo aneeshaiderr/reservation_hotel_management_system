@@ -14,5 +14,8 @@
             "email": "ans701474@gmail.com"
         }
     ],
-    "require": {}
+    "require-dev": {
+        "laravel/pint": "^1.5"
+    }
+    
 }

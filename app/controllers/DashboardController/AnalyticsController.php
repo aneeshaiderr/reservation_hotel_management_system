@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers\DashboardController;
 
 use App\Models\Analytics;
@@ -17,11 +18,11 @@ class AnalyticsController extends BaseController
     {
         $data = $this->analytics->getData();
 
-      
-        $this-> view('dashboard/Analytics/analytics.view.php', [
+        $this->view('dashboard/Analytics/analytics.view.php', [
             'latestProjects' => $data['latestProjects'],
-            'monthlyReport' => $data['monthlyReport']
+            'monthlyReport' => $data['monthlyReport'],
         ]);
-          return view('Layouts/dashboard.layout.php');
+
+        return view('Layouts/dashboard.layout.php');
     }
 }

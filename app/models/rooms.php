@@ -1,61 +1,55 @@
 <?php
+
 namespace App\Models;
-
-use App\Core\Database;
-
 
 // Feedback-- Need proper indentation as per PSR-12 standards
 // Feedback-- How did yoy handle SQL Injections?
 class Rooms extends BaseModel
 {
-   
-
     //  All  rooms
     public function getAllRooms()
     {
-        return $this->db->fetchAll("SELECT * FROM rooms WHERE deleted_at IS NULL");
+        return $this->db->fetchAll('SELECT * FROM rooms WHERE deleted_at IS NULL');
     }
 
-  
     public function getAll()
     {
-        return $this->db->fetchAll("SELECT * FROM rooms");
+        return $this->db->fetchAll('SELECT * FROM rooms');
     }
-
 
     public function find($id)
     {
-        return $this->db->query("SELECT * FROM rooms WHERE id = ?", [$id])->find();
+        return $this->db->query('SELECT * FROM rooms WHERE id = ?', [$id])->find();
     }
 
-    
     public function create($data)
     {
-        return $this->db->query("
+        return $this->db->query('
             INSERT INTO rooms (room_number, floor, beds, max_guests, hotel_id, status)
             VALUES (:room_number, :floor, :room_bed, :Max_guests, :hotel_id, :status)
-        ", $data);
+        ', $data);
+        
     }
 
     //  Update room
     public function update($id, $data)
     {
         return $this->db->query(
-            "UPDATE rooms 
+            'UPDATE rooms 
              SET room_number = ?, 
                  floor = ?, 
                  beds = ?, 
                  max_guests = ?, 
                  status = ?, 
                  updated_at = NOW()
-             WHERE id = ?",
+             WHERE id = ?',
             [
-                (int)$data['room_number'],
-                (int)$data['floor'],
-                (int)$data['room_bed'],
-                (int)$data['Max_guests'],
+                (int) $data['room_number'],
+                (int) $data['floor'],
+                (int) $data['room_bed'],
+                (int) $data['Max_guests'],
                 $data['status'],
-                $id
+                $id,
             ]
         );
     }
@@ -64,14 +58,13 @@ class Rooms extends BaseModel
     public function softDelete($id)
     {
         return $this->db->query(
-            "UPDATE rooms SET deleted_at = NOW() WHERE id = ?",
+            'UPDATE rooms SET deleted_at = NOW() WHERE id = ?',
             [$id]
         );
     }
 
-   
     public function getAllHotels()
     {
-        return $this->db->fetchAll("SELECT id, hotel_name FROM hotels", []);
+        return $this->db->fetchAll('SELECT id, hotel_name FROM hotels', []);
     }
 }

@@ -8,7 +8,7 @@
         <form method="POST" action="<?= url('/hotel') ?>">
           <input type="hidden" name="_method" value="PATCH">
           <input type="hidden" name="id" value="<?= htmlspecialchars($hotel['id']) ?>">
-
+  <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
           <!-- Hotel Name -->
           <div class="mb-4">
             <label for="name">Hotel Name</label>

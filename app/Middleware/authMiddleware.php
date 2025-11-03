@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Middleware;
 
 class AuthMiddleware
@@ -8,11 +9,9 @@ class AuthMiddleware
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-
-        if (empty($_SESSION['user'])) {
-            header("Location: /practice/public/login");
+  if (!isset($_SESSION['user_id'])) {
+            redirect(url('/login'));
             exit;
         }
     }
 }
-

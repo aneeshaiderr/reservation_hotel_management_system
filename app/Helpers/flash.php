@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Helpers;
 
 class Flash
@@ -14,7 +15,7 @@ class Flash
 
         $_SESSION['flash'][$key] = [
             'message' => $message,
-            'type'    => $type
+            'type' => $type,
         ];
     }
 
@@ -27,13 +28,13 @@ class Flash
             session_start();
         }
 
-        if (!empty($_SESSION['flash'][$key])) {
+        if (! empty($_SESSION['flash'][$key])) {
             $flash = $_SESSION['flash'][$key];
             unset($_SESSION['flash'][$key]);
+
             return $flash;
         }
 
         return null;
     }
 }
-

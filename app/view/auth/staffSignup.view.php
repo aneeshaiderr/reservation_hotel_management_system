@@ -1,11 +1,11 @@
 
 
 
- <?php 
- require __DIR__ . '/../partial/head.php'; 
+ <?php
+ require __DIR__.'/../partial/head.php';
  // Feedback-- Need proper indentation as per PSR-12 standards
-// Feedback-- CSRF token not used in any controllers or middleware
-// Feedback-- Why are flash messages like errors or sucess messages show?
+ // Feedback-- CSRF token not used in any controllers or middleware
+ // Feedback-- Why are flash messages like errors or sucess messages show?
 
  ?>
 
@@ -21,41 +21,41 @@
             <!-- First Name -->
             <div class="mb-3">
               <input type="text" id="first_name" name="first_name" class="form-control" placeholder="Enter your first name" required>
-              <?php if(isset($errors['first_name'])):?>
+              <?php if (isset($errors['first_name'])) { ?>
                 <div class="text-danger small mt-1"><?= $errors['first_name']?> </div>
-              <?php endif; ?>
+              <?php } ?>
             </div>
 
             <!-- Last Name -->
             <div class="mb-3">
               <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Enter your last name" required>
-              <?php if(isset($errors['last_name'])):?>
+              <?php if (isset($errors['last_name'])) { ?>
                 <div class="text-danger small mt-1"><?= $errors['last_name']?> </div>
-              <?php endif; ?>
+              <?php } ?>
             </div>
 
             <!-- Email -->
             <div class="mb-3">
               <input type="user_email" id="user_email" name="user_email" class="form-control" placeholder="Enter your email" required>
-              <?php if(isset($errors['user_email'])):?>
+              <?php if (isset($errors['user_email'])) { ?>
                 <div class="text-danger small mt-1"><?= $errors['user_email']?> </div>
-              <?php endif; ?>
+              <?php } ?>
             </div>
 
             <!-- Contact -->
             <div class="mb-3">
               <input type="text" id="contact_no" name="contact_no" class="form-control" placeholder="Enter your contact number" required>
-              <?php if(isset($errors['contact_no'])):?>
+              <?php if (isset($errors['contact_no'])) { ?>
                 <div class="text-danger small mt-1"><?= $errors['contact_no']?> </div>
-              <?php endif; ?>
+              <?php } ?>
             </div>
 
             <!-- Password -->
             <div class="mb-3">
               <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required>
-              <?php if(isset($errors['password'])):?>
+              <?php if (isset($errors['password'])) { ?>
                 <div class="text-danger small mt-1"><?= $errors['password']?> </div>
-              <?php endif; ?>
+              <?php } ?>
             </div>
 
             <!-- Submit -->

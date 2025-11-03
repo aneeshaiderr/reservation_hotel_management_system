@@ -1,8 +1,4 @@
-<?php
-// require __DIR__ . '../partial/head.php';
-// require __DIR__ . '../partial/nav.php';
-// require __DIR__ . '../partial/sidebar.php';
-?>
+
 
 <div class="main-content d-flex flex-column min-vh-100">
   <div class="container py-5">
@@ -13,7 +9,7 @@
     <div class="card card-custom w-100">
       <div class="card-body">
         <form action="<?= url('/discount') ?>" method="POST">
-
+<input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
           <!-- Discount Type -->
           <div class="mb-3">
             <label class="form-label fw-bold">Discount Type</label>

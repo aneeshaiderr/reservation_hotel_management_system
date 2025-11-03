@@ -26,8 +26,8 @@
             </tr>
           </thead>
           <tbody>
-             <?php if (!empty($discounts)): ?>
-            <?php foreach ($discounts as $discount): ?>
+             <?php if (! empty($discounts)) { ?>
+            <?php foreach ($discounts as $discount) { ?>
               <tr>
                   <td><?= htmlspecialchars($discount['id']) ?></td>
                 <td><?= htmlspecialchars($discount['discount_type'] ?? '') ?></td>
@@ -38,14 +38,14 @@
                 <td>
                   <?php
                     $st = $discount['status'] ?? '';
-                    if (strtolower($st) === 'active'): ?>
+                if (strtolower($st) === 'active') { ?>
                       <span class="badge bg-success">Active</span>
-                    <?php elseif (strtolower($st) === 'expired'): ?>
+                    <?php } elseif (strtolower($st) === 'expired') { ?>
                         
                       <span class="badge bg-danger">Expired</span>
-                    <?php else: ?>
+                    <?php } else { ?>
                       <span class="badge bg-warning text-dark"><?= htmlspecialchars($st ?: 'Unknown') ?></span>
-                    <?php endif; ?>
+                    <?php } ?>
                 </td>
              <td>
   <div class="d-flex align-items-center gap-2">
@@ -67,8 +67,8 @@
   </div>
 </td>
               
-            <?php endforeach; ?>
-            <?php endif; ?>
+            <?php } ?>
+            <?php } ?>
           </tbody>
            
         </table>

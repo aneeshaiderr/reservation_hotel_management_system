@@ -26,8 +26,8 @@
           </thead>
 
           <tbody>
-            <?php if (!empty($hotels)): ?>
-              <?php foreach ($hotels as $hotel): ?>
+            <?php if (! empty($hotels)) { ?>
+              <?php foreach ($hotels as $hotel) { ?>
                 <tr>
                   <td><?= htmlspecialchars($hotel['id']) ?></td>
                   <td><?= htmlspecialchars($hotel['hotel_name']) ?></td>
@@ -52,14 +52,17 @@
     </form>
   </div>
 </td>
-              <?php endforeach; ?>
-            <?php else: ?>
+              <?php } ?>
+            <?php } else { ?>
               <tr>
                 <td colspan="5" class="text-center text-muted">No hotels found.</td>
               </tr>
-            <?php endif; ?>
+            <?php } ?>
           </tbody>
         </table>
       </div>
     </div>
   </div>
+  </div>
+    </div>
+      </div>

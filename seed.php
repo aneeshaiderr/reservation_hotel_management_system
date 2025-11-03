@@ -1,15 +1,12 @@
 <?php
 
-define('BASE_PATH', __DIR__);   
+define('BASE_PATH', __DIR__);
 
-require BASE_PATH . '/vendor/autoload.php';
-
+require BASE_PATH.'/vendor/autoload.php';
 
 use Database\Seeders\UsersSeeder;
 
-
 $seeder = new UsersSeeder();
-
 
 $seeder->run();
 

@@ -1,6 +1,6 @@
 
-<?php require __DIR__ . '/../partial/head.php'; ?>
-<?php require __DIR__ . '/../partial/navbar.php'; ?>
+<?php require __DIR__.'/../partial/head.php'; ?>
+<?php require __DIR__.'/../partial/navbar.php'; ?>
  <link href="Assets/frontend/news.style.css" rel="stylesheet">
   <!-- Blog Section -->
   <section class="py-5 blog-section">
@@ -97,8 +97,8 @@
       </div>
     </div>
   </section>
-<?php 
-require __DIR__ . "/../partial/footer.php";
+<?php
+require __DIR__.'/../partial/footer.php';
 ?>
 </body>
 </html>

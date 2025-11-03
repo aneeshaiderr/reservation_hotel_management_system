@@ -1,9 +1,4 @@
 
-<?php
-// require __DIR__ . '../partial/head.php';
-// require __DIR__ . '../partial/nav.php';
-// require __DIR__ . '../partial/sidebar.php';
-?>
 
 <div class="main-content d-flex flex-column min-vh-100">
 
@@ -35,8 +30,8 @@
             </tr>
           </thead>
           <tbody>
-            <?php if (!empty($rooms)): ?>
-              <?php foreach ($rooms as $room): ?>
+            <?php if (! empty($rooms)) { ?>
+              <?php foreach ($rooms as $room) { ?>
                 <tr>
                   <td><?= htmlspecialchars($room['id']) ?></td>
                    
@@ -45,13 +40,13 @@
                   <td><?= htmlspecialchars($room['beds']) ?></td>
                   <td><?= htmlspecialchars($room['max_guests']) ?></td>
                   <td>
-                    <?php if ($room['status'] === 'available'): ?>
+                    <?php if ($room['status'] === 'available') { ?>
                       <span class="badge bg-success">Available</span>
-                    <?php elseif ($room['status'] === 'booked'): ?>
+                    <?php } elseif ($room['status'] === 'booked') { ?>
                       <span class="badge bg-danger">Booked</span>
-                    <?php else: ?>
+                    <?php } else { ?>
                       <span class="badge bg-warning text-dark">Maintenance</span>
-                    <?php endif; ?>
+                    <?php } ?>
                   </td>
                   <td>
                     <!--  Action Buttons -->
@@ -67,12 +62,12 @@
 </form>
                   </td>
                 </tr>
-              <?php endforeach; ?>
-            <?php else: ?>
+              <?php } ?>
+            <?php } else { ?>
               <tr>
                 <td colspan="7" class="text-center">No rooms found.</td>
               </tr>
-            <?php endif; ?>
+            <?php } ?>
           </tbody>
         </table>
       </div>

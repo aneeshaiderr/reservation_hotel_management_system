@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Middleware;
 
 class RoleMiddleware
@@ -10,13 +11,13 @@ class RoleMiddleware
         }
 
         if (empty($_SESSION['user'])) {
-            header("Location: /practice/public/login");
+            header('Location: /practice/public/login');
             exit;
         }
 
         $userRole = strtolower($_SESSION['user']['role_name'] ?? '');
 
-        // Super Admin 
+        // Super Admin
         if ($userRole === 'superadmin') {
             return;
         }

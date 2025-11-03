@@ -6,6 +6,7 @@
         <h5 class="fw-bold mb-4">Edit Reservation</h5>
 
         <form method="POST" action="<?= url('/reservation/update') ?>">
+          <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">
           <input type="hidden" name="_method" value="PATCH">
           <input type="hidden" name="id" value="<?= htmlspecialchars($reservation['id']) ?>">
 
@@ -26,12 +27,12 @@
             <label for="discount_id">Hotel Name</label>
   <select id="hotel_id" name="hotel_id" class="form-control" required>
     <option value="">Select Hotel</option>
-    <?php foreach ($hotels as $hotel): ?>
+    <?php foreach ($hotels as $hotel) { ?>
         <option value="<?= $hotel['id'] ?>" 
             <?= $reservation['hotel_id'] == $hotel['id'] ? 'selected' : '' ?>>
             <?= htmlspecialchars($hotel['hotel_name']) ?>
         </option>
-    <?php endforeach; ?>
+    <?php } ?>
 </select>
 </div>
 <!-- Discount Name (from discounts table) -->
@@ -39,12 +40,12 @@
             <label for="discount_id">Discount</label>
             <select id="discount_id" name="discount_id" class="form-control">
               <option value="">Select Discount</option>
-              <?php foreach ($discounts as $discount): ?>
+              <?php foreach ($discounts as $discount) { ?>
                 <option value="<?= $discount['id'] ?>" 
                   <?= $reservation['discount_id'] == $discount['id'] ? 'selected' : '' ?>>
                   <?= htmlspecialchars($discount['discount_name']) ?>
                 </option>
-              <?php endforeach; ?>
+              <?php } ?>
             </select>
           </div>
           <!-- Check-in Date -->

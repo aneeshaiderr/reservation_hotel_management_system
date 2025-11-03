@@ -66,9 +66,9 @@
 <script>
 $(function(){
   const hotels = [
-    <?php foreach ($hotels as $hotel): ?>
+    <?php foreach ($hotels as $hotel) { ?>
       { id: <?= $hotel['id'] ?>, hotel_name: "<?= addslashes($hotel['hotel_name']) ?>" },
-    <?php endforeach; ?>
+    <?php } ?>
   ];
 
   const $input = $('#hotelSearch');

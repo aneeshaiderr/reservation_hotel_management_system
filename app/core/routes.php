@@ -1,25 +1,21 @@
 <?php
 
-use App\Controllers\HomeController;
 use App\Controllers\AboutController;
-use App\Controllers\RoomController;
-use App\Controllers\NewsController;
-use App\Controllers\ContactController;
-use App\Controllers\Auth\SignupController;
 use App\Controllers\Auth\LoginController;
-
-use App\Controllers\DashboardController\UserController;
-use App\Controllers\DashboardController\RoomsController;
-use App\Controllers\DashboardController\HotelController;
-use App\Controllers\DashboardController\ReservationController;
-use App\Controllers\DashboardController\DiscountController;
-use App\Controllers\DashboardController\ServicesController;
-use App\Controllers\DashboardController\AnalyticsController;
-use App\Controllers\DashboardController\UserCardController;
+use App\Controllers\Auth\SignupController;
 use App\Controllers\Auth\StaffLoginController;
 use App\Controllers\Auth\StaffSignupController;
-
-
+use App\Controllers\ContactController;
+use App\Controllers\DashboardController\AnalyticsController;
+use App\Controllers\DashboardController\DiscountController;
+use App\Controllers\DashboardController\HotelController;
+use App\Controllers\DashboardController\ReservationController;
+use App\Controllers\DashboardController\RoomsController;
+use App\Controllers\DashboardController\ServicesController;
+use App\Controllers\DashboardController\UserController;
+use App\Controllers\HomeController;
+use App\Controllers\NewsController;
+use App\Controllers\RoomController;
 
 $router->get('/', [HomeController::class, 'index']);
 $router->get('/about', [AboutController::class, 'index']);
@@ -27,37 +23,32 @@ $router->get('/room', [RoomController::class, 'index']);
 $router->get('/news', [NewsController::class, 'index']);
 $router->get('/contact', [ContactController::class, 'index']);
 
-
 $router->get('/login', [LoginController::class, 'index']);
 $router->post('/login', [LoginController::class, 'store']);
 $router->get('/signup', [SignupController::class, 'index']);
-$router->post('/signup', [SignupController::class, 'store']);
+$router->post('/signup', [SignupController::class, 'index']);
 
 // Staff login/signup
 $router->get('/staffLogin', [StaffLoginController::class, 'index']);
 $router->post('/staffLogin', [StaffLoginController::class, 'store']);
-$router->get('/StaffSignup', [StaffSignupController::class, 'index']);
-$router->post('/StaffSignup', [StaffSignupController::class, 'store']);
-
-
+$router->get('/staffSignup', [StaffSignupController::class, 'index']);
+$router->post('/staffSignup', [StaffSignupController::class, 'index']);
 
 $router->group(['middleware' => ['authMiddleware']], function ($router) {
-
     // Common for all logged-in users (user, staff, super_admin)
 
     // Feedback-- Why not group these routes in a UserController
     $router->get('/user', [UserController::class, 'index']);
-       $router->get('/user/CreateUser', [UserController::class, 'CreateUser']);
-        $router->post('/user', [UserController::class, 'softDelete']);
-       $router->post('/user/store', [UserController::class, 'CreateUser']);
+    $router->get('/user/CreateUser', [UserController::class, 'CreateUser']);
+    $router->post('/user', [UserController::class, 'softDelete']);
+    $router->post('/user/store', [UserController::class, 'CreateUser']);
     $router->get('/userAllDetails', [UserController::class, 'userAllDetails']);
     $router->get('/userdetails', [UserController::class, 'show']);
     $router->get('/details', [UserController::class, 'show']);
     $router->post('/details', [UserController::class, 'update']);
-    $router->post('/user/delete', [UserCardController::class,'delete']);
+    
 
-
-    //  Reservations 
+    //  Reservations
     // Feedback-- Why not group these routes in a ReservationController
     $router->get('/reservation', [ReservationController::class, 'index']);
     $router->get('/reservation/reservationCreate', [ReservationController::class, 'create']);
@@ -115,4 +106,3 @@ $router->group(['middleware' => ['authMiddleware']], function ($router) {
         $router->post('/user/delete', [UserController::class, 'softDelete']);
     });
 });
-

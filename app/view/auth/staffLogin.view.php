@@ -1,15 +1,14 @@
 
 
 <?php
- require __DIR__ . '/../partial/head.php'; 
+ require __DIR__.'/../partial/head.php';
 
 // Feedback-- Need proper indentation as per PSR-12 standards
 // Feedback-- CSRF token not used in any controllers or middleware
 // Feedback-- Why are flash messages like errors or sucess messages show?
- 
+
 ?>
 <?php
-
 
 // Agar token already exist nahi karta, to generate karo
 if (empty($_SESSION['csrf_token'])) {
@@ -31,17 +30,17 @@ $csrf_token = $_SESSION['csrf_token'];
           <div class="mb-3">
             <input type="user_email" id="user_email" name="user_email" class="form-control" placeholder="Enter your email" required>
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
-            <?php if(isset($errors['user_email'])):?>
+            <?php if (isset($errors['user_email'])) { ?>
               <div class="text-danger small mt-1"><?= $errors['user_email']?> </div>
-            <?php endif; ?>
+            <?php } ?>
           </div>
 
           <!-- Password -->
           <div class="mb-3">
             <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required>
-            <?php if(isset($errors['password'])):?>
+            <?php if (isset($errors['password'])) { ?>
               <div class="text-danger small mt-1"><?= $errors['password']?> </div>
-            <?php endif; ?>
+            <?php } ?>
           </div>
 
           <!-- Submit -->

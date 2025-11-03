@@ -41,8 +41,8 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <?php if (!empty($users)) : ?>
-                    <?php foreach ($users as $user) : ?>
+                  <?php if (! empty($users)) { ?>
+                    <?php foreach ($users as $user) { ?>
                       <tr>
                         <td><?= $user['id'] ?></td>
                         <td><?= $user['first_name'] ?></td>
@@ -59,10 +59,10 @@
                           </button>
                         </td>
                       </tr>
-                    <?php endforeach; ?>
-                  <?php else : ?>
+                    <?php } ?>
+                  <?php } else { ?>
                     <tr><td colspan="5">No users found.</td></tr>
-                  <?php endif; ?>
+                  <?php } ?>
                 </tbody>
               </table>
             </div>

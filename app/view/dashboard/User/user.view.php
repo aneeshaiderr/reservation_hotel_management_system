@@ -8,7 +8,7 @@
         <div class="card shadow-sm">
           <div class="card-header bg-primary text-white text-center">Current Details</div>
           <div class="card-body">
-            <?php if ($user): ?>
+            <?php if ($user) { ?>
               <p><strong>ID:</strong> <?= htmlspecialchars($user['id']) ?></p>
               <p><strong>Email:</strong> <?= htmlspecialchars($user['user_email']) ?></p>
               <p><strong>First-Name:</strong> <?= htmlspecialchars($user['first_name']) ?></p>
@@ -16,9 +16,9 @@
               <p><strong>Address:</strong> <?= htmlspecialchars($user['address']) ?></p>
               <p><strong>Contact_No:</strong> <?= htmlspecialchars($user['contact_no']) ?></p>
               <p><strong>Status:</strong> <?= htmlspecialchars($user['status']) ?></p>
-            <?php else: ?>
+            <?php } else { ?>
               <p>No user details found.</p>
-            <?php endif; ?>
+            <?php } ?>
           </div>
         </div>
       </div>
@@ -30,14 +30,14 @@
           <div class="card-body">
             <?php
             if ($user && isset($user['id'])) {
-              if (!empty($currentReservation) && isset($currentReservation['user_id']) && $currentReservation['user_id'] == $user['id']) {
-                $now = new DateTime();
-                $checkout = new DateTime($currentReservation['check_out']);
-                $interval = $now->diff($checkout);
-                $timeLeft = $checkout > $now
-                  ? $interval->format('%a days, %h hours left')
-                  : 'Checked out';
-            ?>
+                if (! empty($currentReservation) && isset($currentReservation['user_id']) && $currentReservation['user_id'] == $user['id']) {
+                    $now = new DateTime();
+                    $checkout = new DateTime($currentReservation['check_out']);
+                    $interval = $now->diff($checkout);
+                    $timeLeft = $checkout > $now
+                      ? $interval->format('%a days, %h hours left')
+                      : 'Checked out';
+                    ?>
                 <p><strong>Hotel Name:</strong> <?= htmlspecialchars($currentReservation['hotel_name']) ?></p>
                 <p><strong>Hotel Code:</strong> <?= htmlspecialchars($currentReservation['hotel_code']) ?></p>
                 <p><strong>Check-in:</strong> <?= htmlspecialchars($currentReservation['check_in']) ?></p>
@@ -52,11 +52,11 @@
                   
                 </div>
             <?php
-              } else {
-                echo "<p>No active reservations found for this user.</p>";
-              }
+                } else {
+                    echo '<p>No active reservations found for this user.</p>';
+                }
             } else {
-              echo "<p>User not found or not logged in.</p>";
+                echo '<p>User not found or not logged in.</p>';
             }
             ?>
           </div>

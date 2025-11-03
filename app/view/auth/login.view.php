@@ -1,18 +1,24 @@
 
-<?php require __DIR__ . '/../partial/head.php'; ?>
+<?php require __DIR__.'/../partial/head.php'; ?>
 <?php
+// if (
+//     ! isset($_POST['csrf_token']) ||
+//     $_POST['csrf_token'] !== $_SESSION['csrf_token']
+// ) {
+//     exit('Invalid CSRF token');
+// }
 
 // Feedback-- Need proper indentation as per PSR-12 standards
 // Feedback-- CSRF token not used in any controllers or middleware
 // Feedback-- Why are flash messages like errors or sucess messages show?
 
 // Agar token already exist nahi karta, to generate karo
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
+// if (empty($_SESSION['csrf_token'])) {
+//     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+// }
 
 // Token variable me store karo
-$csrf_token = $_SESSION['csrf_token'];
+// $csrf_token = $_SESSION['csrf_token'];
 ?>
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
   <div class="col-md-6 col-lg-5">
@@ -24,19 +30,19 @@ $csrf_token = $_SESSION['csrf_token'];
 
           <!-- Email -->
           <div class="mb-3">
-            <input type="user_email" id="user_email" name="user_email" class="form-control" placeholder="Enter your email" required>
-            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
-            <?php if(isset($errors['user_email'])):?>
+            <input type="email" id="user_email" name="user_email" class="form-control" placeholder="Enter your email" required>
+           <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">
+            <?php if (isset($errors['user_email'])) { ?>
               <div class="text-danger small mt-1"><?= $errors['user_email']?> </div>
-            <?php endif; ?>
+            <?php } ?>
           </div>
 
           <!-- Password -->
           <div class="mb-3">
             <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required>
-            <?php if(isset($errors['password'])):?>
+            <?php if (isset($errors['password'])) { ?>
               <div class="text-danger small mt-1"><?= $errors['password']?> </div>
-            <?php endif; ?>
+            <?php } ?>
           </div>
 
           <!-- Submit -->

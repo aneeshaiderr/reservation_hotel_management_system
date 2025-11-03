@@ -22,12 +22,16 @@ $username = $_SESSION['username'] ?? '';
       <img src="Assets/dashboard/img/avatar.jpg" class="rounded-circle img-fluid mb-2" alt="User Avatar" style="width:80px; height:80px;">
       <div class="mb-0">
       <small class="text-secondary mb-0">
-        <?php 
-          if ($roleId == 1) echo "Super Admin";
-          elseif ($roleId == 2) echo "Staff";
-          elseif ($roleId == 4) echo "User";
-         
-        ?>
+        <?php
+          if ($roleId == 1) {
+              echo 'Super Admin';
+          } elseif ($roleId == 2) {
+              echo 'Staff';
+          } elseif ($roleId == 4) {
+              echo 'User';
+          }
+
+?>
       </small>
     </div>
     <hr class="border-secondary">
@@ -36,7 +40,7 @@ $username = $_SESSION['username'] ?? '';
     <ul class="nav flex-column">
 
       <!-- Dashboards Collapse -->
-      <?php if ($roleId == 1): ?>
+      <?php if ($roleId == 1) { ?>
       <li class="nav-item">
         <a class="nav-link text-white" data-bs-toggle="collapse" href="#dashboards" role="button" aria-expanded="false" aria-controls="dashboards">
           <i class="fas fa-sliders-h"></i> Dashboards
@@ -52,7 +56,7 @@ $username = $_SESSION['username'] ?? '';
           </ul>
         </div>
       </li>
-      <?php endif; ?>
+      <?php } ?>
 
       <!-- Pages Collapse -->
       <li class="nav-item">
@@ -61,7 +65,7 @@ $username = $_SESSION['username'] ?? '';
         </a>
         <div class="collapse" id="pages">
           <ul class="nav flex-column ms-3">
-              <?php if ($roleId == 1): // Super Admin ?>
+              <?php if ($roleId == 1) { // Super Admin?>
         <li class="nav-item"><a href="user" class="nav-link text-white <?= urlIs('user') ? 'active bg-dark text-white' : '' ?>">Users</a></li>
         <li class="nav-item"><a href="hotel" class="nav-link text-white <?= urlIs('hotel') ? 'active bg-dark text-white' : '' ?>">Hotels</a></li>
         <li class="nav-item"><a href="rooms" class="nav-link text-white <?= urlIs('rooms') ? 'active bg-dark text-white' : '' ?>">Rooms</a></li>
@@ -72,16 +76,16 @@ $username = $_SESSION['username'] ?? '';
 
 
 
-    <?php elseif ($roleId == 2): // Staff ?>
+    <?php } elseif ($roleId == 2) { // Staff?>
         <li class="nav-item"><a href="reservation" class="nav-link text-white <?= urlIs('reservation') ? 'active bg-dark text-white' : '' ?>">Reservations</a></li>
         <li class="nav-item"><a href="services" class="nav-link text-white <?= urlIs('services') ? 'active bg-dark text-white' : '' ?>">Services</a></li>
         <li class="nav-item"><a href="rooms" class="nav-link text-white <?= urlIs('rooms') ? 'active bg-dark text-white' : '' ?>">Rooms</a></li>
-            <?php elseif ($roleId == 4): ?>
+            <?php } elseif ($roleId == 4) { ?>
               <li class="nav-item"><a href="user" class="nav-link text-white <?= urlIs('user') ? 'active bg-dark text-white' : '' ?>">My Profile</a></li>
               <li class="nav-item"><a href="reservation" class="nav-link text-white <?= urlIs('reservation') ? 'active bg-dark text-white' : '' ?>">My Reservations</a></li>
-            <?php else: ?>
+            <?php } else { ?>
               <li class="nav-item"><a href="login" class="nav-link text-white">Login</a></li>
-            <?php endif; ?>
+            <?php } ?>
           </ul>
         </div>
       </li>

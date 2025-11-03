@@ -6,37 +6,37 @@
  
             <div class="mx-auto max-w-4xl py-7 px-7">
               <form method="POST" action="<?= url('/rooms/update') ?>">
-    <input type="hidden" name="id" value="<?= (int)$room['id'] ?>">
+    <input type="hidden" name="id" value="<?= (int) $room['id'] ?>">
     
                     <!-- <input type="hidden" name="_method" value="PATCH"> -->
-                    <input type="hidden" name="id" value="<?= (int)$room['id'] ?>">
+                    <input type="hidden" name="id" value="<?= (int) $room['id'] ?>">
 
                     <!-- Room Number -->
                     <div class="mb-4">
                         <label for="room_number">Room Number</label>
                         <input type="number" id="room_number" name="room_number"
-                               value="<?= (int)$room['room_number'] ?>" required>
+                               value="<?= (int) $room['room_number'] ?>" required>
                     </div>
 
                     <!-- Floor -->
                     <div class="mb-4">
                         <label for="floor">Floor</label>
                         <input type="number" id="floor" name="floor"
-                               value="<?= (int)$room['floor'] ?>" required>
+                               value="<?= (int) $room['floor'] ?>" required>
                     </div>
 
                     <!-- Room Bed -->
                     <div class="mb-4">
                         <label for="room_bed">Room Bed</label>
                         <input type="number" id="room_bed" name="room_bed"
-                               value="<?= (int)$room['beds'] ?>" required>
+                               value="<?= (int) $room['beds'] ?>" required>
                     </div>
 
                     <!-- Max Guest -->
                     <div class="mb-4">
                         <label for="Max_guests">Max Guest</label>
                         <input type="number" id="Max_guests" name="Max_guests"
-                               value="<?= (int)$room['max_guests'] ?>" required>
+                               value="<?= (int) $room['max_guests'] ?>" required>
                     </div>
 
                     <!-- Status -->
