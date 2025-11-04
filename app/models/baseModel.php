@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Core\Database;
 
-// Feedback-- Need proper indentation as per PSR-12 standards
+// Feedback2-- Need proper indentation as per PSR-12 standards
 abstract class BaseModel
 {
     protected Database $db;

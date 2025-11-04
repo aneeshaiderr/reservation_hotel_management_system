@@ -105,6 +105,8 @@ class Database
     }
 }
 
+//Feedback2-- Remove Unused code and use Git to see old version of code. Keep the codebase clean.
+
 // namespace App\Core;
 
 // use PDO;

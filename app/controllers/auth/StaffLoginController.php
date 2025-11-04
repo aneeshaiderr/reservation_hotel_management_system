@@ -6,7 +6,7 @@ use App\Core\Database;
 
 class StaffLoginController
 {
-    // Feedback-- Need proper indentation as per PSR-12 standards
+    // Feedback2-- Need proper indentation as per PSR-12 standards
     public function index()
     {
         // session_start();
@@ -17,12 +17,12 @@ class StaffLoginController
  {
      // session_start();
 
-     // Feedback-- Need to use singleton pattern for database connection
+     // Feedback2-- Need to use singleton pattern for database connection
      $config = require BASE_PATH.'config.php';
      $db = new Database($config);
 
-     // Feedback-- Should be present in the User Model Breaking MVC Conventions
-     // Feedback-- How are you handling the sql injections and unsafe queries?
+     // Feedback2-- Should be present in the User Model Breaking MVC Conventions
+     // Feedback2-- How are you handling the sql injections and unsafe queries?
      $user = $db->query('SELECT * FROM users WHERE user_email = :user_email', [
          ':user_email' => $_POST['user_email'],
      ])->find();

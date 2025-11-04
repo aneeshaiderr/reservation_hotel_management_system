@@ -37,7 +37,7 @@ $router->post('/staffSignup', [StaffSignupController::class, 'index']);
 $router->group(['middleware' => ['authMiddleware']], function ($router) {
     // Common for all logged-in users (user, staff, super_admin)
 
-    // Feedback-- Why not group these routes in a UserController
+    // Feedback2-- Why not group these routes in a UserController
     $router->get('/user', [UserController::class, 'index']);
     $router->get('/user/CreateUser', [UserController::class, 'CreateUser']);
     $router->post('/user', [UserController::class, 'softDelete']);
@@ -49,7 +49,7 @@ $router->group(['middleware' => ['authMiddleware']], function ($router) {
     
 
     //  Reservations
-    // Feedback-- Why not group these routes in a ReservationController
+    // Feedback2-- Why not group these routes in a ReservationController
     $router->get('/reservation', [ReservationController::class, 'index']);
     $router->get('/reservation/reservationCreate', [ReservationController::class, 'create']);
     $router->post('/reservation', [ReservationController::class, 'store']);
@@ -58,7 +58,7 @@ $router->group(['middleware' => ['authMiddleware']], function ($router) {
     $router->post('/reservation/delete', [ReservationController::class, 'delete']);
 
     // Rooms
-    // Feedback-- Why not group these routes in a RoomsController
+    // Feedback2-- Why not group these routes in a RoomsController
     $router->get('/rooms', [RoomsController::class, 'index']);
     $router->get('/roomCreate', [RoomsController::class, 'create']);
     $router->post('/rooms', [RoomsController::class, 'store']);
@@ -67,7 +67,7 @@ $router->group(['middleware' => ['authMiddleware']], function ($router) {
     $router->post('/rooms/delete', [RoomsController::class, 'delete']);
 
     //  Hotels
-    // Feedback-- Why not group these routes in a HotelController
+    // Feedback2-- Why not group these routes in a HotelController
     $router->get('/hotel', [HotelController::class, 'index']);
     $router->get('/hotel/create', [HotelController::class, 'create']);
     $router->post('/hotel/store', [HotelController::class, 'store']);
@@ -77,7 +77,7 @@ $router->group(['middleware' => ['authMiddleware']], function ($router) {
 
     //  Discounts (only for staff/admin)
     $router->group(['middleware' => ['role:staff,super_admin']], function ($router) {
-        // Feedback-- Why not group these routes in a DiscountController
+        // Feedback2-- Why not group these routes in a DiscountController
         $router->get('/discount', [DiscountController::class, 'index']);
         $router->get('/discount/createDiscount', [DiscountController::class, 'create']);
         $router->post('/discount', [DiscountController::class, 'store']);
@@ -87,7 +87,7 @@ $router->group(['middleware' => ['authMiddleware']], function ($router) {
     });
 
     // Services
-    // Feedback-- Why not group these routes in a ServicesController
+    // Feedback2-- Why not group these routes in a ServicesController
     $router->get('/services', [ServicesController::class, 'index']);
     $router->get('/createService', [ServicesController::class, 'create']);
     $router->post('/services', [ServicesController::class, 'store']);

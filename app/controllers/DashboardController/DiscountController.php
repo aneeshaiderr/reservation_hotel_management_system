@@ -6,7 +6,7 @@ use App\Core\Csrf;
 use App\Models\Discount;
 use App\Request\DiscountRequest;
 
-// Feedback-- Need proper indentation as per PSR-12 standards
+// Feedback2-- Need proper indentation as per PSR-12 standards
 
 class DiscountController extends BaseController
 {
@@ -21,11 +21,6 @@ class DiscountController extends BaseController
     {
         $discounts = $this->discount->getAll();
 
-        // Feedback-- This view function in the base controller should be used to render the layout while the function
-        // Call here should pass data to the view.
-
-        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
-
         $this->render('dashboard/Discount/discount.view.php', [
             'discounts' => $discounts,
         ]);
@@ -34,19 +29,14 @@ class DiscountController extends BaseController
 
     public function create()
     {
-        // Feedback-- This view function in the base controller should be used to render the layout while the function
-        // Call here should pass data to the view.
-
-        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
-
-        $this->render('dashboard/Discount/createDiscount.view.php');
-       
+        $this->render('dashboard/Discount/createDiscount.view.php');  
     }
 
       public function store()
        {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $token = $_POST['csrf_token'] ?? '';
+        // Feedback2-- Return user to the login page if token is invalid with proper message
         if (!Csrf::validateToken($token)) {
             die('Invalid CSRF token');
         }
@@ -82,14 +72,11 @@ class DiscountController extends BaseController
 
         $discount = $this->discount->find($id);
 
+        // Feedback2-- Return user to the page with proper message not a case for 404
         if (! $discount) {
             abort(404);
         }
 
-        // Feedback-- This view function in the base controller should be used to render the layout while the function
-        // Call here should pass data to the view.
-
-        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
         $this->render('dashboard/Discount/editDiscount.view.php', [
             'discount' => $discount,
         ]);
@@ -99,6 +86,7 @@ class DiscountController extends BaseController
   {
       if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           $token = $_POST['csrf_token'] ?? '';
+          // Feedback2-- Return user to the login page if token is invalid with proper message
           if (!Csrf::validateToken($token)) {
               die('Invalid CSRF token'); // ya error page dikha do
           }
@@ -119,7 +107,7 @@ class DiscountController extends BaseController
               'status'        => $_POST['status']
           ];
 
-          // Feedback-- How are you handling the sql injections and unsafe queries?
+          // Feedback2-- How are you handling the sql injections and unsafe queries?
           $this->discount->update($id, $data);
           redirect(url('/discount'));
       }

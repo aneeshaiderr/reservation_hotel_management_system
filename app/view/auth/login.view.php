@@ -1,24 +1,9 @@
 
 <?php require __DIR__.'/../partial/head.php'; ?>
 <?php
-// if (
-//     ! isset($_POST['csrf_token']) ||
-//     $_POST['csrf_token'] !== $_SESSION['csrf_token']
-// ) {
-//     exit('Invalid CSRF token');
-// }
+// Feedback2-- Why are flash messages like errors or sucess messages show?
 
-// Feedback-- Need proper indentation as per PSR-12 standards
-// Feedback-- CSRF token not used in any controllers or middleware
-// Feedback-- Why are flash messages like errors or sucess messages show?
-
-// Agar token already exist nahi karta, to generate karo
-// if (empty($_SESSION['csrf_token'])) {
-//     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-// }
-
-// Token variable me store karo
-// $csrf_token = $_SESSION['csrf_token'];
+// Feedback2-- write a foreach loop to go over sessions errors and display them in a styled HTML structure
 ?>
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
   <div class="col-md-6 col-lg-5">

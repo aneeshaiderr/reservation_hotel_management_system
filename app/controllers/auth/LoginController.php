@@ -18,7 +18,7 @@ class LoginController
         $config = require BASE_PATH.'config.php';
         $db = new Database($config);
 
-        // Feedback-- Should be present in the User Model Breaking MVC Conventions
+        // Feedback2-- Should be present in the User Model Breaking MVC Conventions
         $user = $db->query('
             SELECT 
                 u.id,
@@ -33,7 +33,7 @@ class LoginController
             WHERE u.user_email = :email
             LIMIT 1
         ', [
-            ':email' => $_POST['user_email'], // Feedback-- Did you check if this is secure SQL Injection?
+            ':email' => $_POST['user_email'], // Feedback2-- Did you check if this is secure SQL Injection?
         ])->find();
 
         // Agar user exist nahi karta

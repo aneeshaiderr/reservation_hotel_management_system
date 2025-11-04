@@ -1,9 +1,9 @@
 
  <?php require __DIR__.'/../partial/head.php';
 
- // Feedback-- Need proper indentation as per PSR-12 standards
- // Feedback-- CSRF token not used in any controllers or middleware
- // Feedback-- Why are flash messages like errors or sucess messages show?
+// Feedback2-- Need proper indentation as per PSR-12 standards
+// Feedback2-- Why are flash messages like errors or sucess messages show?
+// Feedback2-- write a foreach loop to go over sessions errors and display them in a styled HTML structure
 
  ?>
 

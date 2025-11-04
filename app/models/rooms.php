@@ -2,8 +2,7 @@
 
 namespace App\Models;
 
-// Feedback-- Need proper indentation as per PSR-12 standards
-// Feedback-- How did yoy handle SQL Injections?
+// Feedback2-- Need proper indentation as per PSR-12 standards
 class Rooms extends BaseModel
 {
     //  All  rooms

@@ -10,7 +10,7 @@ use App\Models\Rooms;
 use App\Models\User;
 use App\Request\ReservationRequest;
 use App\Core\CSRF;
-// Feedback-- Need proper indentation as per PSR-12 standards
+// Feedback2-- Need proper indentation as per PSR-12 standards
 class ReservationController extends BaseController
 {
     protected $reservationModel;
@@ -39,7 +39,7 @@ class ReservationController extends BaseController
     // Show all reservations
     public function index()
     {
-        // Feedback-- Should be consider a global alternative to this rather than handling it in each controller method?
+        // Feedback2-- Should be consider a global alternative to this rather than handling it in each controller method?
         if (! isset($_SESSION['user_id'])) {
             header('Location: '.BASE_URL.'/login');
             exit;
@@ -49,11 +49,6 @@ class ReservationController extends BaseController
         $roleId = $_SESSION['role_id'];
 
         $reservations = $this->reservationModel->getAllReservations($userId, $roleId);
-
-        // Feedback-- This view function in the base controller should be used to render the layout while the function
-        // Call here should pass data to the view.
-
-        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
 
         $this->render('dashboard/Reservation/reservation.view.php', [
             'reservations' => $reservations,
@@ -69,10 +64,6 @@ class ReservationController extends BaseController
         $rooms = $this->room->getAllRooms();
         $discounts = $this->discount->getAll();
 
-        // Feedback-- This view function in the base controller should be used to render the layout while the function
-        // Call here should pass data to the view.
-
-        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
         $this->render('dashboard/Reservation/reservationCreate.view.php', [
             'users' => $users,
             'hotels' => $hotels,
@@ -140,10 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     {
         $id = (int) $_GET['id'];
         $reservation = $this->reservationModel->getReservationById($id);
-        // Feedback-- This view function in the base controller should be used to render the layout while the function
-        // Call here should pass data to the view.
 
-        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
         $this->render('dashboard/Reservation/reservationDetail.view.php', [
             'reservation' => $reservation,
         ]);
@@ -158,16 +146,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $reservation = $this->reservationModel->find($id);
+        // Feedback2-- Return user to the page with proper message not a case for 404
         if (! $reservation) {
             abort(404);
         }
 
         $hotels = $this->hotelModel->getAllHotels();
         $discounts = $this->discount->getAll();
-        // Feedback-- This view function in the base controller should be used to render the layout while the function
-        // Call here should pass data to the view.
 
-        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
         $this->render('dashboard/Reservation/editReservation.view.php', [
             'reservation' => $reservation,
             'hotels' => $hotels,

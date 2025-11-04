@@ -5,7 +5,7 @@ namespace App\Controllers\DashboardController;
 use App\Models\Rooms;
 use App\Request\RoomRequest;
 use App\Core\Csrf;
-// Feedback-- Need proper indentation as per PSR-12 standards
+// Feedback2-- Need proper indentation as per PSR-12 standards
 class RoomsController extends BaseController
 {
     protected $db;
@@ -19,10 +19,6 @@ class RoomsController extends BaseController
 
     public function index()
     {
-        // Feedback-- This view function in the base controller should be used to render the layout while the function
-        // Call here should pass data to the view.
-
-        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
         $rooms = $this->roomModel->getAllRooms();
         $this->render('dashboard/Rooms/rooms.view.php', ['rooms' => $rooms]);
         
@@ -52,14 +48,11 @@ class RoomsController extends BaseController
 
         $room = $this->roomModel->find($id);
 
+        // Feedback2-- Return user to the page with proper message not a case for 404
         if (! $room) {
             abort(404);
         }
 
-        // Feedback-- This view function in the base controller should be used to render the layout while the function
-        // Call here should pass data to the view.
-
-        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
         $this->render('dashboard/Rooms/roomDetail.view.php', [
             'room' => $room,
         ]);
@@ -77,11 +70,6 @@ class RoomsController extends BaseController
 
     public function create()
     {
-        // Feedback-- This view function in the base controller should be used to render the layout while the function
-        // Call here should pass data to the view.
-
-        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
-
         $hotels = $this->roomModel->getAllHotels();
         // Show create room form
         $this->render('dashboard/Rooms/roomCreate.view.php', [
@@ -94,6 +82,7 @@ class RoomsController extends BaseController
     public function store()
 {
  // CSRF CHECK
+    // Feedback2-- Why used a different approach for CSRF Token Validation in this function?
     if (!isset($_POST['_token']) || $_POST['_token'] !== $_SESSION['_token']) {
         $_SESSION['errors']['csrf'] = "Invalid CSRF token!";
        
@@ -116,6 +105,9 @@ class RoomsController extends BaseController
     redirect(url('/rooms'));
 }
 }
+
+// Feedback2-- Dont keep commented code in the codebase use git to see old versions keep the codebase clean
+
 // public function store()
 // {
 //     // CSRF CHECK

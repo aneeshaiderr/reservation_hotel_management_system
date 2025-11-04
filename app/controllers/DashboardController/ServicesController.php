@@ -5,7 +5,7 @@ namespace App\Controllers\DashboardController;
 use App\Models\Services;
 use App\Core\Csrf;
 use App\Request\ServiceRequest;
-// Feedback-- Need proper indentation as per PSR-12 standards
+// Feedback2-- Need proper indentation as per PSR-12 standards
 class ServicesController extends BaseController
 {
     protected $db;
@@ -21,10 +21,6 @@ class ServicesController extends BaseController
     {
         $services = $this->servicesModel->getAll();
 
-        // Feedback-- This view function in the base controller should be used to render the layout while the function
-        // Call here should pass data to the view.
-
-        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
         $this->render('dashboard/Services/services.view.php', [
             'services' => $services,
         ]);
@@ -51,10 +47,7 @@ class ServicesController extends BaseController
 
       
           $services = $this->servicesModel->all(); 
-        // Feedback-- This view function in the base controller should be used to render the layout while the function
-        // Call here should pass data to the view.
 
-        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
         $this->render('dashboard/Services/createService.view.php', [
             'services' => $services,
         ]);
@@ -63,6 +56,8 @@ class ServicesController extends BaseController
 public function store()
 {
     // CSRF Protection
+
+    // Feedback2-- Why used a different approach for CSRF Token Validation in this function?
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
         $_SESSION['errors']['csrf'] = "Invalid CSRF token!";
         
@@ -80,6 +75,8 @@ public function store()
     }
 
     // Insert into DB
+
+    // Feedback2-- What would happend if there is an error during create operation?
     $this->servicesModel->create($request->all());
 
     // Redirect to index
@@ -101,10 +98,6 @@ public function store()
             redirect(url('/services'));
         }
 
-        // Feedback-- This view function in the base controller should be used to render the layout while the function
-        // Call here should pass data to the view.
-
-        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
         $this->render('dashboard/Services/editService.view.php', [
             'service' => $service,
         ]);
@@ -118,7 +111,7 @@ public function update()
         return;
     }
 
-    //  CSRF Check
+    // Feedback2-- Why used a different approach for CSRF Token Validation in this function?
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
         $_SESSION['errors']['csrf'] = "Invalid CSRF token!";
        
@@ -142,6 +135,8 @@ public function update()
     }
 
     // Update in DB
+
+    // Feedback2-- What would happend if there is an error during update operation?
     $this->servicesModel->update($id, $request->all());
 
     // Success Message + Redirect

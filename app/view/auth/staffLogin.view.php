@@ -3,13 +3,14 @@
 <?php
  require __DIR__.'/../partial/head.php';
 
-// Feedback-- Need proper indentation as per PSR-12 standards
-// Feedback-- CSRF token not used in any controllers or middleware
-// Feedback-- Why are flash messages like errors or sucess messages show?
+// Feedback2-- Why are flash messages like errors or sucess messages show?
+
+// Feedback2-- write a foreach loop to go over sessions errors and display them in a styled HTML structure
 
 ?>
 <?php
 
+// Feedback2-- What's the purpose of this code here?
 // Agar token already exist nahi karta, to generate karo
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));

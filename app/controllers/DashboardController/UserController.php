@@ -6,7 +6,7 @@ use App\Middleware\ExceptionHandler;
 use App\Models\User;
 use App\Middleware\AuthMiddleware;
 use App\Request\UserRequest;
-// Feedback-- Need proper indentation as per PSR-12 standards
+// Feedback2-- Need proper indentation as per PSR-12 standards
 class UserController extends BaseController
 {
     protected $userModel;
@@ -43,16 +43,12 @@ protected $reservationModel;
                 'currentReservation' => $currentReservation ?? null,
             ]);
         }
-        // Feedback-- This view function in the base controller should be used to render the layout while the function
-        // Call here should pass data to the view.
-
-        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
-        // return view('Layouts/dashboard.layout.php');
     }
 
     /*  Using Model for query now */
     public function userAllDetails()
     {
+        //Feedback2-- Should keep this logic globally 
         $auth = new AuthMiddleware();
           $auth->handle();
         
@@ -67,10 +63,6 @@ protected $reservationModel;
         } else {
             $reservations = $allReservations;
         }
-        // Feedback-- This view function in the base controller should be used to render the layout while the function
-        // Call here should pass data to the view.
-
-        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
         $this->render('dashboard/User/userAllDetails.view.php', [
             'reservations' => $reservations,
         ]);
@@ -86,14 +78,11 @@ protected $reservationModel;
 
         $user = $this->userModel->find($id);
 
+        //Feedback2-- Return user to the page with proper message not a case for 404
         if (! $user || $user === false) {
             abort(404);
         }
 
-        // Feedback-- This view function in the base controller should be used to render the layout while the function
-        // Call here should pass data to the view.
-
-        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
         $this->render('dashboard/User/userdetail.view.php', ['user' => $user]);
        
     }
@@ -109,8 +98,8 @@ protected $reservationModel;
     
     public function createUser()
     {
-        // Feedback-- Did you use Request Class and Request validation?
-        // Feedback-- Did you use concept of CSRF tokens in this form submission?
+        //Feedback2-- Did you use Request Class and Request validation?
+        //Feedback2-- Did you use concept of CSRF tokens in this form submission?
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $firstName = $_POST['first_name'] ?? '';
             $lastName = $_POST['last_name'] ?? '';
@@ -135,15 +124,11 @@ protected $reservationModel;
                 $_SESSION['success'] = 'User created successfully!';
                 redirect(url('/user'));
             } catch (\PDOException $e) {
-                // Feedback-- Besids ExceptionHandler, did you use any other error handling method for human readable error messages?
+                // Feedback2-- Besids ExceptionHandler, did you use any other error handling method for human readable error messages?
                 ExceptionHandler::handle($e, $_SERVER['HTTP_REFERER']);
             }
         }
 
-        // Feedback-- This view function in the base controller should be used to render the layout while the function
-        // Call here should pass data to the view.
-
-        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
         $this->render('dashboard/User/create.view.php');
       
     }
@@ -170,10 +155,6 @@ protected $reservationModel;
             exit;
         }
 
-        // Feedback-- This view function in the base controller should be used to render the layout while the function
-        // Call here should pass data to the view.
-
-        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
         $this->render('dashboard/User/details.view.php', ['user' => $user]);
       
     }
@@ -193,13 +174,13 @@ protected $reservationModel;
         }
 
         try {
-            // Feedback-- Did you use Request Class and Request validation?
-            // Feedback-- Did you use concept of CSRF tokens in this form submission?
-            // Feedback-- How are you handling the sql injections and unsafe queries?
+            //Feedback2-- Did you use Request Class and Request validation?
+            //Feedback2-- Did you use concept of CSRF tokens in this form submission?
+            //Feedback2-- How are you handling the sql injections and unsafe queries?
             $this->userModel->update($id, $_POST);
             $_SESSION['success'] = 'User updated successfully!';
         } catch (\Exception $e) {
-            // Feedback-- Besids ExceptionHandler, did you use any other error handling method for human readable error messages?
+            // Feedback2-- Besids ExceptionHandler, did you use any other error handling method for human readable error messages?
             $_SESSION['error'] = $e->getMessage();
         }
 

@@ -7,7 +7,7 @@ use App\Middleware\ExceptionHandler;
 use App\Models\Hotel;
 use App\Request\HotelRequest;
 
-// Feedback-- Need proper indentation as per PSR-12 standards
+// Feedback2-- Need proper indentation as per PSR-12 standards
 class HotelController extends BaseController
 {
     protected $hotelModel;
@@ -25,11 +25,6 @@ class HotelController extends BaseController
     //  Show all hotels
     public function index()
     {
-        // Feedback-- This view function in the base controller should be used to render the layout while the function
-        // Call here should pass data to the view.
-
-        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
-
         $hotels = $this->hotelModel->getAllHotels();
         $this->render('dashboard/Hotel/hotel.view.php', ['hotels' => $hotels]);
        
@@ -38,13 +33,8 @@ class HotelController extends BaseController
     //  Show create hotel
     public function create()
     {
-        // Feedback-- This view function in the base controller should be used to render the layout while the function
-        // Call here should pass data to the view.
-
-        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
         $hotels = $this->hotelModel->getAll();
         $this->render('dashboard/Hotel/hotelCreate.view.php', ['hotels' => $hotels]);
-       
     }
 
     
@@ -80,14 +70,11 @@ public function store()
 
         $hotel = $this->hotelModel->find($id);
 
+        // Feedback2 -- Return user to the page with proper message not a case for 404
         if (! $hotel) {
             abort(404);
         }
 
-        // Feedback-- This view function in the base controller should be used to render the layout while the function
-        // Call here should pass data to the view.
-
-        // Feedback-- Layout should accept the view name and include or require the view passed here current approach incorrect
         $this->render('dashboard/Hotel/hotelDetail.view.php', [
             'hotel' => $hotel,
         ]);
@@ -99,6 +86,7 @@ public function store()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $token = $_POST['csrf_token'] ?? '';
+            // Feedback2-- Return user to the login page if token is invalid with proper message
             if (!Csrf::validateToken($token)) {
                 die('Invalid CSRF token'); 
             }
@@ -112,6 +100,7 @@ public function store()
             ExceptionHandler::handle($e, $_SERVER['HTTP_REFERER']);
         }
 
+        // Feedback2-- How are errors during update action being returned on the frontend
         redirect(url('/hotel'));
         exit;
     }

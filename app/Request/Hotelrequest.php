@@ -2,6 +2,7 @@
 
 namespace App\Request;
 
+// Feedback2-- Need proper indentation as per PSR-12 standards
 class HotelRequest
 {
     public static function validate(array $data): array
