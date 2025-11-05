@@ -2,14 +2,14 @@
 
 namespace App\Controllers\DashboardController;
 
-use App\Middleware\ExceptionHandler;
+use App\Core\CSRF;
 use App\Models\Discount;
 use App\Models\Hotel;
 use App\Models\Reservation;
 use App\Models\Rooms;
 use App\Models\User;
 use App\Request\ReservationRequest;
-use App\Core\CSRF;
+
 // Feedback2-- Need proper indentation as per PSR-12 standards
 class ReservationController extends BaseController
 {
@@ -40,10 +40,7 @@ class ReservationController extends BaseController
     public function index()
     {
         // Feedback2-- Should be consider a global alternative to this rather than handling it in each controller method?
-        if (! isset($_SESSION['user_id'])) {
-            header('Location: '.BASE_URL.'/login');
-            exit;
-        }
+
 
         $userId = $_SESSION['user_id'];
         $roleId = $_SESSION['role_id'];
@@ -53,7 +50,7 @@ class ReservationController extends BaseController
         $this->render('dashboard/Reservation/reservation.view.php', [
             'reservations' => $reservations,
         ]);
-        //  return view('Layouts/dashboard.layout.php');
+
     }
 
     // Show create reservation form
@@ -70,48 +67,46 @@ class ReservationController extends BaseController
             'rooms' => $rooms,
             'discounts' => $discounts,
         ]);
-        
     }
 
-    
-public function store()
-{
-    
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    public function store()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $token = $_POST['csrf_token'] ?? '';
             if (!Csrf::validateToken($token)) {
-                die('Invalid CSRF token'); 
+                $_SESSION['error'] = 'Token has expired or is invalid. Please try again.';
+                header('Location: '.BASE_URL.'/login');
+                exit();
             }
-        
-        // Validate request data
-        $validated = ReservationRequest::validate($_POST);
 
-        // Auto fetch email + hotel name after validation
-        $validated['email']      = $this->reservationModel->getUserEmailById($validated['user_id']);
-        $validated['hotel_name'] = $this->reservationModel->getHotelNameById($validated['hotel_id']);
 
-        try {
-            $this->reservationModel->create($validated);
 
-            $_SESSION['success'] = "Reservation created successfully!";
-        } 
-        catch (\PDOException $e) {
+            // Validate request data
+            $validated = ReservationRequest::validate($_POST);
 
-            // Duplicate entry
-            if ($e->getCode() == 23000) {
-                $_SESSION['error'] = "Reservation already exists!";
+            // Auto fetch email + hotel name after validation
+            $validated['email']      = $this->reservationModel->getUserEmailById($validated['user_id']);
+            $validated['hotel_name'] = $this->reservationModel->getHotelNameById($validated['hotel_id']);
+
+            try {
+                $this->reservationModel->create($validated);
+
+                $_SESSION['success'] = 'Reservation created successfully!';
+            } catch (\PDOException $e) {
+                // Duplicate entry
+                if ($e->getCode() == 23000) {
+                    $_SESSION['error'] = 'Reservation already exists!';
+                    redirect($_SERVER['HTTP_REFERER']);
+                }
+
+                // Other errors
+                $_SESSION['error'] = 'Something went wrong!';
                 redirect($_SERVER['HTTP_REFERER']);
             }
 
-            // Other errors
-            $_SESSION['error'] = "Something went wrong!";
-            redirect($_SERVER['HTTP_REFERER']);
+            redirect(url('/reservation'));
         }
-
-        redirect(url('/reservation'));
     }
-}
-
 
     // Delete reservation
     public function delete()
@@ -135,7 +130,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $this->render('dashboard/Reservation/reservationDetail.view.php', [
             'reservation' => $reservation,
         ]);
-        
     }
 
     // Show Edit Form
@@ -147,9 +141,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $reservation = $this->reservationModel->find($id);
         // Feedback2-- Return user to the page with proper message not a case for 404
-        if (! $reservation) {
-            abort(404);
+        if (!$reservation) {
+            $_SESSION['error'] = 'Reservation details not found or invalid.';
+            header('Location: /reservation');
+            exit();
         }
+
+
 
         $hotels = $this->hotelModel->getAllHotels();
         $discounts = $this->discount->getAll();
@@ -159,33 +157,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'hotels' => $hotels,
             'discounts' => $discounts,
         ]);
-      
-    } 
-
-public function update()
-{
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        redirect(url('/reservation'));
     }
 
-    $id = $_POST['id'] ?? null;
+    public function update()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            redirect(url('/reservation'));
+        }
 
-    if (!$id) {
-        redirect(url('/reservation'));
+        $id = $_POST['id'] ?? null;
+
+        if (!$id) {
+            redirect(url('/reservation'));
+        }
+
+        // CSRF Token Check
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $token = $_POST['csrf_token'] ?? '';
+            // Feedback2-- Return user to the login page if token is invalid with proper message
+            if (!Csrf::validateToken($token)) {
+                $_SESSION['error'] = 'Token are expire. Please try again.';
+                header('Location: '.BASE_URL.'/login');
+                exit();
+            }
+
+
+            // Validation
+            $validated = ReservationRequest::validate($_POST, true);
+
+            //  Update Query
+            $this->reservationModel->update($id, $validated);
+
+            //Redirect to listing page
+            redirect(url('/reservation'));
+        }
     }
-
-    // CSRF Token Check
-    if (!Csrf::validateToken($_POST['csrf_token'] ?? '')) {
-        die('Invalid CSRF token');
-    }
-
-    // Validation 
-    $validated = ReservationRequest::validate($_POST, true);
-
-    //  Update Query
-    $this->reservationModel->update($id, $validated);
-
-    //Redirect to listing page
-    redirect(url('/reservation'));
-}
 }

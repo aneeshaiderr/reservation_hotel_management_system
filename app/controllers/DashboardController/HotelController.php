@@ -27,7 +27,6 @@ class HotelController extends BaseController
     {
         $hotels = $this->hotelModel->getAllHotels();
         $this->render('dashboard/Hotel/hotel.view.php', ['hotels' => $hotels]);
-       
     }
 
     //  Show create hotel
@@ -37,30 +36,27 @@ class HotelController extends BaseController
         $this->render('dashboard/Hotel/hotelCreate.view.php', ['hotels' => $hotels]);
     }
 
-    
-public function store()
-{
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        
-        $validated = HotelRequest::validate($_POST);
+    public function store()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $validated = HotelRequest::validate($_POST);
 
-        try {
-            $this->hotelModel->create($validated);
-            $_SESSION['success'] = "Hotel created successfully!";
-        } catch (\PDOException $e) {
+            try {
+                $this->hotelModel->create($validated);
+                $_SESSION['success'] = 'Hotel created successfully!';
+            } catch (\PDOException $e) {
+                if ($e->getCode() == 23000) {
+                    $_SESSION['error'] = 'Hotel already exists!';
+                    redirect($_SERVER['HTTP_REFERER']);
+                }
 
-            if ($e->getCode() == 23000) {
-                $_SESSION['error'] = "Hotel already exists!";
+                $_SESSION['error'] = 'Something went wrong!';
                 redirect($_SERVER['HTTP_REFERER']);
             }
 
-            $_SESSION['error'] = "Something went wrong!";
-            redirect($_SERVER['HTTP_REFERER']);
+            redirect(url('/hotel'));
         }
-
-        redirect(url('/hotel'));
     }
-}
     // Show hotel detail for edit
     public function show($id = null)
     {
@@ -71,14 +67,17 @@ public function store()
         $hotel = $this->hotelModel->find($id);
 
         // Feedback2 -- Return user to the page with proper message not a case for 404
-        if (! $hotel) {
-            abort(404);
+        if (!$hotel) {
+            $_SESSION['error'] = 'Hotel details not found or invalid.';
+            header('Location: '.BASE_URL.'/login');
+            exit();
         }
+
+
 
         $this->render('dashboard/Hotel/hotelDetail.view.php', [
             'hotel' => $hotel,
         ]);
-        
     }
 
     // Update existing hotel
@@ -88,9 +87,13 @@ public function store()
             $token = $_POST['csrf_token'] ?? '';
             // Feedback2-- Return user to the login page if token is invalid with proper message
             if (!Csrf::validateToken($token)) {
-                die('Invalid CSRF token'); 
+                $_SESSION['error'] = 'Token are expire. Please try again.';
+                header('Location: '.BASE_URL.'/login');
+                exit();
             }
+
         }
+        // Feedback2-- How are errors during update action being returned on the frontend
         try {
             $id = $_POST['id'];
             $this->hotelModel->update($id, $_POST);
@@ -100,9 +103,7 @@ public function store()
             ExceptionHandler::handle($e, $_SERVER['HTTP_REFERER']);
         }
 
-        // Feedback2-- How are errors during update action being returned on the frontend
-        redirect(url('/hotel'));
-        exit;
+
     }
 
     // Soft delete hotel

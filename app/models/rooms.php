@@ -27,7 +27,6 @@ class Rooms extends BaseModel
             INSERT INTO rooms (room_number, floor, beds, max_guests, hotel_id, status)
             VALUES (:room_number, :floor, :room_bed, :Max_guests, :hotel_id, :status)
         ', $data);
-        
     }
 
     //  Update room

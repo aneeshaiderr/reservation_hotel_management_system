@@ -2,47 +2,48 @@
 
 namespace App\Controllers\Auth;
 
-use App\Core\Database;
+use App\Controllers\DashboardController\BaseController;
+use App\Models\User;
 use App\Request\SignupRequest;
 
-class SignupController
+class SignupController extends BaseController
 {
     public function index()
     {
-        // Show signup form first (for GET requests)
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             return view('auth/signup.view.php');
         }
 
-        //  Step 1: Validate form data (this checks email format, required fields, etc.)
+        //  Validate form data
         $validatedData = SignupRequest::validate($_POST, '/signup');
 
-        //  Step 2: Hash password securely
+        //  Hash password
         $hashedPassword = password_hash($validatedData['password'], PASSWORD_BCRYPT);
 
-        //  Step 3: Database connection
-        $config = require base_path('config.php');
+        $userData = [
+            'first_name' => $validatedData['first_name'],
+            'last_name' => $validatedData['last_name'],
+            'user_email' => $validatedData['user_email'],
+            'contact_no' => $validatedData['contact_no'],
+            'password' => $hashedPassword,
+            'role_id' => 4,
+        ];
 
-        // Feedback2-- Should use the instance of the database from the base controller following singelton design pattern
-        $db = new Database($config['database']);
 
-        // Step 4: Insert user securely using prepared statement
+        $userModel = new User($this->db);
 
-        // Feedback2-- Should be in the model
-        $db->query(
-            'INSERT INTO users (first_name, last_name, user_email, contact_no, password, role_id) 
-             VALUES (:first_name, :last_name, :user_email, :contact_no, :password, :role_id)',
-            [
-                ':first_name' => $validatedData['first_name'],
-                ':last_name' => $validatedData['last_name'],
-                ':user_email' => $validatedData['user_email'],
-                ':contact_no' => $validatedData['contact_no'],
-                ':password' => $hashedPassword,
-                ':role_id' => 4,
-            ]
-        );
+        try {
+            $userModel->signup($userData);
+        } catch (\Exception $e) {
 
-        //  Step 5: Redirect after successful signup
+            $_SESSION['errors'] = ['Signup failed: '.$e->getMessage()];
+            header('Location: '.BASE_URL.'/signup');
+            exit;
+        }
+
+        // SSuccess message aur redirect to login
+        $_SESSION['success'] = 'Signup successful! You can now login.';
         header('Location: '.BASE_URL.'/login');
         exit;
     }

@@ -10,15 +10,24 @@
 ?>
 <?php
 
-// Feedback2-- What's the purpose of this code here?
-// Agar token already exist nahi karta, to generate karo
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+
+
+if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
+    echo '<div class="alert alert-danger">';
+    foreach ($_SESSION['errors'] as $error) {
+        echo '<p class="mb-1">' . htmlspecialchars($error) . '</p>';
+    }
+    echo '</div>';
+    unset($_SESSION['errors']);
 }
 
-// Token variable me store karo
-$csrf_token = $_SESSION['csrf_token'];
-?>
+if (isset($_SESSION['success'])): ?>
+    <div class="alert alert-success">
+        <p class="mb-0"><?= htmlspecialchars($_SESSION['success']); ?></p>
+    </div>
+    <?php unset($_SESSION['success']); ?>
+<?php endif; ?>
+
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
   <div class="col-md-6 col-lg-5">
     <div class="card shadow">
@@ -58,7 +67,7 @@ $csrf_token = $_SESSION['csrf_token'];
       <div class="card-footer text-center bg-light py-3">
         <p class="mb-0">
           Don't have an account?
-         
+
           <a href="<?= BASE_URL ?>/staffSignup" class="text-primary fw-semibold">Signup now</a>
         </p>
       </div>

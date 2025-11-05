@@ -1,9 +1,6 @@
 <?php
 
-
 namespace App\Request;
-
-use App\Core\CSRF;
 
 class ReservationRequest
 {
@@ -11,7 +8,6 @@ class ReservationRequest
     {
         $errors = [];
 
-       
         if (!$isUpdate && empty($data['user_id'])) {
             $errors['user_id'] = 'User is required.';
         }
@@ -34,12 +30,11 @@ class ReservationRequest
 
         if (!empty($errors)) {
             $_SESSION['errors'] = $errors;
-            $_SESSION['error'] = "Please fix the highlighted errors.";
-            header("Location: " . $_SERVER['HTTP_REFERER']);
+            $_SESSION['error'] = 'Please fix the highlighted errors.';
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
             exit;
         }
 
-    
         return [
             'user_id'     => $data['user_id'] ?? null,
             'hotel_id'    => trim($data['hotel_id']),

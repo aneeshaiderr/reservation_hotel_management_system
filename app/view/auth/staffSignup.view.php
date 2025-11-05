@@ -3,12 +3,34 @@
 
  <?php
  require __DIR__.'/../partial/head.php';
-// Feedback2-- Need proper indentation as per PSR-12 standards
-// Feedback2-- Why are flash messages like errors or sucess messages show?
-// Feedback2-- write a foreach loop to go over sessions errors and display them in a styled HTML structure
+ // Feedback2-- Need proper indentation as per PSR-12 standards
+ // Feedback2-- Why are flash messages like errors or sucess messages show?
+ // Feedback2-- write a foreach loop to go over sessions errors and display them in a styled HTML structure
 
  ?>
+<?php
+ // SUCCESS MESSAGE
+ if (isset($_SESSION['success'])) { ?>
+    <div class="alert alert-success">
+        <?= htmlspecialchars($_SESSION['success']); ?>
+    </div>
+<?php
+     unset($_SESSION['success']);
+ }
+ ?>
 
+<?php
+ //  ERROR FLASH MESSAGES
+ if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) { ?>
+    <div class="alert alert-danger">
+        <?php foreach ($_SESSION['errors'] as $error) { ?>
+            <p class="mb-1"><?= htmlspecialchars($error); ?></p>
+        <?php } ?>
+    </div>
+<?php
+     unset($_SESSION['errors']);
+ }
+ ?>
 
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
   <div class="col-md-6 col-lg-5">
@@ -59,11 +81,11 @@
             </div>
 
             <!-- Submit -->
-           
-           
-<div class="d-flex">
-  <button type="submit" class="btn-bl btn-primary bt-primary fw-bold  w-100 text-white bg-warning  pe-4">Signup</button>
-</div>
+
+
+          <div class="d-flex">
+            <button type="submit" class="btn-bl btn-primary bt-primary fw-bold  w-100 text-white bg-warning  pe-4">Signup</button>
+          </div>
 
           </form>
         </div>
@@ -76,5 +98,5 @@
     </div>
   </div>
 
- 
+
 

@@ -1,7 +1,6 @@
-<?php 
+<?php
+
 namespace App\Request;
-
-
 
 class ServiceRequest
 {
@@ -17,23 +16,23 @@ class ServiceRequest
     {
         //  Service Name Required
         if (empty($this->data['service_name'])) {
-            $this->errors['service_name'] = "Service name is required.";
-        } 
+            $this->errors['service_name'] = 'Service name is required.';
+        }
         // Service Name Cannot Be Numeric
         elseif (is_numeric($this->data['service_name'])) {
-            $this->errors['service_name'] = "Service name cannot be numeric.";
+            $this->errors['service_name'] = 'Service name cannot be numeric.';
         }
 
         //  Price Required and Must Be Numeric
         if (empty($this->data['price'])) {
-            $this->errors['price'] = "Price is required.";
+            $this->errors['price'] = 'Price is required.';
         } elseif (!is_numeric($this->data['price'])) {
-            $this->errors['price'] = "Price must be numeric.";
+            $this->errors['price'] = 'Price must be numeric.';
         }
 
         //  Status Required
         if (empty($this->data['status'])) {
-            $this->errors['status'] = "Status is required.";
+            $this->errors['status'] = 'Status is required.';
         }
 
         return empty($this->errors);
@@ -53,4 +52,3 @@ class ServiceRequest
         ];
     }
 }
-

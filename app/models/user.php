@@ -1,15 +1,18 @@
 <?php
 
-namespace App\Models;
 
+
+namespace App\Models;
+use App\Middleware\Permission;
 // Feedback2-- Need proper indentation as per PSR-12 standards
 class User extends BaseModel
 {
+
     public function getUserById($id)
     {
         return $this->db->query(
-            'SELECT id, first_name, last_name, user_email, contact_no, address 
-             FROM users 
+            'SELECT id, first_name, last_name, user_email, contact_no, address
+             FROM users
              WHERE id = :id',
             [':id' => $id]
         )->find();
@@ -25,7 +28,7 @@ class User extends BaseModel
     public function create($data)
     {
         return $this->db->query(
-            'INSERT INTO users (first_name, last_name, user_email, contact_no, address, status, role_id, created_at) 
+            'INSERT INTO users (first_name, last_name, user_email, contact_no, address, status, role_id, created_at)
              VALUES (?, ?, ?, ?, ?, ?, ?, NOW())',
             [
                 $data['first_name'],
@@ -62,8 +65,8 @@ class User extends BaseModel
         }
 
         return $this->db->query(
-            'UPDATE users 
-             SET first_name = ?, last_name = ?, user_email = ?, contact_no = ?, address = ?, status = ?, updated_at = NOW() 
+            'UPDATE users
+             SET first_name = ?, last_name = ?, user_email = ?, contact_no = ?, address = ?, status = ?, updated_at = NOW()
              WHERE id = ?',
             [
                 $data['first_name'],
@@ -122,7 +125,7 @@ class User extends BaseModel
     public function getAllReservationsByUser($userId)
     {
         $sql = '
-            SELECT 
+            SELECT
                 r.id,
                 r.hotel_code,
                 r.user_id,
@@ -146,14 +149,14 @@ class User extends BaseModel
 
         return $this->db->query($sql, [':user_id' => $userId])->getAll();
     }
-     public function delete($id)
+    public function delete($id)
     {
         $this->db->query('DELETE FROM reservations WHERE id = :id', ['id' => $id]);
     }
 
     public function getCurrentReservation($userId)
     {
-        $sql = 'SELECT 
+        $sql = 'SELECT
                     r.id,
                     r.hotel_code,
                     r.user_id,
@@ -175,4 +178,74 @@ class User extends BaseModel
 
         return $this->db->query($sql, ['user_id' => $userId])->fetch();
     }
+    public function findByEmail(string $email)
+    {
+        // Uses your Database wrapper's prepared query method (placeholder :email)
+        // This is safe against SQL injection because value is bound by the query() method.
+        $stmt = $this->db->query(
+            'SELECT
+            u.id,
+            u.user_email,
+            u.password,
+            u.first_name,
+            u.last_name,
+            u.role_id,
+            r.name AS role_name
+         FROM users u
+         LEFT JOIN roles r ON u.role_id = r.id
+         WHERE u.user_email = :email
+         LIMIT 1',
+            [':email' => $email]
+        );
+
+        // Depending on your Database wrapper, ->find() or ->fetch()
+        // Your User model already used ->find() in other methods, so:
+        return $stmt->find();
+    }
+    // app/Models/User.php
+    public function signup(array $data)
+    {
+        return $this->db->query(
+            'INSERT INTO users (first_name, last_name, user_email, contact_no, password, role_id)
+         VALUES (:first_name, :last_name, :user_email, :contact_no, :password, :role_id)',
+            [
+                ':first_name' => $data['first_name'],
+                ':last_name' => $data['last_name'],
+                ':user_email' => $data['user_email'],
+                ':contact_no' => $data['contact_no'],
+                ':password' => $data['password'],
+                ':role_id' => $data['role_id'],
+            ]
+        );
+    }
+    // stafflogin
+    public function findEmail($email)
+    {
+        return $this->db->query('SELECT * FROM users WHERE user_email = :user_email', [
+            ':user_email' => $email,
+        ])->find();
+    }
+
+    public function verifyPassword($user, $password)
+    {
+        return password_verify($password, $user['password']);
+    }
+    // User.php (Model)
+    public function staffsignup($data)
+    {
+        return $this->db->query(
+            'INSERT INTO users (first_name, last_name, user_email, contact_no, password, role_id)
+         VALUES (:first_name, :last_name, :user_email, :contact_no, :password, :role_id)',
+            [
+                ':first_name' => $data['first_name'],
+                ':last_name' => $data['last_name'],
+                ':user_email' => $data['user_email'],
+                ':contact_no' => $data['contact_no'],
+                ':password' => $data['password'],
+                ':role_id' => $data['role_id'],
+            ]
+        );
+    }
+
+
 }

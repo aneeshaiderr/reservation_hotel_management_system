@@ -3,6 +3,7 @@
 namespace App\Controllers\DashboardController;
 
 use App\Core\Database;
+
 abstract class BaseController
 {
     protected $db;
@@ -14,8 +15,8 @@ abstract class BaseController
     }
     protected function render(string $view, array $data = [])
     {
-    extract($data); 
-    $viewPath = BASE_PATH.'app/view/'.$view.'.php';
-    require BASE_PATH.'app/view/Layouts/dashboard.layout.php';
-}
+        extract($data);
+        $viewPath = BASE_PATH.'app/view/'.$view.'.php';
+        require BASE_PATH.'app/view/Layouts/dashboard.layout.php';
+    }
 }

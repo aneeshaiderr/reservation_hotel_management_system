@@ -1,7 +1,8 @@
 
-<?php if(isset($_SESSION['flash_error'])): ?>
+<?php if (isset($_SESSION['flash_error'])): ?>
     <div class="alert alert-danger">
-        <?= $_SESSION['flash_error']; unset($_SESSION['flash_error']); ?>
+        <?= $_SESSION['flash_error'];
+    unset($_SESSION['flash_error']); ?>
     </div>
 <?php endif; ?>
 

@@ -2,46 +2,67 @@
 
 namespace App\Controllers\Auth;
 
-use App\Core\Database;
+use App\Controllers\DashboardController\BaseController;
+use App\Models\User;
 
-class StaffLoginController
+class StaffLoginController extends BaseController
 {
-    // Feedback2-- Need proper indentation as per PSR-12 standards
+    protected $userModel;
+
+    public function __construct()
+    {
+        // Initialize User model
+        $this->userModel = new User();
+    }
+
+    // Show login form
     public function index()
     {
-        // session_start();
         return view('auth/staffLogin.view.php');
     }
 
- public function store()
- {
-     // session_start();
+    // Handle login form submission
+    public function store()
+    {
+        session_start();
 
-     // Feedback2-- Need to use singleton pattern for database connection
-     $config = require BASE_PATH.'config.php';
-     $db = new Database($config);
+        $email = $_POST['user_email'] ?? '';
+        $password = $_POST['password'] ?? '';
 
-     // Feedback2-- Should be present in the User Model Breaking MVC Conventions
-     // Feedback2-- How are you handling the sql injections and unsafe queries?
-     $user = $db->query('SELECT * FROM users WHERE user_email = :user_email', [
-         ':user_email' => $_POST['user_email'],
-     ])->find();
+        // Get user by email using User model
+        $user = $this->userModel->findEmail($email);
 
-     if (! $user || ! password_verify($_POST['password'], $user['password'])) {
-         $_SESSION['error'] = 'Invalid email or password';
-         header('Location: /practice/public/staffLogin');
-         exit();
-     }
+        // Check if user exists and password matches
+        if (!$user || !$this->userModel->verifyPassword($user, $password)) {
+            $_SESSION['errors'] = ['Invalid email or password. Please try again.'];
+            header('Location: /practice/public/staffLogin');
+            exit();
+        }
 
-     $_SESSION['user_id'] = $user['id'];
-     $_SESSION['role_id'] = $user['role_id'];
-     $_SESSION['user'] = [
-         'id' => $user['id'],
-         'user_email' => $user['user_email'],
-         'name' => $user['first_name'].' '.$user['last_name'],
-     ];
-     redirect('/practice/public/user');
+        // Set user session
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['role_id'] = $user['role_id'];
+        $_SESSION['user'] = [
+            'id' => $user['id'],
+            'user_email' => $user['user_email'],
+            'name' => $user['first_name'] . ' ' . $user['last_name'],
+            'role_name' => strtolower($user['role_name'] ?? 'user'),
+        ];
 
-     exit();
- }
+
+
+        // Redirect to dashboard/user page
+        header('Location: /practice/public/user');
+        exit();
+    }
+
+    // Logout user
+    public function logout()
+    {
+        session_unset();
+        session_destroy();
+
+        header('Location: /practice/public/staffLogin');
+        exit();
+    }
 }

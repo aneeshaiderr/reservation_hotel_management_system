@@ -25,13 +25,13 @@ class Services extends BaseModel
             UPDATE services SET deleted_at = NOW() WHERE id = ?
         ', [$id]);
     }
- public function all()
+    public function all()
     {
-        return $this->db->fetchAll("
+        return $this->db->fetchAll('
             SELECT id, service_name, price, status
             FROM services
             WHERE deleted_at IS NULL
-        ");
+        ');
     }
     public function getAllServicesList()
     {

@@ -2,30 +2,29 @@
 
 namespace App\Controllers\DashboardController;
 
+use App\Core\Csrf;
 use App\Middleware\ExceptionHandler;
 use App\Models\User;
-use App\Middleware\AuthMiddleware;
 use App\Request\UserRequest;
+
 // Feedback2-- Need proper indentation as per PSR-12 standards
 class UserController extends BaseController
 {
     protected $userModel;
-protected $reservationModel;
-    protected $userCard;
+    protected $reservationModel;
+
 
     protected $content;
 
     public function __construct()
     {
         $this->userModel = new User($this->db);
-        
     }
 
     public function index()
     {
-        $auth = new AuthMiddleware();
-        $auth->handle();
-       
+
+
         $roleId = $_SESSION['role_id'] ?? null;
         $userId = $_SESSION['user_id'] ?? null;
 
@@ -46,12 +45,9 @@ protected $reservationModel;
     }
 
     /*  Using Model for query now */
-    public function userAllDetails()
-    {
-        //Feedback2-- Should keep this logic globally 
-        $auth = new AuthMiddleware();
-          $auth->handle();
-        
+        public function userAllDetails()
+        {
+
 
         $userId = $_GET['id'] ?? $_SESSION['user_id'];
         $allReservations = $this->userModel->getAllReservationsByUser($userId) ?? [];
@@ -66,8 +62,6 @@ protected $reservationModel;
         $this->render('dashboard/User/userAllDetails.view.php', [
             'reservations' => $reservations,
         ]);
-
-        
     }
 
     public function userAllDetailsShow($id = null)
@@ -80,11 +74,12 @@ protected $reservationModel;
 
         //Feedback2-- Return user to the page with proper message not a case for 404
         if (! $user || $user === false) {
-            abort(404);
+            $_SESSION['error'] = 'User not found. Please check the details.';
+            header('Location: '.BASE_URL.'/login');
         }
 
+
         $this->render('dashboard/User/userdetail.view.php', ['user' => $user]);
-       
     }
 
     public function userAllDetailsUpdate()
@@ -95,49 +90,64 @@ protected $reservationModel;
         exit;
     }
 
-    
-    public function createUser()
+    public function create()
     {
-        //Feedback2-- Did you use Request Class and Request validation?
-        //Feedback2-- Did you use concept of CSRF tokens in this form submission?
+
+        $this->render('dashboard/User/create.view.php');
+    }
+
+
+    public function store()
+    {
+        // Allow only POST request
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $firstName = $_POST['first_name'] ?? '';
-            $lastName = $_POST['last_name'] ?? '';
-            $email = $_POST['user_email'] ?? '';
-            $contact = $_POST['contact_no'] ?? '';
-            $password = $_POST['password'] ?? '';
-            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+            $token = $_POST['_token'] ?? '';
 
-            $data = [
-                'first_name' => $firstName,
-                'last_name' => $lastName,
-                'user_email' => $email,
-                'contact_no' => $contact,
-                'address' => '',
-                'password' => $hashedPassword,
-                'status' => 1,
-                'role_id' => 4,
-            ];
 
-            try {
-                $this->userModel->create($data);
-                $_SESSION['success'] = 'User created successfully!';
-                redirect(url('/user'));
-            } catch (\PDOException $e) {
-                // Feedback2-- Besids ExceptionHandler, did you use any other error handling method for human readable error messages?
-                ExceptionHandler::handle($e, $_SERVER['HTTP_REFERER']);
+            if (!Csrf::validateToken($token)) {
+                $_SESSION['error'] = 'Token has expired or is invalid. Please try again.';
+                header('Location: '.BASE_URL.'/login');
+                exit();
             }
         }
 
-        $this->render('dashboard/User/create.view.php');
-      
+
+        // Request Class Validation
+        $request = new UserRequest($_POST);
+
+        if (!$request->validate()) {
+            $_SESSION['errors'] = $request->errors();
+            $_SESSION['old']    = $_POST;
+
+            redirect(url('/user/create'));
+
+            return;
+        }
+
+        // Extract Validated Data
+        $data = $request->all();
+        $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
+        $data['status']   = 1;
+        $data['role_id']  = 4;
+        $data['address']  = '';
+
+        // Insert into DB
+        try {
+            $this->userModel->create($data);
+
+            $_SESSION['success'] = 'User created successfully!';
+            redirect(url('/user'));
+
+        } catch (\PDOException $e) {
+            ExceptionHandler::handle($e, url('/user/create'));
+        }
     }
 
-    public function show()
+
+
+
+    public function editUser()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
 
         $id = $_GET['id'] ?? $_SESSION['user_id'] ?? null;
 
@@ -155,15 +165,10 @@ protected $reservationModel;
             exit;
         }
 
-        $this->render('dashboard/User/details.view.php', ['user' => $user]);
-      
+        $this->render('dashboard/User/editUser.view.php', ['user' => $user]);
     }
-
     public function update()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
 
         $id = $_POST['id'] ?? null;
 
@@ -173,20 +178,38 @@ protected $reservationModel;
             exit;
         }
 
+        // Use request class with update mode
+        $request = new UserRequest($_POST, true);
+
+        if (! $request->validate()) {
+            $_SESSION['errors'] = $request->errors();
+            $_SESSION['old'] = $_POST;
+            redirect(url('/user/edit?id=' . $id));
+            exit;
+        }
+
         try {
-            //Feedback2-- Did you use Request Class and Request validation?
-            //Feedback2-- Did you use concept of CSRF tokens in this form submission?
-            //Feedback2-- How are you handling the sql injections and unsafe queries?
-            $this->userModel->update($id, $_POST);
+            $validated = $request->all();
+
+
+            $validated['status'] = $_POST['status'] ?? 'active';
+            $validated['address'] = $_POST['address'] ?? '';
+
+
+            // Update DB
+            $this->userModel->update($id, $validated);
+
             $_SESSION['success'] = 'User updated successfully!';
         } catch (\Exception $e) {
-            // Feedback2-- Besids ExceptionHandler, did you use any other error handling method for human readable error messages?
             $_SESSION['error'] = $e->getMessage();
         }
 
         redirect(url('/user'));
         exit;
     }
+
+
+
 
     public function softDelete()
     {

@@ -2,6 +2,7 @@
     "preset": "psr12",
     "exclude": [
         "vendor",
+        "storage",
         "uploads"
     ]
 }

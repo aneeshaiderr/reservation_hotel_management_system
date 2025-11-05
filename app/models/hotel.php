@@ -31,9 +31,9 @@ class Hotel extends BaseModel
         );
     }
 
-public function getAll()
-{
-    return $this->db->fetchAll('
+    public function getAll()
+    {
+        return $this->db->fetchAll('
             SELECT 
                 id,
                 hotel_name,
@@ -43,7 +43,7 @@ public function getAll()
             WHERE deleted_at IS NULL
             ORDER BY id DESC
         ');
-}
+    }
 
     // Create a new hotel
     public function create($data)

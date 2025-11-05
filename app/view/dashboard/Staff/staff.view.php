@@ -11,13 +11,13 @@
       </a>
     </h5>
   </div>
- 
+
   <!-- Row: DataTable + Profile -->
   <div class="container-fluid">
     <div class="row justify-content-between row g-3 align-items-star">
        <!-- Right: Create Button -->
     <div class="mb-3 mt-4">
-      <a href="<?= BASE_URL ?>/reservation/reservationCreate" class="btn btn-sm btn-success">
+      <a href="<?= BASE_URL ?>/user/create" class="btn btn-sm btn-success">
         + Create User
       </a>
     </div>
@@ -37,7 +37,7 @@
                     <th>Email</th>
                     <th>Address</th>
                     <th>Contact_No</th>
-                    <th>Action</th> 
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -51,7 +51,7 @@
                         <td><?= $user['address'] ?></td>
                         <td><?= $user['contact_no'] ?></td>
                         <td class="userprofile-action-btns">
-                          <a href="<?= BASE_URL ?>/details?id=<?= $user['id'] ?>" class="btn btn-sm btn-primary">View</a>
+                         <a href="<?= BASE_URL ?>/editUser?id=<?= $user['id'] ?>" class="btn btn-sm btn-primary">View</a>
 
                           <!-- Delete Button -->
                           <button type="button" onclick="submitDelete(<?= $user['id'] ?>)" class="btn btn-sm btn-danger">
@@ -68,7 +68,7 @@
             </div>
           </div>
         </div>
-      </div> 
+      </div>
 
       <!-- Profile Column -->
       <div class="col profile-column d-flex justify-content-end">
@@ -148,7 +148,7 @@
           </div>
         </div>
       </div>
- 
+
 </div>
 
 <!-- Hidden Delete Form -->

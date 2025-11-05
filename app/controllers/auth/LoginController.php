@@ -2,9 +2,10 @@
 
 namespace App\Controllers\Auth;
 
-use App\Core\Database;
+use App\Controllers\DashboardController\BaseController;
+use App\Models\User;
 
-class LoginController
+class LoginController extends BaseController
 {
     public function index()
     {
@@ -13,55 +14,63 @@ class LoginController
 
     public function store()
     {
-        session_start();
+        // Start session if not started
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
 
-        $config = require BASE_PATH.'config.php';
-        $db = new Database($config);
 
-        // Feedback2-- Should be present in the User Model Breaking MVC Conventions
-        $user = $db->query('
-            SELECT 
-                u.id,
-                u.user_email,
-                u.password,
-                u.first_name,
-                u.last_name,
-                u.role_id,
-                r.name AS role_name
-            FROM users u
-            LEFT JOIN roles r ON u.role_id = r.id
-            WHERE u.user_email = :email
-            LIMIT 1
-        ', [
-            ':email' => $_POST['user_email'], // Feedback2-- Did you check if this is secure SQL Injection?
-        ])->find();
+        $email = trim($_POST['user_email'] ?? '');
+        $password = $_POST['password'] ?? '';
 
-        // Agar user exist nahi karta
-        if (! $user || ! password_verify($_POST['password'], $user['password'])) {
-            $_SESSION['error'] = 'Invalid email or password';
+        // Basic validation
+        if ($email === '' || $password === '') {
+            $_SESSION['errors'] = ['Please enter email and password.'];
             header('Location: /practice/public/login');
             exit;
         }
 
-        //Session set with eager-loaded role
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $_SESSION['errors'] = ['Please enter a valid email address.'];
+            header('Location: /practice/public/login');
+            exit;
+        }
+        ;
+
+        // Use User model (query moved to model)
+        $userModel = new User($this->db);
+        $user = $userModel->findByEmail($email);
+
+        // Authentication check
+        if (! $user || ! password_verify($password, $user['password'])) {
+            $_SESSION['errors'] = ['Invalid email or password. Please try again.'];
+            header('Location: /practice/public/login');
+            exit;
+        }
+
+        // Set session user info
         $_SESSION['user'] = [
             'id' => $user['id'],
             'email' => $user['user_email'],
             'role_id' => $user['role_id'],
             'role_name' => strtolower($user['role_name'] ?? 'user'),
-            'name' => trim($user['first_name'].' '.$user['last_name']),
+            'name' => trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? '')),
         ];
 
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['role_id'] = $user['role_id'];
 
-        //Redirect after login
+        // Set success message
+        $_SESSION['success'] = 'Login successful! Welcome back, ' . htmlspecialchars($user['first_name'] ?? '');
+
+        // Redirect after login
         header('Location: /practice/public/user');
         exit;
     }
 
     public function logout()
     {
+
         session_unset();
         session_destroy();
 

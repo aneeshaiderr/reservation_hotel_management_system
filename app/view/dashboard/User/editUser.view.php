@@ -3,7 +3,7 @@
     <div class="container py-5">
         <main>
             <div class="mx-auto max-w-4xl py-7 px-7">
-                <form method="POST" action="<?= url('/details') ?>">
+                <form method="POST" action="<?= url('/user/update') ?>">
                     <input type="hidden" name="_method" value="PATCH">
                     <input type="hidden" name="id" value="<?= htmlspecialchars($user['id']) ?>">
 
@@ -49,19 +49,19 @@
                             <option value="inactive" <?= $user['status'] === 'inactive' ? 'selected' : '' ?>>Inactive</option>
                         </select>
                     </div>
-          
+
 
                     <!-- Buttons: Update only -->
                     <div class="mt-6 flex items-center justify-end gap-x-4">
                         <a href="<?= url('/user') ?>">Cancel</a>
-                        <button type="submit" 
+                        <button type="submit"
                             style="background-color:#16a34a; color:white; padding:8px 16px; border-radius:6px; border:none;"
-                            onmouseover="this.style.backgroundColor='#15803d'" 
+                            onmouseover="this.style.backgroundColor='#15803d'"
                             onmouseout="this.style.backgroundColor='#16a34a'">
                             Update
                         </button>
                     </div>
-                    
+
                 </form>
             </div>
         </main>

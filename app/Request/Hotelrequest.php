@@ -17,19 +17,19 @@ class HotelRequest
         }
 
         // Address Required
-if (empty($data['address'])) {
-    $errors['address'] = 'Address is required.';
-}
+        if (empty($data['address'])) {
+            $errors['address'] = 'Address is required.';
+        }
 
-//  Allow letters, numbers, spaces, comma, hyphen, slash
-elseif (!preg_match('/^[A-Za-z0-9\s,\-\/]+$/', $data['address'])) {
-    $errors['address'] = 'Address can contain letters, numbers, comma, hyphen, or slash.';
-}
+        //  Allow letters, numbers, spaces, comma, hyphen, slash
+        elseif (!preg_match('/^[A-Za-z0-9\s,\-\/]+$/', $data['address'])) {
+            $errors['address'] = 'Address can contain letters, numbers, comma, hyphen, or slash.';
+        }
 
-//  Address should NOT be only numbers
-elseif (preg_match('/^\d+$/', $data['address'])) {
-    $errors['address'] = 'Please enter a full valid address, not just numbers.';
-}
+        //  Address should NOT be only numbers
+        elseif (preg_match('/^\d+$/', $data['address'])) {
+            $errors['address'] = 'Please enter a full valid address, not just numbers.';
+        }
 
         // Contact Required
         if (empty($data['contact_no'])) {

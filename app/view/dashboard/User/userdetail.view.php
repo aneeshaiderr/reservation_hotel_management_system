@@ -55,14 +55,14 @@
                     <!-- Buttons: Update only -->
                     <div class="mt-6 flex items-center justify-end gap-x-4">
                         <a href="<?= url('/user') ?>">Cancel</a>
-                        <button type="submit" 
+                        <button type="submit"
                             style="background-color:#16a34a; color:white; padding:8px 16px; border-radius:6px; border:none;"
-                            onmouseover="this.style.backgroundColor='#15803d'" 
+                            onmouseover="this.style.backgroundColor='#15803d'"
                             onmouseout="this.style.backgroundColor='#16a34a'">
                             Update
                         </button>
                     </div>
-                    
+
                 </form>
             </div>
         </main>

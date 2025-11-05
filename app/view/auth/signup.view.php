@@ -1,12 +1,18 @@
 
  <?php require __DIR__.'/../partial/head.php';
 
-// Feedback2-- Need proper indentation as per PSR-12 standards
-// Feedback2-- Why are flash messages like errors or sucess messages show?
-// Feedback2-- write a foreach loop to go over sessions errors and display them in a styled HTML structure
+ // Feedback2-- Need proper indentation as per PSR-12 standards
+ // Feedback2-- Why are flash messages like errors or sucess messages show?
+ // Feedback2-- write a foreach loop to go over sessions errors and display them in a styled HTML structure
 
  ?>
-
+<?php if (!empty($errors)) : ?>
+    <div class="alert alert-danger p-2">
+        <?php foreach ($errors as $error): ?>
+            <p class="mb-1"><?= htmlspecialchars($error) ?></p>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
 
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
   <div class="col-md-6 col-lg-5">
@@ -57,8 +63,8 @@
             </div>
 
             <!-- Submit -->
-           
-           
+
+
 <div class="d-flex">
   <button type="submit" class="btn-bl btn-primary bt-primary fw-bold  w-100 text-white  pe-4">Signup</button>
 </div>
@@ -74,4 +80,4 @@
     </div>
   </div>
 
- 
+

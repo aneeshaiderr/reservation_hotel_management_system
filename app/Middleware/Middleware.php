@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Middleware\Middelware;
+namespace App\Middleware;
 
 use PDO;
 
-// Feedback2-- This needs to be updated completely
+// // Feedback-- This needs to be updated completely
 class Middleware
 {
     protected $pdo;
@@ -30,7 +30,7 @@ class Middleware
      */
     public function can($userId, $permissionName)
     {
-        // Feedback2-- Should be present in the User Model Breaking MVC Conventions
+        // Feedback-- Should be present in the User Model Breaking MVC Conventions
         $stmt = $this->pdo->prepare('SELECT id FROM permissions WHERE name = ?');
         $stmt->execute([$permissionName]);
         $permission = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -41,10 +41,10 @@ class Middleware
 
         $permissionId = $permission['id'];
 
-        // Feedback2-- Should be present in the User Model Breaking MVC Conventions
+        // Feedback-- Should be present in the User Model Breaking MVC Conventions
         // 2. Check direct user permission
         $stmt = $this->pdo->prepare('
-            SELECT 1 FROM user_permissions 
+            SELECT 1 FROM user_permissions
             WHERE user_id = ? AND permission_id = ?
         ');
         $stmt->execute([$userId, $permissionId]);
@@ -52,10 +52,10 @@ class Middleware
             return true;
         }
 
-        // Feedback2-- Should be present in the User Model Breaking MVC Conventions
+        // Feedback-- Should be present in the User Model Breaking MVC Conventions
         //  Check role-based permission
         $stmt = $this->pdo->prepare('
-            SELECT 1 
+            SELECT 1
             FROM roles r
             JOIN role_permissions rp ON r.id = rp.role_id
             JOIN users u ON u.role_id = r.id

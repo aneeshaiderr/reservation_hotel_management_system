@@ -77,6 +77,7 @@ $username = $_SESSION['username'] ?? '';
 
 
     <?php } elseif ($roleId == 2) { // Staff?>
+      <li class="nav-item"><a href="user" class="nav-link text-white <?= urlIs('user') ? 'active bg-dark text-white' : '' ?>">Users</a></li>
         <li class="nav-item"><a href="reservation" class="nav-link text-white <?= urlIs('reservation') ? 'active bg-dark text-white' : '' ?>">Reservations</a></li>
         <li class="nav-item"><a href="services" class="nav-link text-white <?= urlIs('services') ? 'active bg-dark text-white' : '' ?>">Services</a></li>
         <li class="nav-item"><a href="rooms" class="nav-link text-white <?= urlIs('rooms') ? 'active bg-dark text-white' : '' ?>">Rooms</a></li>

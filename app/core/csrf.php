@@ -19,12 +19,9 @@ class Csrf
         return $_SESSION['csrf_token'];
     }
 
-    // Feedback2-- Whats the difference between verify and validateToken functions? 
-    public static function verify($token)
-    {
-        return isset($_SESSION['_token']) &&  hash_equals($_SESSION['_token'], $token);
-    }
-    
+    // Feedback2-- Whats the difference between verify and validateToken functions?
+
+
     public static function validateToken($token)
     {
         if (session_status() === PHP_SESSION_NONE) {

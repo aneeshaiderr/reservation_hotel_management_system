@@ -38,7 +38,7 @@ class Permission
 
         // Check role-based permission
         $stmt = $this->db->prepare('
-            SELECT COUNT(*) FROM role_permissions 
+            SELECT COUNT(*) FROM role_permissions
             WHERE role_id = ? AND permission_id = ?
         ');
         $stmt->execute([$roleId, $permissionId]);
@@ -46,7 +46,7 @@ class Permission
 
         // 4Check user-based permission
         $stmt = $this->db->prepare('
-            SELECT COUNT(*) FROM user_permissions 
+            SELECT COUNT(*) FROM user_permissions
             WHERE user_id = ? AND permission_id = ?
         ');
         $stmt->execute([$userId, $permissionId]);

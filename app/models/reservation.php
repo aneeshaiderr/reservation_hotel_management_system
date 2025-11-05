@@ -38,14 +38,14 @@ class Reservation extends BaseModel
         return $this->db->fetchAll($query, $params);
     }
 
-public function deleteByHotelCode($hotelCode)
-{
-    return $this->db->query('
+    public function deleteByHotelCode($hotelCode)
+    {
+        return $this->db->query('
         UPDATE reservations 
         SET deleted_at = NOW() 
         WHERE hotel_code = ?
     ', [$hotelCode]);
-}
+    }
 
     public function create(array $data)
     {

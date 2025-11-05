@@ -2,9 +2,10 @@
 
 namespace App\Controllers\DashboardController;
 
-use App\Models\Services;
 use App\Core\Csrf;
+use App\Models\Services;
 use App\Request\ServiceRequest;
+
 // Feedback2-- Need proper indentation as per PSR-12 standards
 class ServicesController extends BaseController
 {
@@ -24,66 +25,72 @@ class ServicesController extends BaseController
         $this->render('dashboard/Services/services.view.php', [
             'services' => $services,
         ]);
-      
     }
 
-       public function delete()
-       {
-           if (! isset($_POST['id'])) {
-               header('Location: '.BASE_URL.'/services');
-               exit;
-           }
+    public function delete()
+    {
+        if (! isset($_POST['id'])) {
+            header('Location: '.BASE_URL.'/services');
+            exit;
+        }
 
-           $id = (int) $_POST['id'];
-           $this->servicesModel->softDelete($id);
+        $id = (int) $_POST['id'];
+        $this->servicesModel->softDelete($id);
 
-           header('Location: '.BASE_URL.'/services');
-           exit;
-       }
+        header('Location: '.BASE_URL.'/services');
+        exit;
+    }
 
     public function create()
     {
-        
-
-      
-          $services = $this->servicesModel->all(); 
+        $services = $this->servicesModel->all();
 
         $this->render('dashboard/Services/createService.view.php', [
             'services' => $services,
         ]);
-        
     }
-public function store()
-{
-    // CSRF Protection
+    public function store()
+    {
+        // CSRF Protection
+        // Feedback2-- Why used a different approach for CSRF Token Validation in this function?
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $token = $_POST['_token'] ?? '';
 
-    // Feedback2-- Why used a different approach for CSRF Token Validation in this function?
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        $_SESSION['errors']['csrf'] = "Invalid CSRF token!";
-        
+
+            if (!Csrf::validateToken($token)) {
+                $_SESSION['error'] = 'Token has expired or is invalid. Please try again.';
+                header('Location: '.BASE_URL.'/login');
+                exit();
+            }
+
+        }
+
+        // Request class
+        $request = new ServiceRequest($_POST);
+
+        // Validate
+        if (!$request->validate()) {
+            $_SESSION['errors'] = $request->errors();
+            $_SESSION['old'] = $_POST;
+            redirect(url('/services'));
+
+            return;
+        }
+
+        // Insert into DB
+        // Feedback2-- What would happend if there is an error during create operation?
+        try {
+            $this->servicesModel->create($request->all());
+            $_SESSION['success'] = 'Service created successfully.';
+            header('Location: ' . url('/services'));
+            exit();
+        } catch (\Exception $e) {
+            $_SESSION['error'] = 'Please provide correct information: ' . $e->getMessage();
+            header('Location: ' . url('/services/create'));
+            exit();
+        }
+
     }
-
-    // Request class
-    $request = new ServiceRequest($_POST);
-
-    // Validate
-    if (!$request->validate()) {
-        $_SESSION['errors'] = $request->errors();
-        $_SESSION['old'] = $_POST;
-        redirect(url('/services'));
-        return;
-    }
-
-    // Insert into DB
-
-    // Feedback2-- What would happend if there is an error during create operation?
-    $this->servicesModel->create($request->all());
-
-    // Redirect to index
-    redirect(url('/services'));
-}
-
-
 
     public function edit()
     {
@@ -101,46 +108,50 @@ public function store()
         $this->render('dashboard/Services/editService.view.php', [
             'service' => $service,
         ]);
-      
     }
-public function update()
-{
-    //  Allow POST only
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    public function update()
+    {
+        //  Allow POST only
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            redirect(url('/services'));
+
+            return;
+        }
+
+        //  CSRF Check
+        // Feedback2-- Why used a different approach for CSRF Token Validation in this function?
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $token = $_POST['_token'] ?? '';
+
+            // CSRF token validation using centralized method
+            if (!Csrf::validateToken($token)) {
+                $_SESSION['error'] = 'Token has expired or is invalid. Please try again.';
+                header('Location: '.BASE_URL.'/login');
+                exit();
+            }
+
+        }
+
+        // Request Validation
+        $request = new ServiceRequest($_POST);
+
+        if (!$request->validate()) {
+            $_SESSION['errors'] = $request->errors();
+            $_SESSION['old'] = $_POST;
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+
+        // Get Service ID
+        $id = $_POST['id'] ?? null;
+        if (!$id) {
+            $_SESSION['error'] = 'Service ID is required!';
+        }
+
+        // Update in DB
+        $this->servicesModel->update($id, $request->all());
+
+        // Success Message
+        $_SESSION['success'] = 'Service updated successfully!';
         redirect(url('/services'));
-        return;
     }
-
-    // Feedback2-- Why used a different approach for CSRF Token Validation in this function?
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        $_SESSION['errors']['csrf'] = "Invalid CSRF token!";
-       
-    }
-
-    // Request Validation
-    $request = new ServiceRequest($_POST);
-
-    if (!$request->validate()) {
-        $_SESSION['errors'] = $request->errors();
-        $_SESSION['old'] = $_POST;
-        redirect($_SERVER['HTTP_REFERER']);
-       
-    }
-
-    // Get Service ID
-    $id = $_POST['id'] ?? null;
-    if (!$id) {
-        $_SESSION['error'] = "Service ID is required!";
-        
-    }
-
-    // Update in DB
-
-    // Feedback2-- What would happend if there is an error during update operation?
-    $this->servicesModel->update($id, $request->all());
-
-    // Success Message + Redirect
-    $_SESSION['success'] = "Service updated successfully!";
-    redirect(url('/services'));
-}
 }

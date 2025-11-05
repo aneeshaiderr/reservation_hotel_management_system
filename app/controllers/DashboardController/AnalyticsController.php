@@ -4,6 +4,8 @@ namespace App\Controllers\DashboardController;
 
 use App\Models\Analytics;
 
+;
+
 class AnalyticsController extends BaseController
 {
     // Feedback2-- Is this functional? If not whats the ETC?
@@ -18,11 +20,9 @@ class AnalyticsController extends BaseController
     {
         $data = $this->analytics->getData();
 
-        $this->view('dashboard/Analytics/analytics.view.php', [
+        $this->render('dashboard/Analytics/analytics.view.php', [
             'latestProjects' => $data['latestProjects'],
             'monthlyReport' => $data['monthlyReport'],
         ]);
-
-        return view('Layouts/dashboard.layout.php');
     }
 }

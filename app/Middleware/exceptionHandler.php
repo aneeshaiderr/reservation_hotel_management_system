@@ -17,7 +17,6 @@ class ExceptionHandler
             $_SESSION['error'] = 'Database error: '.$e->getMessage();
         }
 
-        // Agar koi specific redirect URL diya ho to usi par redirect karo, warna back
         if ($redirectUrl) {
             header('Location: '.$redirectUrl);
         } else {

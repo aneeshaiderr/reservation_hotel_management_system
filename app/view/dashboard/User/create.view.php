@@ -6,7 +6,7 @@
       <div class="mx-auto max-w-4xl py-2 px-2">
         <h5 class="fw-bold mt-5 text-primary">Create User</h5>
 
-        <form action="<?= url('/user/store') ?>" method="POST">
+        <form action="<?= url('/user') ?>" method="POST">
 
           <!-- First Name -->
           <div class="mb-3">
@@ -63,4 +63,4 @@
     </main>
   </div>
 
-           
+
