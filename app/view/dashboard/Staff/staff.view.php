@@ -54,9 +54,7 @@
                          <a href="<?= BASE_URL ?>/editUser?id=<?= $user['id'] ?>" class="btn btn-sm btn-primary">View</a>
 
                           <!-- Delete Button -->
-                          <button type="button" onclick="submitDelete(<?= $user['id'] ?>)" class="btn btn-sm btn-danger">
-                            Delete
-                          </button>
+                         <?php if ($this->permission->can('delete_user')): ?> <form method="POST" action="<?= url('/user/delete'); ?>"> <input type="hidden" name="id" value="<?= $user['id'] ?>"> <button class="btn btn-danger btn-sm">Delete</button> </form> <?php endif; ?>
                         </td>
                       </tr>
                     <?php } ?>

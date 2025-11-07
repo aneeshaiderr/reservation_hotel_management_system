@@ -1,13 +1,12 @@
 <?php
 
-
-
 namespace App\Models;
-use App\Middleware\Permission;
+
+use App\Core\Database;
+
 // Feedback2-- Need proper indentation as per PSR-12 standards
 class User extends BaseModel
 {
-
     public function getUserById($id)
     {
         return $this->db->query(
@@ -246,6 +245,24 @@ class User extends BaseModel
             ]
         );
     }
+    // app/Models/User.php
+
+    public function getRoleId(bool $flag = true, int $userId = null)
+    {
+        if ($flag === true) {
+            return $_SESSION['role_id'] ?? null;
+        }
+
+        if ($userId === null) {
+            return null;
+        }
+
+        $query = 'SELECT role_id FROM users WHERE id = ?';
+        $result = $this->db->fetch($query, [$userId]);
+
+        return $result['role_id'] ?? null;
+    }
+
 
 
 }

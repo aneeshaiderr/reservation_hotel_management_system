@@ -73,7 +73,7 @@ $username = $_SESSION['username'] ?? '';
         <li class="nav-item"><a href="discount" class="nav-link text-white <?= urlIs('discount') ? 'active bg-dark text-white' : '' ?>">Discounts</a></li>
         <li class="nav-item"><a href="reservation" class="nav-link text-white <?= urlIs('reservation') ? 'active bg-dark text-white' : '' ?>">Reservations</a></li>
         <li class="nav-item"><a href="payment" class="nav-link text-white <?= urlIs('payment') ? 'active bg-dark text-white' : '' ?>">Payments</a></li>
-
+                <li class="nav-item"><a href="permission" class="nav-link text-white <?= urlIs('permission') ? 'active bg-dark text-white' : '' ?>">Permission</a></li>
 
 
     <?php } elseif ($roleId == 2) { // Staff?>
@@ -81,6 +81,7 @@ $username = $_SESSION['username'] ?? '';
         <li class="nav-item"><a href="reservation" class="nav-link text-white <?= urlIs('reservation') ? 'active bg-dark text-white' : '' ?>">Reservations</a></li>
         <li class="nav-item"><a href="services" class="nav-link text-white <?= urlIs('services') ? 'active bg-dark text-white' : '' ?>">Services</a></li>
         <li class="nav-item"><a href="rooms" class="nav-link text-white <?= urlIs('rooms') ? 'active bg-dark text-white' : '' ?>">Rooms</a></li>
+         <li class="nav-item"><a href="discount" class="nav-link text-white <?= urlIs('discount') ? 'active bg-dark text-white' : '' ?>">Discounts</a></li>
             <?php } elseif ($roleId == 4) { ?>
               <li class="nav-item"><a href="user" class="nav-link text-white <?= urlIs('user') ? 'active bg-dark text-white' : '' ?>">My Profile</a></li>
               <li class="nav-item"><a href="reservation" class="nav-link text-white <?= urlIs('reservation') ? 'active bg-dark text-white' : '' ?>">My Reservations</a></li>

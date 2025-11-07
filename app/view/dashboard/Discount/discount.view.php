@@ -41,7 +41,7 @@
                 if (strtolower($st) === 'active') { ?>
                       <span class="badge bg-success">Active</span>
                     <?php } elseif (strtolower($st) === 'expired') { ?>
-                        
+
                       <span class="badge bg-danger">Expired</span>
                     <?php } else { ?>
                       <span class="badge bg-warning text-dark"><?= htmlspecialchars($st ?: 'Unknown') ?></span>
@@ -49,33 +49,36 @@
                 </td>
              <td>
   <div class="d-flex align-items-center gap-2">
-    <a href="<?= BASE_URL ?>/discount/editDiscount?id=<?= $discount['id'] ?>" 
+    <a href="<?= BASE_URL ?>/discount/editDiscount?id=<?= $discount['id'] ?>"
        class="btn btn-sm btn-primary py-1 px-3">
        View
     </a>
+<?php
 
-    <form action="<?= url('/discount/delete') ?>" 
-          method="POST" 
-          onsubmit="return confirm('Are you sure you want to delete this discount?');" 
-          class="m-0">
-      <input type="hidden" name="id" value="<?= $discount['id'] ?>">
-      <button type="submit" 
-              class="btn btn-sm btn-danger py-1 px-3">
-              Delete
-      </button>
-    </form>
-  </div>
-</td>
-              
+$currentUrl = $_SERVER['REQUEST_URI'] ?? '';
+                $role = $_SESSION['role'] ?? '';
+                $role = $_SESSION['user']['role_name'] ?? '';
+
+
+                ?>
+
+<?php if ($role === 'superadmin' && !str_contains($currentUrl, '/staff')) : ?>
+<form action="<?= url('/discount/delete') ?>" method="POST" onsubmit="return confirm('Are you sure you want to delete this discount?');" class="m-0">
+  <input type="hidden" name="id" value="<?= $discount['id'] ?>">
+  <button type="submit" class="btn btn-sm btn-danger py-1 px-3">Delete</button>
+</form>
+<?php endif; ?>
+
+
             <?php } ?>
             <?php } ?>
           </tbody>
-           
+
         </table>
       </div>
     </div>
   </div>
 
-                  
+
 
 

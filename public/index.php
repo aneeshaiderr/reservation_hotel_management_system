@@ -1,6 +1,6 @@
-
 <?php
 
+// function
  require __DIR__.'/../function.php';
 session_start();
 
@@ -11,7 +11,10 @@ require BASE_PATH.'/vendor/autoload.php';
 $config = require BASE_PATH.'config.php';
 use App\Core\Database;
 use App\Core\Router;
+use App\Middleware\AuthMiddleware;
 
+// Call middleware at start of request
+AuthMiddleware::handle();
 $router = new Router();
 
 require BASE_PATH.'app/Core/routes.php';

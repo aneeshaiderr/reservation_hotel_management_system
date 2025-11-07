@@ -3,7 +3,9 @@
 namespace App\Controllers\DashboardController;
 
 use App\Core\Csrf;
+use App\Helpers\Permission;
 use App\Models\Discount;
+use App\Models\RoleModel;
 use App\Request\DiscountRequest;
 
 // Feedback2-- Need proper indentation as per PSR-12 standards
@@ -11,16 +13,28 @@ use App\Request\DiscountRequest;
 class DiscountController extends BaseController
 {
     protected $discount;
+    protected $userModel;
+    protected $permission;
 
+
+    protected $roleModel;
     public function __construct()
     {
         $this->discount = new Discount($this->db);
+        $this->roleModel = new RoleModel($this->db);
+
+        // Permission class ko proper objects do
+        $this->permission = new Permission($this->userModel, $this->roleModel);
     }
 
     public function index()
     {
+        // var_dump($_SESSION);
+        // exit();
         $discounts = $this->discount->getAll();
 
+        // var_dump($_SESSION['role_name']); // ye dekh lo
+        // $roleName = $_SESSION['role_name'] ?? null;
         $this->render('dashboard/Discount/discount.view.php', [
             'discounts' => $discounts,
         ]);
@@ -28,6 +42,12 @@ class DiscountController extends BaseController
 
     public function create()
     {
+        if (! $this->permission->can('Create_user')) {
+            // $_SESSION['error'] = "You do not have permission to delete users.";
+            die('You do not have permission to create discount.');
+            // redirect(url('/user'));
+            // exit;
+        }
         $this->render('dashboard/Discount/createDiscount.view.php');
     }
 
@@ -65,6 +85,12 @@ class DiscountController extends BaseController
 
     public function edit($id = null)
     {
+        if (! $this->permission->can('edit_user')) {
+            // $_SESSION['error'] = "You do not have permission to delete users.";
+            abort(403);
+            // redirect(url('/user'));
+            // exit;
+        }
         if (! $id && isset($_GET['id'])) {
             $id = (int) $_GET['id'];
         }
@@ -118,6 +144,13 @@ class DiscountController extends BaseController
 
     public function delete()
     {
+        if (! $this->permission->can('delete_discount')) {
+            abort(403);
+            // $_SESSION['error'] = "You do not have permission to delete users.";
+            // die("You do not have permission to delete discount.");
+            // redirect(url('/user'));
+            // exit;
+        }
         if (isset($_POST['id'])) {
             $id = (int) $_POST['id'];
             $this->discount->softdelete($id);

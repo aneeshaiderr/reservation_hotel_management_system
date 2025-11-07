@@ -15,6 +15,7 @@ abstract class BaseModel
             $this->db = $db;
 
             return;
+
         }
         $config = require BASE_PATH.'config.php';
         $this->db = new Database($config['database']);
@@ -23,5 +24,9 @@ abstract class BaseModel
     protected function now(): string
     {
         return date('Y-m-d H:i:s');
+    }
+    public function getDb()
+    {
+        return $this->db;
     }
 }

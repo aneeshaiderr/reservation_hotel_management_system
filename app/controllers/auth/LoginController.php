@@ -37,9 +37,12 @@ class LoginController extends BaseController
         }
         ;
 
+
         // Use User model (query moved to model)
         $userModel = new User($this->db);
         $user = $userModel->findByEmail($email);
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['role_name'] = strtolower($user['role_name']);
 
         // Authentication check
         if (! $user || ! password_verify($password, $user['password'])) {
@@ -59,7 +62,7 @@ class LoginController extends BaseController
 
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['role_id'] = $user['role_id'];
-
+        $roleId = (int) $_SESSION['role_id'];
         // Set success message
         $_SESSION['success'] = 'Login successful! Welcome back, ' . htmlspecialchars($user['first_name'] ?? '');
 

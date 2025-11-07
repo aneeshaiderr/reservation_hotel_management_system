@@ -1,5 +1,7 @@
 <?php
 
+
+
 use App\Controllers\AboutController;
 use App\Controllers\Auth\LoginController;
 use App\Controllers\Auth\SignupController;
@@ -10,6 +12,7 @@ use App\Controllers\DashboardController\AnalyticsController;
 use App\Controllers\DashboardController\DiscountController;
 use App\Controllers\DashboardController\HotelController;
 use App\Controllers\DashboardController\ReservationController;
+use App\Controllers\DashboardController\RoleController;
 use App\Controllers\DashboardController\RoomsController;
 use App\Controllers\DashboardController\ServicesController;
 use App\Controllers\DashboardController\UserController;
@@ -49,7 +52,7 @@ $router->group(['middleware' => ['authMiddleware']], function ($router) {
         $router->post('/user/update', [UserController::class, 'update']);
         $router->get('/editUser', [UserController::class, 'editUser']);
         $router->post('/user', [UserController::class, 'softDelete']);
-
+        // $router->get('/permission', [RoleController::class, 'indexx']);
         $router->get('/userAllDetails', [UserController::class, 'userAllDetails']);
         $router->get('/userdetails', [UserController::class, 'show']);
         $router->get('/editUser', [UserController::class, 'editUser']);
@@ -87,6 +90,8 @@ $router->group(['middleware' => ['authMiddleware']], function ($router) {
         $router->get('/hotel/hotelDetail', [HotelController::class, 'show']);
         $router->post('/hotel', [HotelController::class, 'update']);
         $router->post('/hotel/delete', [HotelController::class, 'delete']);
+
+
     });
 
 

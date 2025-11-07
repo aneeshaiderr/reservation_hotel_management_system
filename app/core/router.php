@@ -3,7 +3,6 @@
 namespace App\Core;
 
 use App\Middleware\AuthMiddleware;
-use App\Middleware\RoleMiddleware;
 
 class Router
 {
@@ -113,7 +112,7 @@ class Router
 
                         return;
                     } else {
-                        http_response_code(404);
+                        // http_response_code(404);
                         echo '404 - View file not found: '.htmlspecialchars($route['callback']);
 
                         return;
@@ -121,19 +120,18 @@ class Router
                 }
             }
         }
+        abort(404);
 
-        http_response_code(404);
-        echo '404 - Route not found';
+        exit;
+
+
     }
 
     // Middleware Handler
     private function applyMiddleware($middleware)
     {
         if ($middleware === 'auth') {
-            (new AuthMiddleware())->handle();
-        } elseif (strpos($middleware, 'role:') === 0) {
-            $role = explode(':', $middleware)[1];
-            (new RoleMiddleware())->handle($role);
+            AuthMiddleware::handle();
         }
     }
 }

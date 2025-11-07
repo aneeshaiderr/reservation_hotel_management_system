@@ -3,7 +3,9 @@
 namespace App\Controllers\DashboardController;
 
 use App\Core\Csrf;
+use App\Helpers\Permission;
 use App\Middleware\ExceptionHandler;
+use App\Models\RoleModel;
 use App\Models\User;
 use App\Request\UserRequest;
 
@@ -14,15 +16,38 @@ class UserController extends BaseController
     protected $reservationModel;
 
 
+    protected $roleModel;
+    protected $permission;
     protected $content;
 
     public function __construct()
     {
         $this->userModel = new User($this->db);
+        $this->roleModel = new RoleModel($this->db);
+
+        // Permission class ko proper objects do
+        $this->permission = new Permission($this->userModel, $this->roleModel);
+        //  $this->permission = new Permission($this->userModel, $this->roleModel);
+
     }
 
     public function index()
     {
+        // var_dump($this->permission->can('delete_user'));
+        // exit;
+
+        // var_dump($this->roleModel->getPermission($_SESSION['role_id']));
+        // exit;
+
+
+        // var_dump($_SESSION['role_id']);
+        // var_dump($_SESSION['role_id']);
+        // // var_dump($this->roleModel->getPermission($_SESSION['role_id']));
+        // var_dump($this->permission->can('view_user'));
+        // exit;
+
+
+
 
 
         $roleId = $_SESSION['role_id'] ?? null;
@@ -33,6 +58,8 @@ class UserController extends BaseController
             $this->render('dashboard/User/index.view.php', ['users' => $users]);
         } elseif ($roleId == 2) {
             $users = $this->userModel->getAllUsers();
+
+
             $this->render('dashboard/Staff/staff.view.php', ['users' => $users]);
         } else {
             $user = $this->userModel->findUserById($userId);
@@ -45,8 +72,8 @@ class UserController extends BaseController
     }
 
     /*  Using Model for query now */
-        public function userAllDetails()
-        {
+    public function userAllDetails()
+    {
 
 
         $userId = $_GET['id'] ?? $_SESSION['user_id'];
@@ -148,7 +175,9 @@ class UserController extends BaseController
 
     public function editUser()
     {
-
+        if (! $this->permission->can('edit_user')) {
+            abort(403);
+        }
         $id = $_GET['id'] ?? $_SESSION['user_id'] ?? null;
 
         if (! $id) {
@@ -213,6 +242,10 @@ class UserController extends BaseController
 
     public function softDelete()
     {
+        if (! $this->permission->can('delete_user')) {
+            abort(403);
+        }
+
         if (! isset($_POST['id']) || empty($_POST['id'])) {
             exit('User ID missing!');
         }

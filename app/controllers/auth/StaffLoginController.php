@@ -31,7 +31,8 @@ class StaffLoginController extends BaseController
 
         // Get user by email using User model
         $user = $this->userModel->findEmail($email);
-
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['role_name'] = strtolower($user['role_name']);
         // Check if user exists and password matches
         if (!$user || !$this->userModel->verifyPassword($user, $password)) {
             $_SESSION['errors'] = ['Invalid email or password. Please try again.'];
