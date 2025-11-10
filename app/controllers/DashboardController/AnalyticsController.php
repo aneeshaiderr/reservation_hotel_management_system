@@ -8,7 +8,7 @@ use App\Models\Analytics;
 
 class AnalyticsController extends BaseController
 {
-    // Feedback2-- Is this functional? If not whats the ETC?
+    // Feedback3-- Is this functional? If not whats the ETC?
     protected $analytics;
 
     public function __construct()

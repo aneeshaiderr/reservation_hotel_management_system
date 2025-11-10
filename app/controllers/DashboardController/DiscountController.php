@@ -8,7 +8,7 @@ use App\Models\Discount;
 use App\Models\RoleModel;
 use App\Request\DiscountRequest;
 
-// Feedback2-- Need proper indentation as per PSR-12 standards
+// Feedback3-- Remove unnecessary comments from the controller keep the codebase clean
 
 class DiscountController extends BaseController
 {
@@ -44,6 +44,7 @@ class DiscountController extends BaseController
     {
         if (! $this->permission->can('Create_user')) {
             // $_SESSION['error'] = "You do not have permission to delete users.";
+            // Feedback3-- Return to the previous page with error message user journey should not end at any point.
             die('You do not have permission to create discount.');
             // redirect(url('/user'));
             // exit;
@@ -55,7 +56,6 @@ class DiscountController extends BaseController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $token = $_POST['csrf_token'] ?? '';
-            // Feedback2-- Return user to the login page if token is invalid with proper message
             if (!Csrf::validateToken($token)) {
                 $_SESSION['error'] = 'Token are expire. Please try again.';
                 header('Location: '.BASE_URL.'/login');
@@ -112,7 +112,6 @@ class DiscountController extends BaseController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $token = $_POST['csrf_token'] ?? '';
-            // Feedback2-- Return user to the login page if token is invalid with proper message
             if (!Csrf::validateToken($token)) {
                 $_SESSION['error'] = 'Token are expire. Please try again.';
                 header('Location: '.BASE_URL.'/login');
@@ -136,7 +135,6 @@ class DiscountController extends BaseController
                 'status'        => $_POST['status']
             ];
 
-            // Feedback-- How are you handling the sql injections and unsafe queries?
             $this->discount->update($id, $data);
             redirect(url('/discount'));
         }

@@ -9,7 +9,6 @@ use App\Models\RoleModel;
 use App\Models\User;
 use App\Request\UserRequest;
 
-// Feedback2-- Need proper indentation as per PSR-12 standards
 class UserController extends BaseController
 {
     protected $userModel;
@@ -33,6 +32,8 @@ class UserController extends BaseController
 
     public function index()
     {
+        // Feedback3-- Remove unnecessary comments before pushing code on git
+
         // var_dump($this->permission->can('delete_user'));
         // exit;
 
@@ -75,7 +76,7 @@ class UserController extends BaseController
     public function userAllDetails()
     {
 
-
+        // Feedback3-- Explain this function verbally
         $userId = $_GET['id'] ?? $_SESSION['user_id'];
         $allReservations = $this->userModel->getAllReservationsByUser($userId) ?? [];
         $currentReservation = $this->userModel->getCurrentReservation($userId);
@@ -99,7 +100,6 @@ class UserController extends BaseController
 
         $user = $this->userModel->find($id);
 
-        //Feedback2-- Return user to the page with proper message not a case for 404
         if (! $user || $user === false) {
             $_SESSION['error'] = 'User not found. Please check the details.';
             header('Location: '.BASE_URL.'/login');

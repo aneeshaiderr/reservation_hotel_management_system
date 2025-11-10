@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Core\Database;
 
-// Feedback2-- Need proper indentation as per PSR-12 standards
 class User extends BaseModel
 {
     public function getUserById($id)
@@ -121,6 +120,7 @@ class User extends BaseModel
         );
     }
 
+    // Feedback3-- Explain the code for these two functions verbally getAllReservationsByUser and getCurrentReservation
     public function getAllReservationsByUser($userId)
     {
         $sql = '

@@ -3,12 +3,10 @@
 
  <?php
  require __DIR__.'/../partial/head.php';
- // Feedback2-- Need proper indentation as per PSR-12 standards
- // Feedback2-- Why are flash messages like errors or sucess messages show?
- // Feedback2-- write a foreach loop to go over sessions errors and display them in a styled HTML structure
 
  ?>
 <?php
+  // Feedback3-- Rather than repeating sucess and error loops on each page fine a way to avoid code repetition to keep the code dry
  // SUCCESS MESSAGE
  if (isset($_SESSION['success'])) { ?>
     <div class="alert alert-success">

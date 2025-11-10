@@ -2,7 +2,6 @@
 
 namespace App\Core;
 
-// Feedback2-- Need proper indentation as per PSR-12 standards
 class Csrf
 {
     // Generate and store token in session
@@ -18,9 +17,6 @@ class Csrf
 
         return $_SESSION['csrf_token'];
     }
-
-    // Feedback2-- Whats the difference between verify and validateToken functions?
-
 
     public static function validateToken($token)
     {

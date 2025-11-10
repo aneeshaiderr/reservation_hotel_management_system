@@ -10,7 +10,6 @@ use App\Models\Rooms;
 use App\Models\User;
 use App\Request\ReservationRequest;
 
-// Feedback2-- Need proper indentation as per PSR-12 standards
 class ReservationController extends BaseController
 {
     protected $reservationModel;
@@ -39,9 +38,6 @@ class ReservationController extends BaseController
     // Show all reservations
     public function index()
     {
-        // Feedback2-- Should be consider a global alternative to this rather than handling it in each controller method?
-
-
         $userId = $_SESSION['user_id'];
         $roleId = $_SESSION['role_id'];
 
@@ -95,6 +91,7 @@ class ReservationController extends BaseController
             } catch (\PDOException $e) {
                 // Duplicate entry
                 if ($e->getCode() == 23000) {
+                    // Feedback3-- Would the exception always be for reservation already exists? in this case
                     $_SESSION['error'] = 'Reservation already exists!';
                     redirect($_SERVER['HTTP_REFERER']);
                 }
@@ -140,7 +137,6 @@ class ReservationController extends BaseController
         }
 
         $reservation = $this->reservationModel->find($id);
-        // Feedback2-- Return user to the page with proper message not a case for 404
         if (!$reservation) {
             $_SESSION['error'] = 'Reservation details not found or invalid.';
             header('Location: /reservation');
@@ -174,7 +170,6 @@ class ReservationController extends BaseController
         // CSRF Token Check
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $token = $_POST['csrf_token'] ?? '';
-            // Feedback2-- Return user to the login page if token is invalid with proper message
             if (!Csrf::validateToken($token)) {
                 $_SESSION['error'] = 'Token are expire. Please try again.';
                 header('Location: '.BASE_URL.'/login');
