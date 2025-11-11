@@ -177,30 +177,49 @@ class User extends BaseModel
 
         return $this->db->query($sql, ['user_id' => $userId])->fetch();
     }
-    public function findByEmail(string $email)
-    {
-        // Uses your Database wrapper's prepared query method (placeholder :email)
-        // This is safe against SQL injection because value is bound by the query() method.
-        $stmt = $this->db->query(
-            'SELECT
+public function findByEmail($email)
+{
+    $sql = "
+        SELECT
             u.id,
-            u.user_email,
-            u.password,
             u.first_name,
             u.last_name,
+            u.user_email,
+            u.password,
             u.role_id,
             r.name AS role_name
-         FROM users u
-         LEFT JOIN roles r ON u.role_id = r.id
-         WHERE u.user_email = :email
-         LIMIT 1',
-            [':email' => $email]
-        );
+        FROM users u
+        LEFT JOIN roles r ON u.role_id = r.id
+        WHERE u.user_email = ?
+        LIMIT 1
+    ";
 
-        // Depending on your Database wrapper, ->find() or ->fetch()
-        // Your User model already used ->find() in other methods, so:
-        return $stmt->find();
-    }
+    return $this->db->fetch($sql, [$email]);
+}
+    // public function findByEmail(string $email)
+    // {
+    //     // Uses your Database wrapper's prepared query method (placeholder :email)
+    //     // This is safe against SQL injection because value is bound by the query() method.
+    //     $stmt = $this->db->query(
+    //         'SELECT
+    //         u.id,
+    //         u.user_email,
+    //         u.password,
+    //         u.first_name,
+    //         u.last_name,
+    //         u.role_id,
+    //         r.name AS role_name
+    //      FROM users u
+    //      LEFT JOIN roles r ON u.role_id = r.id
+    //      WHERE u.user_email = :email
+    //      LIMIT 1',
+    //         [':email' => $email]
+    //     );
+
+    //     // Depending on your Database wrapper, ->find() or ->fetch()
+    //     // Your User model already used ->find() in other methods, so:
+    //     return $stmt->find();
+    // }
     // app/Models/User.php
     public function signup(array $data)
     {
@@ -224,7 +243,15 @@ class User extends BaseModel
             ':user_email' => $email,
         ])->find();
     }
+// public function findEmail($email)
+// {
+//     $sql = "SELECT u.*, r.name AS role_name
+//             FROM users u
+//             LEFT JOIN roles r ON u.role_id = r.id
+//             WHERE u.user_email = ?";
 
+//     return $this->db->fetch($sql, [$email]);
+// }
     public function verifyPassword($user, $password)
     {
         return password_verify($password, $user['password']);

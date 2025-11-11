@@ -32,7 +32,8 @@ class Permission
 
     public function can($permission)
     {
-        return in_array($permission, $this->permissions);
+        // return in_array($permission, $this->permissions);
+         return in_array($permission, $_SESSION['permissions'] ?? []);
     }
 
 }

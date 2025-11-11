@@ -7,7 +7,7 @@ use App\Helpers\Permission;
 use App\Models\Discount;
 use App\Models\RoleModel;
 use App\Request\DiscountRequest;
-
+use App\Models\User;
 // Feedback2-- Need proper indentation as per PSR-12 standards
 
 class DiscountController extends BaseController
@@ -20,15 +20,27 @@ class DiscountController extends BaseController
     protected $roleModel;
     public function __construct()
     {
-        $this->discount = new Discount($this->db);
-        $this->roleModel = new RoleModel($this->db);
+        // $this->discount = new Discount($this->db);
+        // $this->roleModel = new RoleModel($this->db);
 
-        // Permission class ko proper objects do
-        $this->permission = new Permission($this->userModel, $this->roleModel);
+        // // Permission class ko proper objects do
+        // $this->permission = new Permission($this->userModel, $this->roleModel);
+
+    $this->discount = new Discount($this->db);
+    $this->roleModel = new RoleModel($this->db);
+    $this->userModel = new User($this->db); //
+
+    $this->permission = new Permission($this->userModel, $this->roleModel);
     }
 
     public function index()
     {
+
+// var_dump($_SESSION['user']);  // logged-in user ka data
+// $roleId = $_SESSION['user']['role_id'] ?? null;
+// var_dump($roleId);
+// exit();
+
         // var_dump($_SESSION);
         // exit();
         $discounts = $this->discount->getAll();

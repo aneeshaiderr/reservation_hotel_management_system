@@ -56,13 +56,14 @@ class LoginController extends BaseController
             'id' => $user['id'],
             'email' => $user['user_email'],
             'role_id' => $user['role_id'],
-            'role_name' => strtolower($user['role_name'] ?? 'user'),
+            'role_name' => strtolower($user['role_name']),
             'name' => trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? '')),
         ];
 
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['role_id'] = $user['role_id'];
         $roleId = (int) $_SESSION['role_id'];
+
         // Set success message
         $_SESSION['success'] = 'Login successful! Welcome back, ' . htmlspecialchars($user['first_name'] ?? '');
 

@@ -33,6 +33,10 @@ class UserController extends BaseController
 
     public function index()
     {
+//                 echo "<pre>";
+// var_dump($_SESSION['user']);
+// echo "</pre>";
+// exit();
         // var_dump($this->permission->can('delete_user'));
         // exit;
 

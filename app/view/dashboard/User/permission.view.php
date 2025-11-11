@@ -5,7 +5,7 @@
 
     <!-- Create Role Button -->
     <div class="mb-4">
-      <a href="<?= url('/permission/create') ?>" class="btn btn-sm btn-success">
+      <a href="<?= url('/permission/createPermission') ?>" class="btn btn-sm btn-success">
         + Create Role
       </a>
     </div>
@@ -36,17 +36,21 @@
 
                   <!-- Permissions -->
                   <td>
-                    <?php if (!empty($role['permissions']) && is_array($role['permissions'])) : ?>
+                 <?php if (!empty($role['permissions']) && is_array($role['permissions'])): ?>
 
-                    <?php foreach ($roles as $role) : ?>
-    <?php foreach ($role['permissions'] as $perm) : ?>
-        <?= htmlspecialchars($perm) ?>
+    <?php foreach ($role['permissions'] as $perm): ?>
+        <span class="badge bg-primary me-1">
+            <?= htmlspecialchars(is_array($perm) ? ($perm['name'] ?? '') : $perm) ?>
+        </span>
     <?php endforeach; ?>
-<?php endforeach; ?>
 
-                    <?php else : ?>
-                      <span class="badge bg-secondary">No Permission</span>
-                    <?php endif; ?>
+<?php else: ?>
+    <span class="badge bg-secondary">No Permission</span>
+<?php endif; ?>
+
+
+
+
                   </td>
 
                   <!-- Action -->

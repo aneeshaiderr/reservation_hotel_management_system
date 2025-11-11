@@ -51,10 +51,18 @@ class Database
         return $this->statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function fetch(): ?array
-    {
-        return $this->statement->fetch(PDO::FETCH_ASSOC) ?: null;
+    // public function fetch(): ?array
+    // {
+    //     return $this->statement->fetch(PDO::FETCH_ASSOC) ?: null;
+    // }
+public function fetch(string $sql = null, array $params = []): ?array
+{
+    if ($sql !== null) {
+        $this->query($sql, $params);
     }
+
+    return $this->statement->fetch(PDO::FETCH_ASSOC) ?: null;
+}
 
     public function findUserById(int $id): ?array
     {
@@ -103,4 +111,9 @@ class Database
     {
         return $this->pdo;
     }
+    public function execute($sql, $params = [])
+{
+    $stmt = $this->pdo->prepare($sql);
+    return $stmt->execute($params);
+}
 }

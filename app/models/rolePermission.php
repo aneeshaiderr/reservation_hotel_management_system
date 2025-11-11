@@ -4,18 +4,24 @@ namespace App\Models;
 
 class RolePermission extends BaseModel
 {
+ // Get all permissions from permissions table
     public function all()
     {
-        return $this->db->fetchAll('SELECT * FROM permissions');
+        return $this->db->fetchAll("SELECT * FROM permissions ORDER BY name ASC");
     }
 
-    public function getRolePermissions($roleId)
+    // Delete permissions for a role
+    public function deleteRolePermissions($roleId)
     {
-        $data =  $this->db->fetchAll(
-            'SELECT permission_id FROM role_permissions WHERE role_id = ?',
-            [$roleId]
-        );
+        return $this->db->execute("DELETE FROM role_permissions WHERE role_id = ?", [$roleId]);
+    }
 
-        return array_column($data, 'permission_id');
+    // Assign permission to a role
+    public function assignPermission($roleId, $permissionId)
+    {
+        return $this->db->execute(
+            "INSERT INTO role_permissions (role_id, permission_id) VALUES (?, ?)",
+            [$roleId, $permissionId]
+        );
     }
 }
