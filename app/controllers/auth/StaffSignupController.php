@@ -44,13 +44,13 @@ class StaffSignupController extends BaseController
                 'user_email'  => $validatedData['user_email'],
                 'contact_no'  => $validatedData['contact_no'],
                 'password'    => $hashedPassword,
-                'role_id'     => 2, // Staff Role
+                'role_id'     => 2,
             ]);
 
             // Step 4: Flash success message
             $_SESSION['success'] = 'Staff account created successfully! You can now login.';
 
-            // Step 5: Redirect to login page
+
             header('Location: ' . BASE_URL . '/staffLogin');
             exit;
 

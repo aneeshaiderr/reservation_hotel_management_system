@@ -14,7 +14,7 @@ class PermissionModel
         $this->db = new Database($config['database']);
     }
 
-    // ✅ Get all permissions
+    //  Get all permissions
     public function all()
     {
         $sql = "SELECT * FROM permissions";
@@ -29,7 +29,7 @@ public function create($name)
     return $this->db->getPdo()->lastInsertId();
 }
 
-    // ✅ Get single permission ID by name
+    // Get single permission ID by name
     public function getIdByName($name)
     {
         $sql = "SELECT id FROM permissions WHERE name = ?";

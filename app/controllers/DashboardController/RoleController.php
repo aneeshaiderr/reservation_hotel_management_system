@@ -17,14 +17,16 @@ class RoleController extends BaseController
        // BaseController ka DB initialize hota rahe
 
         $this->roleModel = new RoleModel();
+            $roleModel = new RoleModel();
         $this->permissionModel = new PermissionModel();
-         $permissionModel = new RolePermission();
+
+$roles = $roleModel->RolesWithPermissions();
 
     }
 
-    public function indexx()
+    public function index()
     {
-        $roles = $this->roleModel->allRolesWithPermissions();
+        $roles = $this->roleModel->RolesWithPermissions();
 
         $this->render("dashboard/User/permission.view.php", [
             "roles" => $roles
@@ -41,39 +43,137 @@ class RoleController extends BaseController
             'permissions'  => $permissions
         ]);
     }
+    public function edit()
+{
+    $id = $_GET['id'] ?? null;
+    if (!$id) {
+        exit('No role ID provided');
+    }
+    $roleModel = new RoleModel();
+    $role = $roleModel->findRoleById($id);
+    $permissions = $roleModel->allPermissions();
+    $assignedPermissions = $roleModel->getPermission($id); // already assigned
+
+    $this->render('dashboard/User/editPermission.view.php', [
+        'role' => $role,
+        'permissions' => $permissions,
+        'assignedPermissions' => $assignedPermissions
+    ]);
+}
+
+
+public function update()
+{
+    $roleId = $_POST['role_id'] ?? null;
+    $roleName = $_POST['role_name'] ?? null;
+    $permissionsInput = $_POST['permissions'] ?? [];
+
+    if (!$roleId) {
+        exit('Role ID is required');
+    }
+
+    // Ensure array format
+    $permissions = is_array($permissionsInput)
+        ? $permissionsInput
+        : array_map('trim', explode(',', $permissionsInput));
+
+    if (!empty($roleName)) {
+        $this->roleModel->updateRoleName($roleId, trim($roleName));
+    }
+     if (!empty($permissions)) {
+        $this->roleModel->updatePermissions($roleId, $permissions);
+    }
+    $this->roleModel->updatePermissions($roleId, $permissions);
+
+    $_SESSION['success'] = 'Permissions updated successfully!';
+    header('Location: ' . url('/permission'));
+    exit();
+}
+
 public function assignPermissionStore()
 {
     $roleId = $_POST['role_id'] ?? null;
-    $permissionsInput = $_POST['permissions'] ?? '';
+    $permissions = $_POST['permissions'] ?? [];
 
     if (!$roleId) {
         die("Role is required.");
     }
 
-    // Convert comma separated permissions into array
-    $permissions = array_map('trim', explode(',', $permissionsInput));
+    $existingPermissions = $this->roleModel->getPermission($roleId);
+    $existingPermissionIds = array_column($existingPermissions, 'id');
 
-    // Purani permissions remove
-    $this->roleModel->deleteRolePermissions($roleId);
-
-    // Assign new permissions
-    foreach ($permissions as $permissionName) {
-
-        // Permission ID get karo
-        $permissionId = $this->permissionModel->getIdByName($permissionName);
-
-        // Agar permission exist nahi karti → create new
-        if (!$permissionId) {
-            $permissionId = $this->permissionModel->create($permissionName);
+    foreach ($permissions as $permissionId) {
+        if (!in_array($permissionId, $existingPermissionIds)) {
+            $this->roleModel->assignPermission($roleId, $permissionId);
         }
-
-        // Ab assign kar do
-        $this->roleModel->assignPermission($roleId, $permissionId);
     }
 
     $_SESSION['success'] = "Permissions Assigned Successfully!";
     redirect(url('/permission'));
 }
+
+
+public function storeRolePermissions()
+{
+
+
+    $roleId = $_POST['role_id'] ?? null;
+    $permissionsInput = $_POST['permissions'] ?? '';
+
+    if (!$roleId || trim($permissionsInput) === '') {
+        $_SESSION['errors'] = ["Please select a role and enter at least one permission."];
+        header('Location: ' . url('/permission'));
+        exit;
+    }
+
+
+    $permissions = array_map('trim', explode(',', $permissionsInput));
+
+
+    $existingPermissions = $this->roleModel->getPermission($roleId);
+    $existingPermissionNames = array_column($existingPermissions, 'name');
+
+    foreach ($permissions as $permName) {
+        if (in_array($permName, $existingPermissionNames)) {
+            continue;
+        }
+
+
+        $perm = $this->roleModel->findPermissionByName($permName);
+
+        if (!$perm) {
+            $permId = $this->roleModel->createPermission($permName);
+        } else {
+            $permId = $perm['id'];
+        }
+
+        $this->roleModel->assignPermission($roleId, $permId);
+    }
+
+    $_SESSION['success'] = "Permissions assigned successfully!";
+    header('Location: ' . url('/permission'));
+    exit;
+}
+
+public function deletePermission()
+{
+
+    $permissionName = $_POST['name'] ?? null;
+
+if (!$permissionName) {
+    exit('Permission name is required');
+}
+
+$roleModel = new RoleModel();
+$roleModel->softDeletePermissionByName($permissionName);
+
+$_SESSION['success'] = "Permission removed successfully!";
+header('Location: ' . url('/permission'));
+exit();
+
+}
+
+
 
 
 }

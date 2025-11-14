@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// Feedback2-- Need proper indentation as per PSR-12 standards
 class Rooms extends BaseModel
 {
     //  All  rooms

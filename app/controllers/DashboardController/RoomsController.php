@@ -6,7 +6,6 @@ use App\Core\Csrf;
 use App\Models\Rooms;
 use App\Request\RoomRequest;
 
-// Feedback2-- Need proper indentation as per PSR-12 standards
 class RoomsController extends BaseController
 {
     protected $db;
@@ -48,7 +47,6 @@ class RoomsController extends BaseController
 
         $room = $this->roomModel->find($id);
 
-        // Feedback2-- Return user to the page with proper message not a case for 404
         if (! $room) {
             $_SESSION['error'] = 'Room details not found.';
             header('Location: ' . url('/rooms'));

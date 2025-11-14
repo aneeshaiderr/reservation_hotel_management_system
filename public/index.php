@@ -3,7 +3,8 @@
 // function
  require __DIR__.'/../function.php';
 session_start();
-
+// echo "heloo";
+// exit();
 define('BASE_PATH', __DIR__.'/../');
 
 define('BASE_URL', '/practice/public');

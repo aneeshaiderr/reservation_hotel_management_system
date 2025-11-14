@@ -1,5 +1,8 @@
 
-<?php require __DIR__.'/../partial/head.php'; ?>
+<?php require __DIR__.'/../partial/head.php';
+use App\Core\Csrf;
+$csrf_token = Csrf::generateToken();
+?>
 <?php
 
 

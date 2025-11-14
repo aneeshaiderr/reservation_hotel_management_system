@@ -9,7 +9,6 @@ use App\Models\RoleModel;
 use App\Models\User;
 use App\Request\UserRequest;
 
-// Feedback2-- Need proper indentation as per PSR-12 standards
 class UserController extends BaseController
 {
     protected $userModel;
@@ -25,35 +24,15 @@ class UserController extends BaseController
         $this->userModel = new User($this->db);
         $this->roleModel = new RoleModel($this->db);
 
-        // Permission class ko proper objects do
+
         $this->permission = new Permission($this->userModel, $this->roleModel);
-        //  $this->permission = new Permission($this->userModel, $this->roleModel);
+
 
     }
 
     public function index()
     {
-//                 echo "<pre>";
-// var_dump($_SESSION['user']);
-// echo "</pre>";
-// exit();
-        // var_dump($this->permission->can('delete_user'));
-        // exit;
-
-        // var_dump($this->roleModel->getPermission($_SESSION['role_id']));
-        // exit;
-
-
-        // var_dump($_SESSION['role_id']);
-        // var_dump($_SESSION['role_id']);
-        // // var_dump($this->roleModel->getPermission($_SESSION['role_id']));
-        // var_dump($this->permission->can('view_user'));
-        // exit;
-
-
-
-
-
+        // Feedback3-- Remove unnecessary comments before pushing code on git
         $roleId = $_SESSION['role_id'] ?? null;
         $userId = $_SESSION['user_id'] ?? null;
 
@@ -79,9 +58,12 @@ class UserController extends BaseController
     public function userAllDetails()
     {
 
-
+        // Feedback3-- Explain this function verbally
+        // Get user ID from URL or fallback to logged-in user
         $userId = $_GET['id'] ?? $_SESSION['user_id'];
+        // Fetch all past reservations, default to empty array
         $allReservations = $this->userModel->getAllReservationsByUser($userId) ?? [];
+        // Fetch the user's current active reservation
         $currentReservation = $this->userModel->getCurrentReservation($userId);
 
         if ($currentReservation) {
@@ -90,12 +72,13 @@ class UserController extends BaseController
         } else {
             $reservations = $allReservations;
         }
+
         $this->render('dashboard/User/userAllDetails.view.php', [
             'reservations' => $reservations,
         ]);
     }
 
-    public function userAllDetailsShow($id = null)
+    public function Show($id = null)
     {
         if (! $id && isset($_GET['id'])) {
             $id = $_GET['id'];
@@ -103,10 +86,10 @@ class UserController extends BaseController
 
         $user = $this->userModel->find($id);
 
-        //Feedback2-- Return user to the page with proper message not a case for 404
         if (! $user || $user === false) {
             $_SESSION['error'] = 'User not found. Please check the details.';
             header('Location: '.BASE_URL.'/login');
+            exit();
         }
 
 

@@ -74,8 +74,4 @@ protected $permission;
 }
 
 
-    // Check if user exists and password matches
-        // if (!$user || !$this->userModel->verifyPassword($user, $password)) {
-        //     $_SESSION['errors'] = ['Invalid email or password. Please try again.'];
-        //     header('Location: /practice/public/staffLogin');
-        //     exit();
+

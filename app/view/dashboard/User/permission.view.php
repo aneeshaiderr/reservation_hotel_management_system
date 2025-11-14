@@ -1,4 +1,3 @@
-
 <div class="main-content d-flex flex-column min-vh-100">
   <div class="container py-5">
     <h5 class="fw-bold mb-2 ps-2">Roles & Permissions</h5>
@@ -28,40 +27,38 @@
             <?php if (!empty($roles)) : ?>
               <?php foreach ($roles as $role) : ?>
                 <tr>
-                  <!-- ID -->
+                  <!-- Role ID -->
                   <td><?= htmlspecialchars($role['id']) ?></td>
 
-                  <!-- Name -->
+                  <!-- Role Name -->
                   <td><?= htmlspecialchars($role['name']) ?></td>
 
-                  <!-- Permissions -->
+                  <!-- Assigned Permissions -->
                   <td>
-                 <?php if (!empty($role['permissions']) && is_array($role['permissions'])): ?>
-
-    <?php foreach ($role['permissions'] as $perm): ?>
-        <span class="badge bg-primary me-1">
-            <?= htmlspecialchars(is_array($perm) ? ($perm['name'] ?? '') : $perm) ?>
-        </span>
-    <?php endforeach; ?>
-
-<?php else: ?>
-    <span class="badge bg-secondary">No Permission</span>
-<?php endif; ?>
-
-
-
-
+                    <?php if (!empty($role['permissions'])): ?>
+                      <?php foreach ($role['permissions'] as $perm): ?>
+                        <span class="badge bg-info text-dark me-1">
+                          <?= htmlspecialchars($perm) ?>
+                        </span>
+                      <?php endforeach; ?>
+                    <?php else: ?>
+                      <span class="badge bg-secondary">No Permission</span>
+                    <?php endif; ?>
                   </td>
 
-                  <!-- Action -->
-                  <td>
-                    <a href="<?= url('/permission/' . $role['id'] . '/edit') ?>"
+                  <!-- Action Buttons -->
+                  <td class="d-flex gap-2">
+                    <a href="<?= url('/permission/editPermission?id=' . $role['id']) ?>"
                        class="btn btn-sm btn-primary py-1 px-3">
                       Edit
                     </a>
                   </td>
                 </tr>
               <?php endforeach; ?>
+            <?php else: ?>
+              <tr>
+                <td colspan="4" class="text-center text-muted">No roles found.</td>
+              </tr>
             <?php endif; ?>
           </tbody>
         </table>

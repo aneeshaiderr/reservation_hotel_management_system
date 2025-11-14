@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+// Feedback3-- what is the use of this class?
 class Flash
 {
     /**

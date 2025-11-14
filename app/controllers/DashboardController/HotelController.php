@@ -7,7 +7,6 @@ use App\Middleware\ExceptionHandler;
 use App\Models\Hotel;
 use App\Request\HotelRequest;
 
-// Feedback2-- Need proper indentation as per PSR-12 standards
 class HotelController extends BaseController
 {
     protected $hotelModel;
@@ -45,13 +44,14 @@ class HotelController extends BaseController
                 $this->hotelModel->create($validated);
                 $_SESSION['success'] = 'Hotel created successfully!';
             } catch (\PDOException $e) {
-                if ($e->getCode() == 23000) {
-                    $_SESSION['error'] = 'Hotel already exists!';
-                    redirect($_SERVER['HTTP_REFERER']);
-                }
+                if ($e->errorInfo[1] == 1062) {
+    $_SESSION['error'] = 'Hotel already exists!';
+} else {
+    $_SESSION['error'] = 'Something went wrong!';
+}
 
-                $_SESSION['error'] = 'Something went wrong!';
-                redirect($_SERVER['HTTP_REFERER']);
+redirect($_SERVER['HTTP_REFERER']);
+
             }
 
             redirect(url('/hotel'));
@@ -66,7 +66,6 @@ class HotelController extends BaseController
 
         $hotel = $this->hotelModel->find($id);
 
-        // Feedback2 -- Return user to the page with proper message not a case for 404
         if (!$hotel) {
             $_SESSION['error'] = 'Hotel details not found or invalid.';
             header('Location: '.BASE_URL.'/login');
@@ -85,7 +84,6 @@ class HotelController extends BaseController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $token = $_POST['csrf_token'] ?? '';
-            // Feedback2-- Return user to the login page if token is invalid with proper message
             if (!Csrf::validateToken($token)) {
                 $_SESSION['error'] = 'Token are expire. Please try again.';
                 header('Location: '.BASE_URL.'/login');
@@ -93,7 +91,6 @@ class HotelController extends BaseController
             }
 
         }
-        // Feedback2-- How are errors during update action being returned on the frontend
         try {
             $id = $_POST['id'];
             $this->hotelModel->update($id, $_POST);

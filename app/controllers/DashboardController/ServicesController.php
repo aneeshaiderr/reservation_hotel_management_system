@@ -6,7 +6,6 @@ use App\Core\Csrf;
 use App\Models\Services;
 use App\Request\ServiceRequest;
 
-// Feedback2-- Need proper indentation as per PSR-12 standards
 class ServicesController extends BaseController
 {
     protected $db;
@@ -51,8 +50,6 @@ class ServicesController extends BaseController
     }
     public function store()
     {
-        // CSRF Protection
-        // Feedback2-- Why used a different approach for CSRF Token Validation in this function?
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $token = $_POST['_token'] ?? '';
 
@@ -77,8 +74,6 @@ class ServicesController extends BaseController
             return;
         }
 
-        // Insert into DB
-        // Feedback2-- What would happend if there is an error during create operation?
         try {
             $this->servicesModel->create($request->all());
             $_SESSION['success'] = 'Service created successfully.';
@@ -119,7 +114,6 @@ class ServicesController extends BaseController
         }
 
         //  CSRF Check
-        // Feedback2-- Why used a different approach for CSRF Token Validation in this function?
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $token = $_POST['_token'] ?? '';
 

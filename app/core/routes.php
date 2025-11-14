@@ -52,10 +52,12 @@ $router->group(['middleware' => ['authMiddleware']], function ($router) {
         $router->post('/user/update', [UserController::class, 'update']);
         $router->get('/editUser', [UserController::class, 'editUser']);
         $router->post('/user', [UserController::class, 'softDelete']);
-        $router->get('/permission', [RoleController::class, 'indexx']);
+        $router->get('/permission', [RoleController::class, 'index']);
         $router->get('/permission/createPermission', [RoleController::class, 'assignPermissionForm']);
-
-        $router->post('/permission', [RoleController::class, 'assignPermissionStore']);
+$router->get('/permission/editPermission', [RoleController::class, 'edit']);
+$router->post('/permission/updatePermission', [RoleController::class, 'update']);
+$router->post('/permission/deletePermission', [RoleController::class, 'deletePermission']);
+        $router->post('/permission', [RoleController::class, 'storeRolePermissions']);
         $router->get('/userAllDetails', [UserController::class, 'userAllDetails']);
         $router->get('/userdetails', [UserController::class, 'show']);
         $router->get('/editUser', [UserController::class, 'editUser']);

@@ -11,10 +11,10 @@ class RolePermission extends BaseModel
     }
 
     // Delete permissions for a role
-    public function deleteRolePermissions($roleId)
-    {
-        return $this->db->execute("DELETE FROM role_permissions WHERE role_id = ?", [$roleId]);
-    }
+    // public function deleteRolePermissions($roleId)
+    // {
+    //     return $this->db->execute("DELETE FROM role_permissions WHERE role_id = ?", [$roleId]);
+    // }
 
     // Assign permission to a role
     public function assignPermission($roleId, $permissionId)

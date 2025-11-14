@@ -3,7 +3,7 @@
 
 
     <!-- Hero Slider -->
-  
+
 <section class="hero-section position-relative text-white">
     <div class="owl-carousel owl-theme" id="heroCarousel">
 
@@ -11,7 +11,7 @@
         <div class="hero-item d-flex align-items-center" style="background: url('Assets/images/hero/hero-1.jpg') center/cover no-repeat;">
             <div class="container">
                 <div class="row align-items-center gy-4">
-                    
+
                     <!-- Text -->
                     <div class="col-lg-6 text-center text-lg-start">
                         <div class="hero-text">
@@ -65,7 +65,7 @@
         <div class="hero-item d-flex align-items-center" style="background: url('Assets/images/hero/hero-2.jpg') center/cover no-repeat;">
             <div class="container">
                 <div class="row align-items-center gy-4">
-                    
+
                     <div class="col-lg-6 text-center text-lg-start">
                         <div class="hero-text">
                             <h1 class="display-4 mb-3 text-white">Sona A Luxury Hotel</h1>
@@ -115,7 +115,7 @@
         <div class="hero-item d-flex align-items-center" style="background: url('Assets/images/hero/hero-3.jpg') center/cover no-repeat;">
             <div class="container">
                 <div class="row align-items-center gy-4">
-                    
+
                     <div class="col-lg-6 text-center text-lg-start">
                         <div class="hero-text">
                             <h1 class="display-4 mb-3 text-white">Sona A Luxury Hotel</h1>
@@ -211,7 +211,7 @@
     </div>
   </div>
 </section>
-   
+
  <!-- Services Section -->
 <section class="py-5 bg-light services-section">
   <div class="container">
@@ -220,7 +220,7 @@
       <h2 class=" display-5 fw-semibold text-dark">Discover Our Services</h2>
     </div>
     <div class="d-flex flex-wrap justify-content-center gap-4">
-      
+
       <div class="service-item text-center p-4" style="flex: 1 1 300px; max-width: 300px;">
         <i class="fas fa-car service-icon mb-3"></i>
         <h4 class="fw-semibold mb-3">Travel Plan</h4>
@@ -398,7 +398,7 @@
 
                 <div class="text-center">
                     <h4 class="fw-semibold mb-2">- Michael Rodriguez</h4>
-                    <img src=".Assets/images/testimonial-logo.png" alt="testimonial logo" class="img-fluid testimonial-logo d-block mx-auto">
+                    <img src="Assets/images/testimonial-logo.png" alt="testimonial logo" class="img-fluid testimonial-logo d-block mx-auto">
                 </div>
             </div>
 
@@ -408,10 +408,10 @@
 
 
     <!-- Blog Section -->
-<section class="py-5 blog-section"> 
+<section class="py-5 blog-section">
   <div class="container">
     <div class="text-center mb-5">
-    
+
       <h5 class="text-uppercase fw-medium small d-block mb-2">Hotel News</h5>
       <h2 class="display-5 fw-semibold text-dark">Our Blog & Event</h2>
     </div>
@@ -472,7 +472,7 @@
 <?php
 require __DIR__.'/../partial/footer.php';
 ?>
-   
+
   <!-- jQuery & Owl Carousel JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// Feedback2-- Need proper indentation as per PSR-12 standards
 class Hotel extends BaseModel
 {
     public function getAllHotels()
@@ -34,7 +33,7 @@ class Hotel extends BaseModel
     public function getAll()
     {
         return $this->db->fetchAll('
-            SELECT 
+            SELECT
                 id,
                 hotel_name,
                 address,
@@ -74,11 +73,11 @@ class Hotel extends BaseModel
     public function update($id, $data)
     {
         $sql = '
-            UPDATE hotels 
-            SET 
-                hotel_name = ?, 
-                address = ?, 
-                contact_no = ?, 
+            UPDATE hotels
+            SET
+                hotel_name = ?,
+                address = ?,
+                contact_no = ?,
                 updated_at = NOW()
             WHERE id = ?
         ';

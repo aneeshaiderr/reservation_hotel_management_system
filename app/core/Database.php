@@ -116,4 +116,8 @@ public function fetch(string $sql = null, array $params = []): ?array
     $stmt = $this->pdo->prepare($sql);
     return $stmt->execute($params);
 }
+public function prepare(string $sql)
+{
+    return $this->pdo->prepare($sql);
+}
 }

@@ -1,17 +1,11 @@
-
-
 <?php
  require __DIR__.'/../partial/head.php';
-
-// Feedback2-- Why are flash messages like errors or sucess messages show?
-
-// Feedback2-- write a foreach loop to go over sessions errors and display them in a styled HTML structure
-
 ?>
+
 <?php
 
 
-
+// Feedback3-- Rather than repeating sucess and error loops on each page fine a way to avoid code repetition to keep the code dry
 if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
     echo '<div class="alert alert-danger">';
     foreach ($_SESSION['errors'] as $error) {

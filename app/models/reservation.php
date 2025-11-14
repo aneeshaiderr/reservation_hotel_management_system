@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// Feedback2-- Need proper indentation as per PSR-12 standards
 class Reservation extends BaseModel
 {
     public function getAllReservations($userId = null, $roleId = null)

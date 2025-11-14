@@ -10,6 +10,9 @@ use App\Request\DiscountRequest;
 use App\Models\User;
 // Feedback2-- Need proper indentation as per PSR-12 standards
 
+
+// Feedback3-- Remove unnecessary comments from the controller keep the codebase clean
+
 class DiscountController extends BaseController
 {
     protected $discount;
@@ -56,6 +59,7 @@ class DiscountController extends BaseController
     {
         if (! $this->permission->can('Create_user')) {
             // $_SESSION['error'] = "You do not have permission to delete users.";
+
             die('You do not have permission to create discount.');
             // redirect(url('/user'));
             // exit;
@@ -67,11 +71,10 @@ class DiscountController extends BaseController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $token = $_POST['csrf_token'] ?? '';
-            // Feedback2-- Return user to the login page if token is invalid with proper message
             if (!Csrf::validateToken($token)) {
                 $_SESSION['error'] = 'Token are expire. Please try again.';
-                header('Location: '.BASE_URL.'/login');
-                exit();
+                // header('Location: '.BASE_URL.'/login');
+                // exit();
             }
 
 
@@ -124,7 +127,6 @@ class DiscountController extends BaseController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $token = $_POST['csrf_token'] ?? '';
-            // Feedback2-- Return user to the login page if token is invalid with proper message
             if (!Csrf::validateToken($token)) {
                 $_SESSION['error'] = 'Token are expire. Please try again.';
                 header('Location: '.BASE_URL.'/login');
@@ -148,7 +150,6 @@ class DiscountController extends BaseController
                 'status'        => $_POST['status']
             ];
 
-            // Feedback-- How are you handling the sql injections and unsafe queries?
             $this->discount->update($id, $data);
             redirect(url('/discount'));
         }
@@ -158,10 +159,7 @@ class DiscountController extends BaseController
     {
         if (! $this->permission->can('delete_discount')) {
             abort(403);
-            // $_SESSION['error'] = "You do not have permission to delete users.";
-            // die("You do not have permission to delete discount.");
-            // redirect(url('/user'));
-            // exit;
+          exit();
         }
         if (isset($_POST['id'])) {
             $id = (int) $_POST['id'];
